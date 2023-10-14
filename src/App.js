@@ -1,40 +1,33 @@
 import React from 'react';
 import {
   ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
+  Flex,
+  Stack,
+  extendTheme
 } from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Logo } from './Logo';
+import { ColorModeSwitcher } from './config/theme/darkmode/ColorModeSwitcher';
+import AppRouting from './config/router/AppRouting';
+import './config/theme/css/default.css';
+import { mode } from '@chakra-ui/theme-tools';
+
+const theme = extendTheme({
+  styles: {
+    global: (props) => ({
+      body: {
+        bg: mode('#F5F5F5')(props),
+      }
+    })
+  }
+});
 
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl">
-        <Grid minH="100vh" p={3}>
-          <ColorModeSwitcher justifySelf="flex-end" />
-          <VStack spacing={8}>
-            <Logo h="40vmin" pointerEvents="none" />
-            <Text>
-              Edit <Code fontSize="xl">src/App.js</Code> and save to reload.
-            </Text>
-            <Link
-              color="teal.500"
-              href="https://chakra-ui.com"
-              fontSize="2xl"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn Chakra
-            </Link>
-          </VStack>
-        </Grid>
-      </Box>
+      <Flex justifyContent='center' alignItems='center' width='100%' height='100vh' overflow='hidden' textAlign="center" fontSize="xl">
+          
+          <AppRouting />
+          <Stack position='absolute' bottom={3} right={3}><ColorModeSwitcher initialColorMode={theme.config.initialColorMode}  justifySelf="flex-end" /></Stack>
+      </Flex>
     </ChakraProvider>
   );
 }
