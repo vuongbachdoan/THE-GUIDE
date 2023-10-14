@@ -6,7 +6,7 @@
     --chakra-colors-chakra-body-bg: #FAFAFA !important;
 } */
 
-.sidebar::-webkit-scrollbar {
+.scrollbar-hide::-webkit-scrollbar {
     width: 0 !important;
 }
 /* 
