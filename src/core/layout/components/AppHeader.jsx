@@ -38,10 +38,10 @@ export const AppHeader = () => {
 
                 <Text fontSize='2xl' fontWeight='bold'>The Guide</Text>
 
-                <InputGroup maxWidth={415}>
-                    <Input placeholder='Search'/>
+                <InputGroup maxWidth={415} height='44px' borderRadius={12}>
+                    <Input placeholder='Search' borderRadius={12}/>
                     <InputRightElement>
-                        <FaSearch/>
+                        <FaSearch color='#A0A0A0'/>
                     </InputRightElement>
                 </InputGroup>
             </Flex>

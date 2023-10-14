@@ -1,9 +1,9 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
-import { SubjectIcon } from "../../../assets/icons/SubjectIcon";
 import { InformationIcon } from "../../../assets/icons/InformationIcon";
 import Subject1 from '../../../assets/images/subject1.png';
-import { PlusIcon } from "../../../assets/icons/PlusIcon";
+import icons from "../../../assets/icons";
 import { Link } from "react-router-dom";
+const {PlusIcon} = icons;
 
 export const SubjectsPanel = () => {
     return (

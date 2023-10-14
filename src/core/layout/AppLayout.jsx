@@ -1,5 +1,5 @@
 
-import { Box, Flex, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, VStack } from "@chakra-ui/react";
 import { AppHeader } from "./components/AppHeader";
 
 export const AppLayout = ({components = []}) => {

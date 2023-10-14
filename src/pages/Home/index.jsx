@@ -2,6 +2,7 @@ import { Flex, Text, VStack } from "@chakra-ui/react";
 import { AppLayout } from "../../core/layout/AppLayout";
 import { Sidebar } from "../../core/layout/components/Sidebar";
 import { SubjectsPanel } from "./components/SubjectsPanel";
+import { TrendingPanel } from "./components/TrendingPanel";
 
 export const Home = () => {
     return (
@@ -53,7 +54,7 @@ export const Home = () => {
                         }}
                         className='scrollbar-hide'
                     >
-                        <Sidebar />
+                        <TrendingPanel />
                     </VStack>
                 </Flex>
             }

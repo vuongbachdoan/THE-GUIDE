@@ -1,4 +1,10 @@
-export const TrendingPanel =  () => {
+import { Box, Flex, Image, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
+import Subject1 from '../../../assets/images/subject1.png';
+import icons from "../../../assets/icons";
+import { FaSearch } from "react-icons/fa";
+const { AddPostIcon } = icons;
+
+export const TrendingPanel = () => {
     return (
         <Flex
             flexDirection='column'
@@ -6,68 +12,57 @@ export const TrendingPanel =  () => {
             rowGap={3}
         >
             <Box
-                    width={285}
-                    backgroundColor='#FFF'
-                    borderRadius={20}
-                    padding={30}
+                width={285}
+                backgroundColor='#FFF'
+                borderRadius={20}
+                padding={30}
+            >
+                <Flex
+                    flexDirection='row'
+                    alignItems='center'
+                    justifyContent='space-between'
+                    fontSize='xl'
+                    fontWeight='semibold'
                 >
-                    <Accordion defaultIndex={[0]} allowMultiple border='none'>
-                        <AccordionItem border='none' borderRadius={15} overflow='hidden'>
-                            <AccordionButton color='#FF8F46'><HomeIcon width={40} height={40} color='#FF8F46' /> Home</AccordionButton>
-                        </AccordionItem >
-                        <AccordionItem border='none' borderRadius={15} overflow='hidden'>
-                            <AccordionButton color='#A0A0A0'><SubjectIcon width={40} height={40} color='#A0A0A0' /> Subject</AccordionButton>
-                        </AccordionItem >
-                        <AccordionItem border='none' borderRadius={15} overflow='hidden'>
-                            <AccordionButton color='#A0A0A0'><PostIcon width={40} height={40} color='#A0A0A0' /> Post</AccordionButton>
-                        </AccordionItem >
-                        <AccordionItem border='none' borderRadius={15} overflow='hidden'>
-                            <AccordionButton color='#A0A0A0'
-                                position='relative'
-                            >
-                                <NotificationIcon width={40} height={40} color='#A0A0A0' />
-                                <Stack
-                                    position='absolute'
-                                    top='9px'
-                                    left='39px'
-                                    width='16px'
-                                >
-                                    <Text color='#FFF' fontSize='x-small' fontWeight='bold'>99</Text>
-                                </Stack>
-                                Notification
-                            </AccordionButton>
-                        </AccordionItem >
-                        <AccordionItem border='none' borderRadius={15} overflow='hidden'>
-                            <AccordionButton color='#A0A0A0'><ProfileIcon width={40} height={40} color='#A0A0A0' /> Profile</AccordionButton>
-                        </AccordionItem >
-                    </Accordion>
-                </Box>
+                    <Text fontSize='xl' fontWeight='semibold'>Trending</Text>
+                    <AddPostIcon width={40} height={40} />
+                </Flex>
 
-                <Box
-                    width={285}
-                    backgroundColor='#FFF'
-                    borderRadius={20}
-                    padding={30}
+                <InputGroup maxWidth={415} height='44px' borderRadius={12}>
+                    <Input placeholder='Search post' borderRadius={12} />
+                    <InputRightElement>
+                        <FaSearch color='#A0A0A0' />
+                    </InputRightElement>
+                </InputGroup>
+
+                <Flex
+                    flexDirection='column'
+                    rowGap={3}
+                    marginTop={3}
                 >
                     <Flex
-                        justifyContent='center'
-                        alignItems='center'
-                        position='relative'
-                        margin='20px'
-                        flexDirection='column'
+                        flexDirection='row'
+                        columnGap={3}
                     >
-                        <Image src={DecorOrange}
-                            position='absolute'
-                            top={0}
-                            left={0}
-                            width='100%'
-                        />
-                        <Image marginTop={30} src={UserAvatar} width={100} height={100} borderRadius={14} zIndex={10} />
-                        <Text marginTop={3} fontWeight='semibold' fontSize='xl'>Bach Doan Vuong</Text>
-                        <Link to='/profile'><Text fontSize='md' color='#FF8F46' _hover={{textDecoration: 'underline'}}>Detail</Text></Link>
-                        <Text fontWeight='semibold' fontSize='md' color='gray.500'>DE160256</Text>
+                        <Image src={Subject1} width={50} height={50} borderRadius={8} />
+                        <Box>
+                            <Text textAlign='left' fontSize='md' fontWeight='semibold'>PRJ301</Text>
+                            <Text textAlign='left' fontSize='sm' color='gray.500' noOfLines={1} textOverflow='ellipsis'>Introduction to web based Java application </Text>
+                        </Box>
                     </Flex>
-                </Box>
+
+                    <Flex
+                        flexDirection='row'
+                        columnGap={3}
+                    >
+                        <Image src={Subject1} width={50} height={50} borderRadius={8} />
+                        <Box>
+                            <Text textAlign='left' fontSize='md' fontWeight='semibold'>PRJ301</Text>
+                            <Text textAlign='left' fontSize='sm' color='gray.500' noOfLines={1} textOverflow='ellipsis'>Introduction to web based Java application </Text>
+                        </Box>
+                    </Flex>
+                </Flex>
+            </Box>
         </Flex>
     );
 }

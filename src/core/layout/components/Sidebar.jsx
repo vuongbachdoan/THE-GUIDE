@@ -1,4 +1,4 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Flex, Image, Stack, Text, VStack } from "@chakra-ui/react"
+import { Accordion, AccordionButton, AccordionItem, Box, Flex, Image, Stack, Text } from "@chakra-ui/react"
 import icons from "../../../assets/icons";
 import DecorOrange from '../../../assets/images/decor_role_orange.png';
 import UserAvatar from '../../../assets/images/student1.png';
