@@ -7,6 +7,10 @@ import { AddPostIcon } from './AddPostIcon';
 import { PlusIcon } from './PlusIcon';
 import { LogoutIcon } from './LogoutIcon';
 import { CameraIcon } from './CameraIcon';
+import { HeartIcon } from './HeartIcon';
+import { CommentIcon } from './CommentIcon';
+import { ShareIcon } from './ShareIcon';
+import { EyeIcon } from './EyeIcon';
 
 export default {
     HomeIcon,
@@ -17,5 +21,9 @@ export default {
     AddPostIcon,
     PlusIcon,
     LogoutIcon,
-    CameraIcon
+    CameraIcon,
+    HeartIcon,
+    CommentIcon,
+    ShareIcon,
+    EyeIcon
 }

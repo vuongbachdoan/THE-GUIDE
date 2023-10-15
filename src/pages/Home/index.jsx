@@ -3,6 +3,7 @@ import { AppLayout } from "../../core/layout/AppLayout";
 import { Sidebar } from "../../core/layout/components/Sidebar";
 import { SubjectsPanel } from "./components/SubjectsPanel";
 import icons from "../../assets/icons";
+import { PostCard } from "./components/PostCard";
 const { CameraIcon } = icons;
 
 export const Home = () => {
@@ -50,9 +51,12 @@ export const Home = () => {
                                 columnGap={15}
                             >
                                 <Text fontSize='sm' fontWeight='semibold' color='gray.500'>Create your post now . . .</Text>
-                                <Button backgroundColor='#FF8F46' borderRadius={15} _hover={{backgroundColor: '#E86C1C'}} color='white'>Create post</Button>
+                                <Button backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Create post</Button>
                             </Flex>
+                            
                         </Box>
+
+                        <PostCard />
                     </VStack>
 
                     <VStack
