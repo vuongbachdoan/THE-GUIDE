@@ -17,7 +17,7 @@ export const AppLayout = ({components = []}) => {
                 top={0}
                 left={0}
             >
-                <Box height='80px'>
+                <Box height='86px'>
                     <AppHeader />
                 </Box>
                 {components}

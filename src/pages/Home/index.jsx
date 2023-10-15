@@ -7,17 +7,16 @@ import { TrendingPanel } from "./components/TrendingPanel";
 export const Home = () => {
     return (
         <AppLayout
-            components = {
+            components={
                 <Flex
                     flex={1}
                     flexDirection='row'
-                    height='calc(100vh - 80px)'
-                    columnGap={6}
-                    margin={6}
+                    columnGap={3}
+                    margin={3}
                 >
                     <VStack
                         style={{
-                            height: 'calc(100vh - 80px)',
+                            height: 'calc(100vh - 110px)',
                             overflowY: 'scroll',
                             overflowX: 'hidden'
                         }}
@@ -27,9 +26,12 @@ export const Home = () => {
                     </VStack>
 
                     <VStack
-                        overflowY='scroll'
-                        height='100%'
                         flex={1}
+                        style={{
+                            height: 'calc(100vh - 110px)',
+                            overflowY: 'scroll',
+                            overflowX: 'hidden'
+                        }}
                         className='scrollbar-hide'
                     >
                         <Text>Hiii</Text>
@@ -37,24 +39,13 @@ export const Home = () => {
 
                     <VStack
                         style={{
-                            height: 'calc(100vh - 80px)',
+                            height: 'calc(100vh - 110px)',
                             overflowY: 'scroll',
                             overflowX: 'hidden'
                         }}
                         className='scrollbar-hide'
                     >
                         <SubjectsPanel />
-                    </VStack>
-
-                    <VStack
-                        style={{
-                            height: 'calc(100vh - 80px)',
-                            overflowY: 'scroll',
-                            overflowX: 'hidden'
-                        }}
-                        className='scrollbar-hide'
-                    >
-                        <TrendingPanel />
                     </VStack>
                 </Flex>
             }

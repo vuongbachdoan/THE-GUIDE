@@ -15,7 +15,9 @@ export const TrendingPanel = () => {
                 width={285}
                 backgroundColor='#FFF'
                 borderRadius={20}
-                padding={30}
+                paddingTop={15}
+                paddingX={30}
+                paddingBottom={30}
             >
                 <Flex
                     flexDirection='row'
@@ -24,7 +26,7 @@ export const TrendingPanel = () => {
                     fontSize='xl'
                     fontWeight='semibold'
                 >
-                    <Text fontSize='xl' fontWeight='semibold'>Trending</Text>
+                    <Text fontSize='xl' fontWeight='semibold' marginBlock={3}>Trending</Text>
                     <AddPostIcon width={40} height={40} />
                 </Flex>
 

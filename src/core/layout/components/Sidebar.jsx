@@ -1,4 +1,4 @@
-import { Accordion, AccordionButton, AccordionItem, Box, Flex, Image, Stack, Text } from "@chakra-ui/react"
+import { Accordion, AccordionButton, AccordionItem, Box, Flex, Image, Stack, Text, useColorModeValue } from "@chakra-ui/react"
 import icons from "../../../assets/icons";
 import DecorOrange from '../../../assets/images/decor_role_orange.png';
 import UserAvatar from '../../../assets/images/student1.png';
@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 const { HomeIcon, PostIcon, ProfileIcon, SubjectIcon, NotificationIcon } = icons;
 
 export const Sidebar = () => {
+    const bg = useColorModeValue('#FFF', 'gray.700');
+
     return (
         <Flex
             flexDirection='column'
@@ -14,7 +16,7 @@ export const Sidebar = () => {
         >
             <Box
                     width={285}
-                    backgroundColor='#FFF'
+                    bg={bg}
                     borderRadius={20}
                     padding={30}
                 >
@@ -29,18 +31,8 @@ export const Sidebar = () => {
                             <AccordionButton color='#A0A0A0'><PostIcon width={40} height={40} color='#A0A0A0' /> Post</AccordionButton>
                         </AccordionItem >
                         <AccordionItem border='none' borderRadius={15} overflow='hidden'>
-                            <AccordionButton color='#A0A0A0'
-                                position='relative'
-                            >
-                                <NotificationIcon width={40} height={40} color='#A0A0A0' />
-                                <Stack
-                                    position='absolute'
-                                    top='9px'
-                                    left='39px'
-                                    width='16px'
-                                >
-                                    <Text color='#FFF' fontSize='x-small' fontWeight='bold'>99</Text>
-                                </Stack>
+                            <AccordionButton color='#A0A0A0'>
+                                <NotificationIcon width={40} height={40} color='#A0A0A0' stroke={bg}/>
                                 Notification
                             </AccordionButton>
                         </AccordionItem >
@@ -52,7 +44,7 @@ export const Sidebar = () => {
 
                 <Box
                     width={285}
-                    backgroundColor='#FFF'
+                    bg={bg}
                     borderRadius={20}
                     padding={30}
                 >

@@ -5,6 +5,7 @@ import { ProfileIcon } from './ProfileIcon';
 import { SubjectIcon } from './SubjectIcon';
 import { AddPostIcon } from './AddPostIcon';
 import { PlusIcon } from './PlusIcon';
+import { LogoutIcon } from './LogoutIcon';
 
 export default {
     HomeIcon,
@@ -13,5 +14,6 @@ export default {
     SubjectIcon,
     ProfileIcon,
     AddPostIcon,
-    PlusIcon
+    PlusIcon,
+    LogoutIcon
 }
