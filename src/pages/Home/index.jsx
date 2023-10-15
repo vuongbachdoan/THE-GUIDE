@@ -1,10 +1,8 @@
-import { Box, Button, Flex, Input, InputGroup, InputRightElement, Text, VStack, useColorModeValue } from "@chakra-ui/react";
-import { AppLayout } from "../../core/layout/AppLayout";
-import { Sidebar } from "../../core/layout/components/Sidebar";
-import { SubjectsPanel } from "./components/SubjectsPanel";
-import icons from "../../assets/icons";
-import { PostCard } from "./components/PostCard";
-const { CameraIcon } = icons;
+import { Box, Button, Flex, Text, VStack, useColorModeValue } from '@chakra-ui/react';
+import { AppLayout } from '../../core/layout/AppLayout';
+import { Sidebar } from '../../core/layout/components/Sidebar';
+import { SubjectsPanel } from './components/SubjectsPanel';
+import { PostCard } from './components/PostCard';
 
 export const Home = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');

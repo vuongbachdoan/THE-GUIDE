@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom";
-import { Box, Flex, Image, Text, Input, InputGroup, InputRightElement, useColorModeValue } from "@chakra-ui/react";
-import { InformationIcon } from "../../../assets/icons/InformationIcon";
-import { FaSearch } from "react-icons/fa";
+import { Link } from 'react-router-dom';
+import { Box, Flex, Image, Text, useColorModeValue } from '@chakra-ui/react';
+import { InformationIcon } from '../../../assets/icons/InformationIcon';
 import Subject1 from '../../../assets/images/subject1.png';
-import icons from "../../../assets/icons";
+import icons from '../../../assets/icons';
 const { PlusIcon, AddPostIcon } = icons;
 
 export const SubjectsPanel = () => {
@@ -34,13 +33,6 @@ export const SubjectsPanel = () => {
                     <Text fontSize='xl' fontWeight='semibold' marginBlock={3}>Trending</Text>
                     <AddPostIcon width={40} height={40} />
                 </Flex>
-
-                <InputGroup maxWidth={415} height='44px' borderRadius={12}>
-                    <Input placeholder='Search post' borderRadius={12} />
-                    <InputRightElement>
-                        <FaSearch color='#A0A0A0' />
-                    </InputRightElement>
-                </InputGroup>
 
                 <Flex
                     flexDirection='column'

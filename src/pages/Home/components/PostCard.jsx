@@ -1,7 +1,6 @@
-import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Text } from "@chakra-ui/react"
+import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Text } from '@chakra-ui/react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
-import { BiChat, BiLike, BiShare } from 'react-icons/bi'
-import icons from "../../../assets/icons";
+import icons from '../../../assets/icons';
 const { HeartIcon, CommentIcon, ShareIcon, EyeIcon } = icons;
 
 export const PostCard = () => {
