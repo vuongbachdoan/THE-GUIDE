@@ -1,5 +1,6 @@
-import { Avatar, Box, Button, Flex, Input, InputGroup, InputRightElement, Menu, MenuButton, MenuItem, MenuList, Text, useColorModeValue } from "@chakra-ui/react"
-import { FaChevronDown, FaSearch, FaSignOutAlt } from "react-icons/fa";
+import { Avatar, Box, Button, Flex, Image, Input, InputGroup, InputRightElement, Menu, MenuButton, MenuItem, MenuList, Text, useColorModeValue } from "@chakra-ui/react"
+import { FaChevronDown, FaSearch } from "react-icons/fa";
+import Logo from '../../../assets/images/animated_logo.gif';
 import icons from "../../../assets/icons";
 const { ProfileIcon, LogoutIcon } = icons;
 
@@ -44,14 +45,14 @@ export const AppHeader = () => {
                             <MenuItem borderRadius={15} icon={<ProfileIcon width={40} height={40} color='#A0A0A0' />}>
                                 <Text fontSize='md' fontWeight='normal' color='gray.500'>Profile</Text>
                             </MenuItem>
-                            <MenuItem borderRadius={15} icon={<LogoutIcon color='#FF0000'/>}>
+                            <MenuItem borderRadius={15} icon={<LogoutIcon color='#FF0000' />}>
                                 <Text color='#FF0000' fontSize='md' fontWeight='medium'>Log out</Text>
                             </MenuItem>
                         </MenuList>
                     </Menu>
                 </Flex>
 
-                <Text fontSize='2xl' fontWeight='bold'>The Guide</Text>
+                <Image src={Logo} height='25px'/>
 
                 <InputGroup maxWidth={415} height='44px' borderRadius={12}>
                     <Input placeholder='Search' borderRadius={12} />
