@@ -1,12 +1,12 @@
 import { Avatar, Box, Button, Flex, Image, Input, InputGroup, InputRightElement, Menu, MenuButton, MenuItem, MenuList, Text, useColorModeValue } from "@chakra-ui/react"
 import { FaChevronDown, FaSearch } from "react-icons/fa";
-import Logo from '../../../assets/images/animated_logo.gif';
 import icons from "../../../assets/icons";
+import { AnimatedLogo } from "../../../assets/icons/AnimatedLogo";
 const { ProfileIcon, LogoutIcon } = icons;
 
 export const AppHeader = () => {
     const bg = useColorModeValue('#FFF', 'gray.700')
-    const color = useColorModeValue('white', '#000')
+    const logoColor = useColorModeValue('#1E1E1E', '#FFF')
 
     return (
         <Box
@@ -52,7 +52,7 @@ export const AppHeader = () => {
                     </Menu>
                 </Flex>
 
-                <Image src={Logo} height='25px'/>
+                <AnimatedLogo height={40} color={logoColor}/>
 
                 <InputGroup maxWidth={415} height='44px' borderRadius={12}>
                     <Input placeholder='Search' borderRadius={12} />
