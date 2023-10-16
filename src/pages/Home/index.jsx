@@ -15,7 +15,7 @@ export const Home = () => {
                 <Flex
                     flex={1}
                     flexDirection='row'
-                    columnGap={3}
+                    columnGap={{base: 0, lg: 3}}
                     margin={3}
                 >
                     <VStack
