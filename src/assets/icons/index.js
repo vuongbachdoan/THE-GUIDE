@@ -11,6 +11,7 @@ import { HeartIcon } from './HeartIcon';
 import { CommentIcon } from './CommentIcon';
 import { ShareIcon } from './ShareIcon';
 import { EyeIcon } from './EyeIcon';
+import { SyncIcon } from './SyncIcon';
 
 export default {
     HomeIcon,
@@ -25,5 +26,6 @@ export default {
     HeartIcon,
     CommentIcon,
     ShareIcon,
-    EyeIcon
+    EyeIcon,
+    SyncIcon
 }

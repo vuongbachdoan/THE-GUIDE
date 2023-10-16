@@ -5,6 +5,8 @@ import { Error } from '../../pages/Error';
 import { SelectRole } from '../../pages/Auth/component/SelectRole';
 import { SignIn } from '../../pages/Auth/component/SignIn';
 import { Home } from '../../pages/Home';
+import { PanelPostsList } from '../../pages/Home/components/PanelPostsList';
+import { PanelCreatePost } from '../../pages/Home/components/PanelCreatePost';
 
 export const AppRouting = () => {
     return (
@@ -14,7 +16,8 @@ export const AppRouting = () => {
                 <Route path='login' element={<SignIn/>}/>
             </Route>
             <Route path='/' element={<Home />}>
-
+                <Route path='' element={<PanelPostsList/>}/>
+                <Route path='create-post' element={<PanelCreatePost/>}/>
             </Route>
             <Route path='*' element={<Error />} />
         </Routes>

@@ -3,6 +3,8 @@ import { AppLayout } from '../../core/layout/AppLayout';
 import { Sidebar } from '../../core/layout/components/Sidebar';
 import { SubjectsPanel } from './components/SubjectsPanel';
 import { PostCard } from './components/PostCard';
+import { PanelPostsList } from './components/PanelPostsList';
+import { Outlet } from 'react-router-dom';
 
 export const Home = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
@@ -36,25 +38,7 @@ export const Home = () => {
                         }}
                         className='scrollbar-hide'
                     >
-                        <Box
-                            bg={bg}
-                            width='100%'
-                            padding={6}
-                            borderRadius={20}
-                        >
-                            <Flex
-                                flexDirection='row'
-                                justifyContent='space-between'
-                                alignItems='center'
-                                columnGap={15}
-                            >
-                                <Text fontSize='sm' fontWeight='semibold' color='gray.500'>Create your post now . . .</Text>
-                                <Button backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Create post</Button>
-                            </Flex>
-                            
-                        </Box>
-
-                        <PostCard />
+                        <Outlet/>
                     </VStack>
 
                     <VStack

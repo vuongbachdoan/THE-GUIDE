@@ -3,7 +3,28 @@ import { BsThreeDotsVertical } from 'react-icons/bs'
 import icons from '../../../assets/icons';
 const { HeartIcon, CommentIcon, ShareIcon, EyeIcon } = icons;
 
-export const PostCard = () => {
+/**
+ * 
+ * Post Scheme
+ * {
+        creator: 0,
+        title: 'Introduction to web based Java application ',
+        content: 'A Java Servlet is a server-side technology that is used to create web applications. It is a Java class that extends the capabilities of a web server and responds to incoming requests. Servlets are robust and scalable because of the Java language 1. Before Servlets, Common Gateway Interface (CGI) scripting language was commonly used as a server-side programming language. However, there were many disadvantages to this technology. Servlets provide many advantages over CGI, such as scalability, robustness, and better performance 1.',
+        description: 'A Java Servlet is a server-side technology that is used to create web applications. It is a Java class that extends the capabilities of a web server and responds to incoming requests. Servlets are robust and scalable because of the Java language 1. Before Servlets, Common Gateway Interface (CGI) scripting language was commonly used as a server-side programming language. However, there were many disadvantages to this technology. Servlets provide many advantages over CGI, such as scalability, robustness, and better performance 1.',
+        subjectCode: 'PRJ301',
+        coverImage: './assets/images/PRJ301_cover_image.png',
+        liked: 1000,
+        department: 'Information Technology',
+        comments: [
+            0,
+            1
+        ],
+        shared: 2,
+        viewed: 1000
+    }
+ */
+
+export const PostCard = ({data}) => {
     return (
         <Card
             borderWidth={0}
@@ -18,8 +39,8 @@ export const PostCard = () => {
                         <Box
                             flex={1}
                         >
-                            <Heading size='md' fontWeight='semibold' textAlign='left' noOfLines={1} textOverflow='ellipsis'>PRJ301  /  Introduction to web based Java application </Heading>
-                            <Text fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>IT department</Text>
+                            <Heading size='md' fontWeight='semibold' textAlign='left' noOfLines={1} textOverflow='ellipsis'>{data.subjectCode}  /  {data.title} </Heading>
+                            <Text fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>{data.department}</Text>
                         </Box>
                     </Flex>
                     <IconButton
@@ -38,8 +59,8 @@ export const PostCard = () => {
             </CardBody>
             <Image
                 objectFit='cover'
-                src='https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
-                alt='Chakra UI'
+                src={data.coverImage}
+                alt='cover image'
                 maxHeight={240}
             />
 
@@ -54,18 +75,18 @@ export const PostCard = () => {
             >
                 <Flex>
                     <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<HeartIcon />}>
-                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>100</Text>
+                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{data.liked}</Text>
                     </Button>
                     <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<CommentIcon />}>
-                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>99</Text>
+                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{data.comments.length}</Text>
                     </Button>
                     <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<ShareIcon />}>
-                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>2</Text>
+                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{data.shared}</Text>
                     </Button>
                 </Flex>
                 <Flex flexDirection='row' alignItems='center' padding={1} >
                     <EyeIcon />
-                    <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>1001</Text>
+                    <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{data.viewed}</Text>
                 </Flex>
             </CardFooter>
         </Card>
