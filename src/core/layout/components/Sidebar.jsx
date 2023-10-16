@@ -13,6 +13,7 @@ export const Sidebar = () => {
             flexDirection='column'
             height='100%'
             rowGap={3}
+            display={{base: 'none', lg: 'flex'}}
         >
             <Box
                     width={285}

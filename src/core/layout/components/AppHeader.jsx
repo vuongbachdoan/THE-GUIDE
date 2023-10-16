@@ -26,7 +26,7 @@ export const AppHeader = () => {
                     alignItems='center'
                     flexDirection='row'
                     columnGap={15}
-                    width={415}
+                    width={{base: 275, lg: 305}}
                 >
                     <Avatar name='Dan Abrahmov' src='https://bit.ly/dan-abramov' />
                     <Menu>
@@ -54,7 +54,7 @@ export const AppHeader = () => {
 
                 <AnimatedLogo height={40} color={logoColor}/>
 
-                <InputGroup maxWidth={415} height='44px' borderRadius={12}>
+                <InputGroup maxWidth={{base: 275, lg: 305}} height='44px' borderRadius={12}>
                     <Input placeholder='Search' borderRadius={12} />
                     <InputRightElement>
                         <FaSearch color='#A0A0A0' />
