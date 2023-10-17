@@ -7,6 +7,7 @@ import { SignIn } from '../../pages/Auth/component/SignIn';
 import { Home } from '../../pages/Home';
 import { PanelPostsList } from '../../pages/Home/components/PanelPostsList';
 import { PanelCreatePost } from '../../pages/Home/components/PanelCreatePost';
+import { PanelSubject } from '../../pages/Home/components/PanelSubject';
 
 export const AppRouting = () => {
     return (
@@ -18,6 +19,7 @@ export const AppRouting = () => {
             <Route path='/' element={<Home />}>
                 <Route path='' element={<PanelPostsList/>}/>
                 <Route path='create-post' element={<PanelCreatePost/>}/>
+                <Route path='subject' element={<PanelSubject/>}/>
             </Route>
             <Route path='*' element={<Error />} />
         </Routes>
