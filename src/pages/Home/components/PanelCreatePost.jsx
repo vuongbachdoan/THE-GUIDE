@@ -15,12 +15,12 @@ export const PanelCreatePost = () => {
             boxShadow='none'
             width='100%'
         >
-            <Box margin={6}>
+            <Box marginTop={6} marginX={6}>
                 <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Create Post</Text>
             </Box>
             <CardHeader>
                 <Flex spacing='4'>
-                    <Flex flex='1' gap='4'>
+                    <Flex flex='1' columnGap={3}>
                         <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
 
                         <Flex
@@ -29,7 +29,7 @@ export const PanelCreatePost = () => {
                             rowGap={1}
                         >
                             <Flex columnGap={3} width='100%' flexDirection='row' alignItems='center'>
-                                <Input padding={1} color={color} _placeholder={{color: placeholderColor}} height={22} htmlSize={4} width='auto' borderWidth={0} _focus={{ borderWidth: 0, boxShadow: 'none' }} outline='none' fontWeight='semibold' textAlign='left' placeholder='Subject' />
+                                <Input padding={1} color={color} _placeholder={{color: placeholderColor}} height={22} htmlSize={5} width={100} borderWidth={0} _focus={{ borderWidth: 0, boxShadow: 'none' }} outline='none' fontWeight='semibold' textAlign='left' placeholder='Subject' />
                                 <Text cursor='default'>/</Text>
                                 <Input padding={1} color={color} _placeholder={{color: placeholderColor}} height={22} borderWidth={0} _focus={{ borderWidth: 0, boxShadow: 'none' }} outline='none' fontWeight='semibold' textAlign='left' placeholder='Subject Name' />
                             </Flex>
@@ -50,12 +50,6 @@ export const PanelCreatePost = () => {
                             </Menu>
                         </Flex>
                     </Flex>
-                    <IconButton
-                        variant='ghost'
-                        colorScheme='gray'
-                        aria-label='See menu'
-                        icon={<BsThreeDotsVertical />}
-                    />
                 </Flex>
             </CardHeader>
             <CardBody>

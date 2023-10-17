@@ -26,11 +26,11 @@ export const AppHeader = () => {
                     alignItems='center'
                     flexDirection='row'
                     columnGap={15}
-                    width={{base: 300, lg: 415}}
+                    width={{base: 175, lg: 305}}
                 >
                     <Avatar name='Dan Abrahmov' src='https://bit.ly/dan-abramov' />
                     <Menu>
-                        <MenuButton as={Button} rightIcon={<FaChevronDown />} variant='unstyled'>
+                        <MenuButton as={Button} rightIcon={<FaChevronDown size={12}/>} variant='unstyled'>
                             DE160256
                         </MenuButton>
                         <MenuList
@@ -54,7 +54,7 @@ export const AppHeader = () => {
 
                 <AnimatedLogo height={40} color={logoColor}/>
 
-                <InputGroup maxWidth={{base: 300, lg: 415}} height='44px' borderRadius={12} display={{base: 'none', lg: 'block'}}>
+                <InputGroup display={{base: 'none', md: 'flex'}} maxWidth={{base: 175, lg: 305}} height='44px' borderRadius={12}>
                     <Input placeholder='Search' borderRadius={12} />
                     <InputRightElement>
                         <FaSearch color='#A0A0A0' />
