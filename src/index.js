@@ -4,6 +4,9 @@ import * as ReactDOM from 'react-dom/client';
 import App from './App';
 import * as serviceWorker from './config/serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
+import { Amplify } from 'aws-amplify';
+import awsExports from './aws-exports';
+Amplify.configure(awsExports);
 
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
