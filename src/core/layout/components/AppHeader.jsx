@@ -1,24 +1,17 @@
-import { Avatar, Box, Button, Flex, Image, Input, InputGroup, InputRightElement, Menu, MenuButton, MenuItem, MenuList, Text, useColorModeValue } from "@chakra-ui/react"
+import { Avatar, Box, Button, Flex, Input, InputGroup, InputRightElement, Menu, MenuButton, MenuItem, MenuList, Text, useColorModeValue } from "@chakra-ui/react"
 import { FaChevronDown, FaSearch } from "react-icons/fa";
 import icons from "../../../assets/icons";
 import { AnimatedLogo } from "../../../assets/icons/AnimatedLogo";
-import { useNavigate } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import React from "react";
 import useGetGoogleProfile from "../../../hooks/useGetGoogleProfile";
-import { jwtDecodeProfile } from "../../../helper/jwtDecodeProfile";
 const { ProfileIcon, LogoutIcon } = icons;
 
 export const AppHeader = () => {
-    const navigate = useNavigate();
     const bg = useColorModeValue('#FFF', 'gray.700');
     const logoColor = useColorModeValue('#1E1E1E', '#FFF');
 
-    const {userProfile} = useGetGoogleProfile()
-
-    const getUser = async () => {
-        return await Auth.currentAuthenticatedUser();
-    }
+    const { userProfile } = useGetGoogleProfile();
 
     const logOut = () => {
         Auth.signOut();
@@ -49,8 +42,8 @@ export const AppHeader = () => {
                         <MenuButton as={Button} rightIcon={<FaChevronDown size={12} />} variant='unstyled'>
                             {
                                 userProfile ?
-                                userProfile.name :
-                                'User . . .'
+                                    userProfile.name :
+                                    'User . . .'
                             }
                         </MenuButton>
                         <MenuList

@@ -1,11 +1,10 @@
 import { Button, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import GoogleLogo from '../../../assets/images/google_logo.png';
 import { Auth } from "aws-amplify";
 
 export const SignIn = () => {
-    const navigate = useNavigate();
 
     return (
         <>

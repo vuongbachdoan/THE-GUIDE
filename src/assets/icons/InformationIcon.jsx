@@ -14,8 +14,8 @@ export const InformationIcon = ({
                 height={height}
                 transform="translate(0.25)" 
             />
-            <circle cx="20.45" cy="20.2" r="9.4" stroke={color} stroke-width="2" />
-            <path d="M20.25 18.9379L20.25 24.3999M20.25 15.5999L20.25 16.2068" stroke={color} stroke-width="2" stroke-linecap="round" />
+            <circle cx="20.45" cy="20.2" r="9.4" stroke={color} strokeWidth="2" />
+            <path d="M20.25 18.9379L20.25 24.3999M20.25 15.5999L20.25 16.2068" stroke={color} strokeWidth="2" strokeLinecap="round" />
         </svg>
     );
 }

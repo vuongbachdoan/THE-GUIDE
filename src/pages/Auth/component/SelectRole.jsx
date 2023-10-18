@@ -12,9 +12,10 @@ export const SelectRole = () => {
     const navigate = useNavigate();
     const [isStudentSelected, setIsStudentSelected] = React.useState(true);
     const { userProfile } = useGetGoogleProfile();
+    
     React.useEffect(() => {
         if(userProfile == null) {
-            navigate('/auth/login')
+            navigate('/auth/login', {replace: true})
         }
     }, []);
 
@@ -98,7 +99,7 @@ export const SelectRole = () => {
                 </Flex>
 
                 <Box>
-                    <Button onClick={() => navigate('login')} marginTop={30} borderRadius={15} size='lg' backgroundColor={isStudentSelected ? "#FF8F46" : '#45CE7B'} _hover={{ backgroundColor: isStudentSelected ? '#E86C1C' : '#20B65B' }}>Next</Button>
+                    <Button onClick={() => navigate('login', {replace: true})} marginTop={30} borderRadius={15} size='lg' backgroundColor={isStudentSelected ? "#FF8F46" : '#45CE7B'} _hover={{ backgroundColor: isStudentSelected ? '#E86C1C' : '#20B65B' }}>Next</Button>
                 </Box>
             </Box>
         </Flex>

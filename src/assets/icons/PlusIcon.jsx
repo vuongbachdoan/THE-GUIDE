@@ -14,8 +14,8 @@ export const PlusIcon = ({
                 height={height}
                 transform="translate(0.4375)"
             />
-            <path d="M20.4375 11.9999V27.7999" stroke={color} stroke-width="2" stroke-linecap="round" />
-            <path d="M12.5375 19.9H28.3375" stroke={color} stroke-width="2" stroke-linecap="round" />
+            <path d="M20.4375 11.9999V27.7999" stroke={color} strokeWidth="2" strokeLinecap="round" />
+            <path d="M12.5375 19.9H28.3375" stroke={color} strokeWidth="2" strokeLinecap="round" />
         </svg>
     );
 }
