@@ -10,6 +10,7 @@ import AppRouting from './config/router/AppRouting';
 import './config/theme/css/default.css';
 import { mode } from '@chakra-ui/theme-tools';
 import { Auth, Hub } from 'aws-amplify';
+import { useNavigate } from 'react-router-dom';
 
 const theme = extendTheme({
   styles: {
@@ -22,6 +23,7 @@ const theme = extendTheme({
 });
 
 function App() {
+  const navigate = useNavigate();
   const [user, setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
@@ -31,22 +33,26 @@ function App() {
       setLoading(false);
       setUser(token);
     } catch (err) {
-      console.log(err);
       setLoading(false);
+      navigate('/auth/login')
     }
   }
-  
+
   React.useEffect(() => {
-    Hub.listen('auth', ({ payload }) => {
-      if (payload.event === 'signIn') {
-        return getUser();
-      }
-      if (payload.event === 'signOut') {
-        setUser(null);
-        return setLoading(false);
-      }
-    });
-    getUser();
+    try {
+      Hub.listen('auth', ({ payload }) => {
+        if (payload.event === 'signIn') {
+          return getUser();
+        }
+        if (payload.event === 'signOut') {
+          setUser(null);
+          return setLoading(false);
+        }
+      });
+      getUser();
+    } catch (err) {
+      
+    }
   }, []);
 
   return (

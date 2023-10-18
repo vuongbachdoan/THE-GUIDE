@@ -3,12 +3,26 @@ import { FaChevronDown, FaSearch } from "react-icons/fa";
 import icons from "../../../assets/icons";
 import { AnimatedLogo } from "../../../assets/icons/AnimatedLogo";
 import { useNavigate } from "react-router-dom";
+import { Auth } from "aws-amplify";
+import React from "react";
+import useGetGoogleProfile from "../../../hooks/useGetGoogleProfile";
+import { jwtDecodeProfile } from "../../../helper/jwtDecodeProfile";
 const { ProfileIcon, LogoutIcon } = icons;
 
 export const AppHeader = () => {
     const navigate = useNavigate();
     const bg = useColorModeValue('#FFF', 'gray.700');
     const logoColor = useColorModeValue('#1E1E1E', '#FFF');
+
+    const {userProfile} = useGetGoogleProfile()
+
+    const getUser = async () => {
+        return await Auth.currentAuthenticatedUser();
+    }
+
+    const logOut = () => {
+        Auth.signOut();
+    }
 
     return (
         <Box
@@ -28,12 +42,16 @@ export const AppHeader = () => {
                     alignItems='center'
                     flexDirection='row'
                     columnGap={15}
-                    width={{base: 175, lg: 305}}
+                    width={{ base: 175, lg: 305 }}
                 >
-                    <Avatar name='Dan Abrahmov' src='https://bit.ly/dan-abramov' />
+                    <Avatar name='User' src={userProfile?.picture} />
                     <Menu>
-                        <MenuButton as={Button} rightIcon={<FaChevronDown size={12}/>} variant='unstyled'>
-                            DE160256
+                        <MenuButton as={Button} rightIcon={<FaChevronDown size={12} />} variant='unstyled'>
+                            {
+                                userProfile ?
+                                userProfile.name :
+                                'User . . .'
+                            }
                         </MenuButton>
                         <MenuList
                             padding={3}
@@ -47,16 +65,16 @@ export const AppHeader = () => {
                             <MenuItem borderRadius={15} icon={<ProfileIcon width={40} height={40} color='#A0A0A0' />}>
                                 <Text fontSize='md' fontWeight='normal' color='gray.500'>Profile</Text>
                             </MenuItem>
-                            <MenuItem onClick={() => navigate('/auth')} borderRadius={15} icon={<LogoutIcon color='#FF0000' />}>
+                            <MenuItem onClick={logOut} borderRadius={15} icon={<LogoutIcon color='#FF0000' />}>
                                 <Text color='#FF0000' fontSize='md' fontWeight='medium'>Log out</Text>
                             </MenuItem>
                         </MenuList>
                     </Menu>
                 </Flex>
 
-                <AnimatedLogo height={40} color={logoColor}/>
+                <AnimatedLogo height={40} color={logoColor} />
 
-                <InputGroup display={{base: 'none', md: 'flex'}} maxWidth={{base: 175, lg: 305}} height='44px' borderRadius={12}>
+                <InputGroup display={{ base: 'none', md: 'flex' }} maxWidth={{ base: 175, lg: 305 }} height='44px' borderRadius={12}>
                     <Input placeholder='Search' borderRadius={12} />
                     <InputRightElement>
                         <FaSearch color='#A0A0A0' />
