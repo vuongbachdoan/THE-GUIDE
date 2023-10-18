@@ -5,7 +5,6 @@ import GoogleLogo from '../../../assets/images/google_logo.png';
 import { Auth } from "aws-amplify";
 
 export const SignIn = () => {
-
     return (
         <>
             <Flex

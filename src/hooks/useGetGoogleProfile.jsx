@@ -7,13 +7,14 @@ const useGetGoogleProfile = () => {
     React.useEffect(() => {
         getUserProfile()
             .then((res) => {
+                console.log(res)
                 setUserProfile(res?.attributes)
             })
     }, [])
 
     const getUserProfile = async () => {
         try {
-            return await Auth.currentAuthenticatedUser()
+            return await Auth.currentAuthenticatedUser();
         } catch (error) {
             return null;
         }
