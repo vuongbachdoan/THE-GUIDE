@@ -11,6 +11,7 @@ import './config/theme/css/default.css';
 import { mode } from '@chakra-ui/theme-tools';
 import { Auth, Hub } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
+import useGetGoogleProfile from './hooks/useGetGoogleProfile';
 
 const theme = extendTheme({
   styles: {
@@ -51,7 +52,7 @@ function App() {
       });
       getUser();
     } catch (err) {
-      
+
     }
   }, []);
 

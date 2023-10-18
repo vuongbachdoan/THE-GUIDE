@@ -5,11 +5,18 @@ import DecorRoleOrange from '../../../assets/images/decor_role_orange.png'
 import DecorRoleGreen from '../../../assets/images/decor_role_green.png'
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import useGetGoogleProfile from "../../../hooks/useGetGoogleProfile";
 
 export const SelectRole = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
     const navigate = useNavigate();
     const [isStudentSelected, setIsStudentSelected] = React.useState(true);
+    const { userProfile } = useGetGoogleProfile();
+    React.useEffect(() => {
+        if(userProfile == null) {
+            navigate('/auth/login')
+        }
+    }, []);
 
     return (
         <Flex
