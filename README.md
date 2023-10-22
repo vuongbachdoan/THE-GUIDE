@@ -1,7 +1,5 @@
 # Welcome to SWP Project - The Guide!
 
-SWP project
-
 
 # How to run
 
