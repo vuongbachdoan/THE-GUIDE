@@ -13,6 +13,10 @@ import { ShareIcon } from './ShareIcon';
 import { EyeIcon } from './EyeIcon';
 import { SyncIcon } from './SyncIcon';
 import { LinkIcon } from './LinkIcon';
+import { ReturnForwardIcon } from './ReturnForwardIcon';
+import { GithubIcon } from './GithubIcon';
+import { LinkedinIcon } from './LinkedinIcon';
+import { MailIcon } from './MailIcon';
 
 export default {
     HomeIcon,
@@ -29,5 +33,9 @@ export default {
     ShareIcon,
     EyeIcon,
     SyncIcon,
-    LinkIcon
+    LinkIcon,
+    ReturnForwardIcon,
+    GithubIcon,
+    LinkedinIcon,
+    MailIcon
 }

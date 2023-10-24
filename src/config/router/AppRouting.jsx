@@ -8,6 +8,8 @@ import { Home } from '../../pages/Home';
 import { PanelPostsList } from '../../pages/Home/components/PanelPostsList';
 import { PanelCreatePost } from '../../pages/Home/components/PanelCreatePost';
 import { PanelSubject } from '../../pages/Home/components/PanelSubject';
+import { PanelNotification } from '../../pages/Home/components/PanelNotification';
+import { PanelProfile } from '../../pages/Home/components/PanelProfile';
 
 export const AppRouting = () => {
     return (
@@ -20,6 +22,8 @@ export const AppRouting = () => {
                 <Route path='' element={<PanelPostsList/>}/>
                 <Route path='create-post' element={<PanelCreatePost/>}/>
                 <Route path='subject' element={<PanelSubject/>}/>
+                <Route path='notification' element={<PanelNotification/>}/>
+                <Route path='profile' element={<PanelProfile/>}/>
             </Route>
             <Route path='*' element={<Error />} />
         </Routes>

@@ -59,7 +59,7 @@ function App() {
     <ChakraProvider theme={theme}>
       <Flex justifyContent='center' alignItems='center' width='100%' height='100vh' overflow='hidden' textAlign="center" fontSize="xl">
         <AppRouting />
-        <Stack position='absolute' bottom={3} right={3}><ColorModeSwitcher initialColorMode={theme.config.initialColorMode} justifySelf="flex-end" borderRadius={20} /></Stack>
+        <Stack position='fixed' bottom={3} right={3}><ColorModeSwitcher initialColorMode={theme.config.initialColorMode} justifySelf="flex-end" borderRadius={20} /></Stack>
       </Flex>
     </ChakraProvider>
   );
