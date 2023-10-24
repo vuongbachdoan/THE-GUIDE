@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './config/serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import { Amplify } from 'aws-amplify';
-import awsExports from './aws-exports'; Amplify.configure(awsExports);
+import awsExports from './aws-exports';
 // const awsExports = JSON.parse(process.env.REACT_APP_AMPLIFY_CREDENTIALS)
 Amplify.configure(awsExports);
 
