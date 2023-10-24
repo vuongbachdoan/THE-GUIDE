@@ -5,8 +5,10 @@ import App from './App';
 import * as serviceWorker from './config/serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import { Amplify } from 'aws-amplify';
-const awsExports = JSON.parse(process.env.REACT_APP_AMPLIFY_CREDENTIALS)
+import awsExports from './aws-exports'; Amplify.configure(awsExports);
+// const awsExports = JSON.parse(process.env.REACT_APP_AMPLIFY_CREDENTIALS)
 Amplify.configure(awsExports);
+
 
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
