@@ -11,7 +11,6 @@ import './config/theme/css/default.css';
 import { mode } from '@chakra-ui/theme-tools';
 import { Auth, Hub } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
-import useGetGoogleProfile from './hooks/useGetGoogleProfile';
 
 const theme = extendTheme({
   styles: {
@@ -35,7 +34,7 @@ function App() {
       setUser(token);
     } catch (err) {
       setLoading(false);
-      navigate('/auth/login', {replace: true})
+      navigate('/auth/login')
     }
   }
 
@@ -59,9 +58,8 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       <Flex justifyContent='center' alignItems='center' width='100%' height='100vh' overflow='hidden' textAlign="center" fontSize="xl">
-
         <AppRouting />
-        <Stack position='absolute' bottom={3} right={3}><ColorModeSwitcher initialColorMode={theme.config.initialColorMode} justifySelf="flex-end" borderRadius={20} /></Stack>
+        <Stack position='fixed' bottom={3} right={3}><ColorModeSwitcher initialColorMode={theme.config.initialColorMode} justifySelf="flex-end" borderRadius={20} /></Stack>
       </Flex>
     </ChakraProvider>
   );

@@ -22,7 +22,7 @@ export const PanelPostsList = () => {
                     columnGap={15}
                 >
                     <Text fontSize='sm' fontWeight='semibold' color='gray.500'>Create your post now . . .</Text>
-                    <Button onClick={() => navigate('/create-post', {replace: true})} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Create post</Button>
+                    <Button onClick={() => navigate('/create-post')} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Create post</Button>
                 </Flex>
 
             </Box>

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Box, Flex, Image, Text, useColorModeValue } from '@chakra-ui/react';
 import { InformationIcon } from '../../../assets/icons/InformationIcon';
 import Subject1 from '../../../assets/images/subject1.png';
@@ -7,13 +7,14 @@ const { PlusIcon, AddPostIcon } = icons;
 
 export const SubjectsPanel = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
+    const navigate = useNavigate();
 
     return (
         <Flex
             flexDirection='column'
             height='100%'
             rowGap={3}
-            display={{base: 'none', lg: 'flex'}}
+            display={{ base: 'none', lg: 'flex' }}
         >
 
             <Box
@@ -32,7 +33,12 @@ export const SubjectsPanel = () => {
                     fontWeight='semibold'
                 >
                     <Text fontSize='xl' fontWeight='semibold' marginBlock={3}>Trending</Text>
-                    <AddPostIcon width={40} height={40} />
+                    <Box
+                        onClick={() => navigate('/create-post')}
+                        cursor='pointer'
+                    >
+                        <AddPostIcon width={40} height={40} />
+                    </Box>
                 </Flex>
 
                 <Flex

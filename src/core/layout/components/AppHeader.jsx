@@ -5,13 +5,21 @@ import { AnimatedLogo } from "../../../assets/icons/AnimatedLogo";
 import { Auth } from "aws-amplify";
 import React from "react";
 import useGetGoogleProfile from "../../../hooks/useGetGoogleProfile";
+import { useNavigate } from "react-router-dom";
+import Lambda from 'aws-sdk/clients/lambda';
+import { jwtDecodeProfile } from "../../../helper/jwtDecodeProfile";
 const { ProfileIcon, LogoutIcon } = icons;
 
 export const AppHeader = () => {
+    const navigate = useNavigate();
     const bg = useColorModeValue('#FFF', 'gray.700');
     const logoColor = useColorModeValue('#1E1E1E', '#FFF');
 
-    const { userProfile } = useGetGoogleProfile();
+    const { userProfile } = useGetGoogleProfile()
+
+    const getUser = async () => {
+        return await Auth.currentAuthenticatedUser();
+    }
 
     const logOut = () => {
         Auth.signOut();
