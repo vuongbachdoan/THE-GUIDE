@@ -2,11 +2,18 @@ import { Accordion, AccordionButton, AccordionItem, Box, Flex, Image, Stack, Tex
 import icons from "../../../assets/icons";
 import DecorOrange from '../../../assets/images/decor_role_orange.png';
 import UserAvatar from '../../../assets/images/student1.png';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const { HomeIcon, PostIcon, ProfileIcon, SubjectIcon, NotificationIcon } = icons;
 
 export const Sidebar = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
+    const navigate = useNavigate();
+    const user = useSelector((state) => state.profileData.data);
+
+    const handleChangeRoute = (route) => {
+        navigate(route, );
+    }
 
     return (
         <Flex
@@ -22,22 +29,22 @@ export const Sidebar = () => {
                     padding={30}
                 >
                     <Accordion defaultIndex={[0]} allowMultiple border='none'>
-                        <AccordionItem border='none' borderRadius={15} overflow='hidden'>
+                        <AccordionItem onClick={() => handleChangeRoute('/')} border='none' borderRadius={15} overflow='hidden'>
                             <AccordionButton color='#FF8F46'><HomeIcon width={40} height={40} color='#FF8F46' /> Home</AccordionButton>
                         </AccordionItem >
-                        <AccordionItem border='none' borderRadius={15} overflow='hidden'>
+                        <AccordionItem onClick={() => handleChangeRoute('/subject')} border='none' borderRadius={15} overflow='hidden'>
                             <AccordionButton color='#A0A0A0'><SubjectIcon width={40} height={40} color='#A0A0A0' /> Subject</AccordionButton>
                         </AccordionItem >
-                        <AccordionItem border='none' borderRadius={15} overflow='hidden'>
+                        <AccordionItem onClick={() => handleChangeRoute('/posts')} border='none' borderRadius={15} overflow='hidden'>
                             <AccordionButton color='#A0A0A0'><PostIcon width={40} height={40} color='#A0A0A0' /> Post</AccordionButton>
                         </AccordionItem >
-                        <AccordionItem border='none' borderRadius={15} overflow='hidden'>
+                        <AccordionItem onClick={() => handleChangeRoute('/notification')} border='none' borderRadius={15} overflow='hidden'>
                             <AccordionButton color='#A0A0A0'>
                                 <NotificationIcon width={40} height={40} color='#A0A0A0' stroke={bg}/>
                                 Notification
                             </AccordionButton>
                         </AccordionItem >
-                        <AccordionItem border='none' borderRadius={15} overflow='hidden'>
+                        <AccordionItem onClick={() => handleChangeRoute('/profile')} border='none' borderRadius={15} overflow='hidden'>
                             <AccordionButton color='#A0A0A0'><ProfileIcon width={40} height={40} color='#A0A0A0' /> Profile</AccordionButton>
                         </AccordionItem >
                     </Accordion>
@@ -62,7 +69,7 @@ export const Sidebar = () => {
                             left={0}
                             width='100%'
                         />
-                        <Image marginTop={30} src={UserAvatar} width={100} height={100} borderRadius={14} zIndex={10} />
+                        <Image marginTop={30}  backgroundColor='#1E1E1E20' borderWidth={0} src={user?.avatar} width={100} height={100} borderRadius={14} zIndex={10} />
                         <Text marginTop={3} fontWeight='semibold' fontSize='xl'>Bach Doan Vuong</Text>
                         <Link to='/profile'><Text fontSize='md' color='#FF8F46' _hover={{textDecoration: 'underline'}}>Detail</Text></Link>
                         <Text fontWeight='semibold' fontSize='md' color='gray.500'>DE160256</Text>

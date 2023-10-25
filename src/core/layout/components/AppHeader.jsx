@@ -4,14 +4,15 @@ import icons from "../../../assets/icons";
 import { AnimatedLogo } from "../../../assets/icons/AnimatedLogo";
 import { Auth } from "aws-amplify";
 import React from "react";
-import useGetGoogleProfile from "../../../hooks/useGetGoogleProfile";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const { ProfileIcon, LogoutIcon } = icons;
 
 export const AppHeader = () => {
+    const navigate = useNavigate();
     const bg = useColorModeValue('#FFF', 'gray.700');
     const logoColor = useColorModeValue('#1E1E1E', '#FFF');
-
-    const { userProfile } = useGetGoogleProfile();
+    const user = useSelector((state) => state.profileData.data)
 
     const logOut = () => {
         Auth.signOut();
@@ -37,13 +38,13 @@ export const AppHeader = () => {
                     columnGap={15}
                     width={{ base: 175, lg: 305 }}
                 >
-                    <Avatar name='User' src={userProfile?.picture} />
+                    <Avatar name='User' src={user?.avatar} />
                     <Menu>
                         <MenuButton as={Button} rightIcon={<FaChevronDown size={12} />} variant='unstyled'>
                             {
-                                userProfile ?
-                                    userProfile.name :
-                                    'User . . .'
+                                user ?
+                                    user.username :
+                                    'username'
                             }
                         </MenuButton>
                         <MenuList

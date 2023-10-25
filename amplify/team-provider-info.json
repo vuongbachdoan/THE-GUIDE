@@ -1,15 +1,29 @@
 {
-  "staging": {
+  "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-amplify5c4337cb92494-staging-84532-authRole",
-      "UnauthRoleArn": "arn:aws:iam::955228589631:role/amplify-amplify5c4337cb92494-staging-84532-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::955228589631:role/amplify-amplify5c4337cb92494-staging-84532-authRole",
+      "AuthRoleName": "amplify-theguide-dev-172127-authRole",
+      "UnauthRoleArn": "arn:aws:iam::955228589631:role/amplify-theguide-dev-172127-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::955228589631:role/amplify-theguide-dev-172127-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-amplify5c4337cb92494-staging-84532-deployment",
-      "UnauthRoleName": "amplify-amplify5c4337cb92494-staging-84532-unauthRole",
-      "StackName": "amplify-amplify5c4337cb92494-staging-84532",
-      "StackId": "arn:aws:cloudformation:us-east-1:955228589631:stack/amplify-amplify5c4337cb92494-staging-84532/5e440560-6c00-11ee-9ce3-0e1a119cc84f",
-      "AmplifyAppId": "d3vjwq0oc2w51c"
+      "DeploymentBucketName": "amplify-theguide-dev-172127-deployment",
+      "UnauthRoleName": "amplify-theguide-dev-172127-unauthRole",
+      "StackName": "amplify-theguide-dev-172127",
+      "StackId": "arn:aws:cloudformation:us-east-1:955228589631:stack/amplify-theguide-dev-172127/19ae0420-7257-11ee-ad02-0adb98c5867f",
+      "AmplifyAppId": "d2eerrll03dy2w"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d2eerrll03dy2w",
+          "type": "manual"
+        }
+      },
+      "auth": {
+        "theguide": {}
+      },
+      "function": {
+        "theguideusers": {}
+      }
     }
   }
 }

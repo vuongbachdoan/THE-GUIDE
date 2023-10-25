@@ -5,19 +5,11 @@ import DecorRoleOrange from '../../../assets/images/decor_role_orange.png'
 import DecorRoleGreen from '../../../assets/images/decor_role_green.png'
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import useGetGoogleProfile from "../../../hooks/useGetGoogleProfile";
 
 export const SelectRole = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
     const navigate = useNavigate();
     const [isStudentSelected, setIsStudentSelected] = React.useState(true);
-    const { userProfile } = useGetGoogleProfile();
-    
-    React.useEffect(() => {
-        if(userProfile == null) {
-            navigate('/auth/login', {replace: true})
-        }
-    }, []);
 
     return (
         <Flex
@@ -99,7 +91,7 @@ export const SelectRole = () => {
                 </Flex>
 
                 <Box>
-                    <Button onClick={() => navigate('login', {replace: true})} marginTop={30} borderRadius={15} size='lg' backgroundColor={isStudentSelected ? "#FF8F46" : '#45CE7B'} _hover={{ backgroundColor: isStudentSelected ? '#E86C1C' : '#20B65B' }}>Next</Button>
+                    <Button onClick={() => navigate('/auth/login')} marginTop={30} borderRadius={15} size='lg' backgroundColor={isStudentSelected ? "#FF8F46" : '#45CE7B'} _hover={{ backgroundColor: isStudentSelected ? '#E86C1C' : '#20B65B' }}>Next</Button>
                 </Box>
             </Box>
         </Flex>

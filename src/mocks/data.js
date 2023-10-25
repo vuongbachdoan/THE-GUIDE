@@ -50,3 +50,36 @@ export const users = [
         thumbnail: 'https://scontent.fhan4-3.fna.fbcdn.net/v/t39.30808-1/387041601_1058223048869922_4797909499667327158_n.jpg?stp=cp6_dst-jpg_p320x320&_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3bxzsa54YskAX8YxwhR&_nc_ht=scontent.fhan4-3.fna&oh=00_AfADKR9kDLCcKJaMkTaXlYYk2gcYHJbRgqPc8nbfGI0VbQ&oe=6530ED85',
     }
 ]
+
+export const notifications = [
+    {
+        id: "",
+        title: "HoaDNT liked you post",
+        timestamp: "2023-10-24T07:52:59Z",
+        type: "reaction",
+        description: "What is Java Servlet  /  PRJ301",
+        linkTo: "/post",
+        postId: "",
+        thumbnail: "https://scontent.fhan4-3.fna.fbcdn.net/v/t39.30808-1/387041601_1058223048869922_4797909499667327158_n.jpg?stp=cp6_dst-jpg_p320x320&_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3bxzsa54YskAX8YxwhR&_nc_ht=scontent.fhan4-3.fna&oh=00_AfADKR9kDLCcKJaMkTaXlYYk2gcYHJbRgqPc8nbfGI0VbQ&oe=6530ED85"
+    },
+    {
+        id: "",
+        title: "HoaDNT commented on your post",
+        timestamp: "2023-10-24T07:52:59Z",
+        type: "comment",
+        description: "What is Java Servlet  /  PRJ301",
+        linkTo: "/post",
+        postId: "",
+        thumbnail: "https://scontent.fhan4-3.fna.fbcdn.net/v/t39.30808-1/387041601_1058223048869922_4797909499667327158_n.jpg?stp=cp6_dst-jpg_p320x320&_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3bxzsa54YskAX8YxwhR&_nc_ht=scontent.fhan4-3.fna&oh=00_AfADKR9kDLCcKJaMkTaXlYYk2gcYHJbRgqPc8nbfGI0VbQ&oe=6530ED85"
+    },
+    {
+        id: "",
+        title: "Your post have been approved by HoaDNT",
+        timestamp: "2023-10-24T07:52:59Z",
+        type: "system",
+        description: "What is Java Servlet  /  PRJ301",
+        linkTo: "/post",
+        postId: "",
+        thumbnail: "https://scontent.fhan4-3.fna.fbcdn.net/v/t39.30808-1/387041601_1058223048869922_4797909499667327158_n.jpg?stp=cp6_dst-jpg_p320x320&_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3bxzsa54YskAX8YxwhR&_nc_ht=scontent.fhan4-3.fna&oh=00_AfADKR9kDLCcKJaMkTaXlYYk2gcYHJbRgqPc8nbfGI0VbQ&oe=6530ED85"
+    },
+]
