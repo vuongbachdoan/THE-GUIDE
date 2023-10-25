@@ -34,7 +34,7 @@ export const PanelCreatePost = () => {
                                 <Input padding={1} color={color} _placeholder={{color: placeholderColor}} height={22} borderWidth={0} _focus={{ borderWidth: 0, boxShadow: 'none' }} outline='none' fontWeight='semibold' textAlign='left' placeholder='Subject Name' />
                             </Flex>
                             <Menu>
-                                <MenuButton width='fit-content' as={Button} padding={1} height='fit-content' rightIcon={<FaChevronDown size={12}/>}>
+                                <MenuButton width='fit-content' iconSpacing={2} as={Button} paddingY={1} paddingX={2} height='fit-content' rightIcon={<FaChevronDown size={12}/>}>
                                     <Text fontSize='sm'>Department</Text>
                                 </MenuButton>
                                 <MenuList

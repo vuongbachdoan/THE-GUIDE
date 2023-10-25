@@ -10,7 +10,7 @@ export const Sidebar = () => {
     const navigate = useNavigate();
 
     const handleChangeRoute = (route) => {
-        navigate(route);
+        navigate(route, );
     }
 
     return (
@@ -33,7 +33,7 @@ export const Sidebar = () => {
                         <AccordionItem onClick={() => handleChangeRoute('/subject')} border='none' borderRadius={15} overflow='hidden'>
                             <AccordionButton color='#A0A0A0'><SubjectIcon width={40} height={40} color='#A0A0A0' /> Subject</AccordionButton>
                         </AccordionItem >
-                        <AccordionItem onClick={() => handleChangeRoute('/post')} border='none' borderRadius={15} overflow='hidden'>
+                        <AccordionItem onClick={() => handleChangeRoute('/posts')} border='none' borderRadius={15} overflow='hidden'>
                             <AccordionButton color='#A0A0A0'><PostIcon width={40} height={40} color='#A0A0A0' /> Post</AccordionButton>
                         </AccordionItem >
                         <AccordionItem onClick={() => handleChangeRoute('/notification')} border='none' borderRadius={15} overflow='hidden'>

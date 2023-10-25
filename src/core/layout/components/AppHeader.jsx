@@ -17,10 +17,6 @@ export const AppHeader = () => {
 
     const { userProfile } = useGetGoogleProfile()
 
-    const getUser = async () => {
-        return await Auth.currentAuthenticatedUser();
-    }
-
     const logOut = () => {
         Auth.signOut();
     }
@@ -45,13 +41,13 @@ export const AppHeader = () => {
                     columnGap={15}
                     width={{ base: 175, lg: 305 }}
                 >
-                    <Avatar name='User' src={userProfile?.picture} />
+                    <Avatar name='User' src={userProfile?.profile} />
                     <Menu>
                         <MenuButton as={Button} rightIcon={<FaChevronDown size={12} />} variant='unstyled'>
                             {
                                 userProfile ?
                                     userProfile.name :
-                                    'User . . .'
+                                    'username'
                             }
                         </MenuButton>
                         <MenuList

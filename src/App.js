@@ -34,7 +34,7 @@ function App() {
       setUser(token);
     } catch (err) {
       setLoading(false);
-      navigate('/auth/login')
+      navigate('/auth/login', )
     }
   }
 

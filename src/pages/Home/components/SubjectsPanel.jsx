@@ -34,7 +34,7 @@ export const SubjectsPanel = () => {
                 >
                     <Text fontSize='xl' fontWeight='semibold' marginBlock={3}>Trending</Text>
                     <Box
-                        onClick={() => navigate('/create-post')}
+                        onClick={() => navigate('/create-post', )}
                         cursor='pointer'
                     >
                         <AddPostIcon width={40} height={40} />

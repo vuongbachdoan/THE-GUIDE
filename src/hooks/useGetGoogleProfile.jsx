@@ -7,7 +7,6 @@ const useGetGoogleProfile = () => {
     React.useEffect(() => {
         getUserProfile()
             .then((res) => {
-                console.log(res)
                 setUserProfile(res?.attributes)
             })
     }, [])

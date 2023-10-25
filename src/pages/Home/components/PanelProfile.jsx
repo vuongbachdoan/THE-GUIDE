@@ -25,7 +25,7 @@ export const PanelProfile = () => {
                     columnGap={15}
                 >
                     <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Your profile</Text>
-                    <Button onClick={() => navigate('edit')} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Edit</Button>
+                    <Button onClick={() => navigate('edit', )} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Edit</Button>
                 </Flex>
 
             </Box>

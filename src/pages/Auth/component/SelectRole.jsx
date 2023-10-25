@@ -15,7 +15,7 @@ export const SelectRole = () => {
 
     React.useEffect(() => {
         if(userProfile == null) {
-            navigate('/auth/login')
+            navigate('/auth/login', )
         }
     }, []);
 

@@ -11,6 +11,7 @@ import { PanelSubject } from '../../pages/Home/components/PanelSubject';
 import { PanelNotification } from '../../pages/Home/components/PanelNotification';
 import { PanelProfile } from '../../pages/Home/components/PanelProfile';
 import { PanelEditProfile } from '../../pages/Home/components/PanelEditProfile';
+import { PanelViewPost } from '../../pages/Home/components/PanelViewPost';
 
 export const AppRouting = () => {
     return (
@@ -26,6 +27,7 @@ export const AppRouting = () => {
                 <Route path='notification' element={<PanelNotification/>}/>
                 <Route path='profile' element={<PanelProfile/>}/>
                 <Route path='profile/edit' element={<PanelEditProfile/>}/>
+                <Route path='posts' element={<PanelViewPost/>}/>
             </Route>
             <Route path='*' element={<Error />} />
         </Routes>
