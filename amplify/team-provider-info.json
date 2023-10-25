@@ -20,6 +20,9 @@
       },
       "auth": {
         "theguide": {}
+      },
+      "function": {
+        "theguideusers": {}
       }
     }
   }

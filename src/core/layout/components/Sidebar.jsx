@@ -3,11 +3,13 @@ import icons from "../../../assets/icons";
 import DecorOrange from '../../../assets/images/decor_role_orange.png';
 import UserAvatar from '../../../assets/images/student1.png';
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const { HomeIcon, PostIcon, ProfileIcon, SubjectIcon, NotificationIcon } = icons;
 
 export const Sidebar = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
     const navigate = useNavigate();
+    const user = useSelector((state) => state.profileData.data);
 
     const handleChangeRoute = (route) => {
         navigate(route, );
@@ -67,7 +69,7 @@ export const Sidebar = () => {
                             left={0}
                             width='100%'
                         />
-                        <Image marginTop={30} src={UserAvatar} width={100} height={100} borderRadius={14} zIndex={10} />
+                        <Image marginTop={30}  backgroundColor='#1E1E1E20' borderWidth={0} src={user?.avatar} width={100} height={100} borderRadius={14} zIndex={10} />
                         <Text marginTop={3} fontWeight='semibold' fontSize='xl'>Bach Doan Vuong</Text>
                         <Link to='/profile'><Text fontSize='md' color='#FF8F46' _hover={{textDecoration: 'underline'}}>Detail</Text></Link>
                         <Text fontWeight='semibold' fontSize='md' color='gray.500'>DE160256</Text>

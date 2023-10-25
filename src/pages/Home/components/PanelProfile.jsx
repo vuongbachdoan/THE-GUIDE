@@ -4,11 +4,13 @@ import { PostCard } from './PostCard';
 import { useNavigate } from 'react-router-dom';
 import UserAvatar from '../../../assets/images/student1.png';
 import icons from '../../../assets/icons';
+import { useSelector } from 'react-redux';
 const {MailIcon, LinkedinIcon, GithubIcon} = icons;
 
 export const PanelProfile = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
     const navigate = useNavigate();
+    const user = useSelector((state) => state.profileData.data);
 
     return (
         <>
@@ -49,8 +51,8 @@ export const PanelProfile = () => {
                         width={240}
                         marginX='auto'
                     >
-                        <Image src={UserAvatar} width={200} height={200} borderRadius={14} zIndex={10} />
-                        <Text marginTop={3} fontWeight='semibold' fontSize='xl'>Bach Doan Vuong</Text>
+                        <Image src={user?.avatar} backgroundColor='#1E1E1E20' borderRadius={20} borderWidth={0} width={200} height={200} zIndex={10} />
+                        <Text marginTop={3} fontWeight='semibold' fontSize='xl'>{user?.username}</Text>
                         <Text marginY={3} fontWeight='semibold' fontSize='xl'>DE160256</Text>
                         <Flex
                             flexDirection='row'
@@ -70,7 +72,7 @@ export const PanelProfile = () => {
                             columnGap={3}
                         >
                             <LinkedinIcon width={18} height={18}/>
-                            <Text fontWeight='semibold' fontSize='sm'>linkedin.com/in/vuongbd2007</Text>
+                            <Text fontWeight='semibold' fontSize='sm'>{user?.linkedin !== '' ? user?.linkedin : 'linkedin/in/user'}</Text>
                         </Flex>
                         <Flex
                             flexDirection='row'
@@ -80,7 +82,7 @@ export const PanelProfile = () => {
                             columnGap={3}
                         >
                             <GithubIcon width={18} height={18}/>
-                            <Text fontWeight='semibold' fontSize='sm'>github.com/vuongbachdoan</Text>
+                            <Text fontWeight='semibold' fontSize='sm'>{user?.github !== '' ? user?.github : 'github.com/user'}</Text>
                         </Flex>
                     </Flex>
                 </Box>
