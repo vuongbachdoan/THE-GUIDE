@@ -52,8 +52,8 @@ export const PanelProfile = () => {
                         marginX='auto'
                     >
                         <Image src={user?.avatar} backgroundColor='#1E1E1E20' borderRadius={20} borderWidth={0} width={200} height={200} zIndex={10} />
-                        <Text marginTop={3} fontWeight='semibold' fontSize='xl'>{user?.username}</Text>
-                        <Text marginY={3} fontWeight='semibold' fontSize='xl'>DE160256</Text>
+                        <Text marginTop={3} fontWeight='semibold' fontSize='xl'>{user?.username ? user?.username : 'username'}</Text>
+                        <Text marginY={3} fontWeight='semibold' fontSize='xl'>{user?.studentCode ? user?.studentCode : 'USER CODE'}</Text>
                         <Flex
                             flexDirection='row'
                             justifyContent='flex-start'
@@ -62,7 +62,7 @@ export const PanelProfile = () => {
                             columnGap={3}
                         >
                             <MailIcon width={18} height={18}/>
-                            <Text fontWeight='semibold' fontSize='sm'>vuongbdde160256@fpt.edu.vn</Text>
+                            <Text fontWeight='semibold' fontSize='sm'>{user?.email ? user?.email : 'user@email.com'}</Text>
                         </Flex>
                         <Flex
                             flexDirection='row'
