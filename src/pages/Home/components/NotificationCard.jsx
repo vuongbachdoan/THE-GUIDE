@@ -28,9 +28,6 @@ const { HeartIcon, CommentIcon, ShareIcon, EyeIcon, ReturnForwardIcon } = icons;
  */
 
 export const NotificationCard = ({key, data}) => {
-    React.useEffect(() => {
-        console.log(data.thumbnail)
-    }, [])
 
     return (
         <Card

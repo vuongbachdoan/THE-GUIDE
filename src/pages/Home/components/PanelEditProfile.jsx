@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Image, Input, Link, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Input, Link, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import { posts } from '../../../mocks/data';
 import { PostCard } from './PostCard';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import React from 'react';
 import { updateUser } from '../../../core/services/user';
 import { setProfileData } from '../../../core/store/user/profileData';
+import { CameraIcon } from '../../../assets/icons/CameraIcon';
+import { updateUserAvatar } from '../../../core/services/photo';
 const { MailIcon, LinkedinIcon, GithubIcon } = icons;
 
 export const PanelEditProfile = () => {
@@ -17,6 +19,7 @@ export const PanelEditProfile = () => {
     const finalRef = React.useRef(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [alertMessage, setAlertMessage] = React.useState(null);
+    const previewImageRef = React.useRef();
 
     const [updatedData, setUpdatedData] = React.useState(null);
     React.useEffect(() => {
@@ -36,13 +39,6 @@ export const PanelEditProfile = () => {
         setUpdatedData({
             ...updatedData,
             studentCode: val
-        })
-    }
-
-    const handleAvatar = (val) => {
-        setUpdatedData({
-            ...updatedData,
-            avatar: val
         })
     }
 
@@ -86,10 +82,46 @@ export const PanelEditProfile = () => {
                 setAlertMessage('Fail to update profile!')
             })
     }
+
     const handleCloseMessage = () => {
         onClose();
         setAlertMessage(null);
     }
+
+    const [previewImage, setPreviewImage] = React.useState(null);
+    const handlePickerImage = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.onloadend = async () => {
+            const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
+            setPreviewImage(reader.result);
+
+            const type = file.type.split('/')[1];
+
+            updateUserAvatar(user.id, base64String, type)
+                .then((res) => {
+                    setPreviewImage(res);
+                })
+                .catch(() => {
+                    onOpen();
+                    setAlertMessage('Fail to upload this image!')
+                })
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+
+    React.useEffect(() => {
+        if(previewImage) {
+            setUpdatedData({
+                ...updatedData,
+                avatar: previewImage
+            })
+        }
+    }, [previewImage])
 
     return (
         <>
@@ -149,7 +181,24 @@ export const PanelEditProfile = () => {
                         width={240}
                         marginX='auto'
                     >
-                        <Image backgroundColor='#1E1E1E20' borderWidth={0} src={updatedData?.avatar} width={200} height={200} borderRadius={14} zIndex={10} />
+                        <Box
+                            position='relative'
+                        >
+                            <input ref={previewImageRef} onChange={handlePickerImage} type="file" accept="image/*" name='avatar' id='avatar_picker' style={{ display: 'none' }} />
+                            <Image objectFit='cover' backgroundColor='#1E1E1E20' borderWidth={0} src={previewImage ? previewImage : updatedData?.avatar} width={200} height={200} borderRadius={20} zIndex={10} />
+                            <Stack
+                                position='absolute'
+                                right={2}
+                                bottom={2}
+                                borderRadius={30}
+                                backgroundColor='#FFF'
+                                cursor='pointer'
+                                boxShadow='2xl'
+                                onClick={() => previewImageRef.current.click()}
+                            >
+                                <CameraIcon color='#1E1E1E' width={30} height={30} />
+                            </Stack>
+                        </Box>
                         <Input value={updatedData?.username} onChange={(e) => handleUsername(e.target.value)} backgroundColor='#1E1E1E20' marginTop={3} width='100%' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' fontSize='xl' placeholder='username' />
                         <Input value={updatedData?.studentCode} onChange={(e) => handleStudentCode(e.target.value)} backgroundColor='#1E1E1E20' marginTop={3} width='100%' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' fontSize='xl' placeholder='user code' />
                         <Flex
