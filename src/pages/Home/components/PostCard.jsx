@@ -1,8 +1,13 @@
-import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Text } from '@chakra-ui/react'
-import { BsThreeDotsVertical } from 'react-icons/bs'
+import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Text, Textarea } from '@chakra-ui/react'
 import icons from '../../../assets/icons';
-import React from 'react';
-const { HeartIcon, CommentIcon, ShareIcon, EyeIcon } = icons;
+import React, { useEffect } from 'react';
+import { getUser } from '../../../core/services/user';
+import { getPost, updatePost } from '../../../core/services/post';
+import { Comment } from './Comment';
+import { createComment } from '../../../core/services/comment';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCommentData } from '../../../core/store/comments/commentsExpanding';
+const { HeartIcon, CommentIcon, ShareIcon, EyeIcon, ExpandIcon, HappyIcon, SendIcon, ATIcon } = icons;
 
 /**
  * 
@@ -26,74 +31,211 @@ const { HeartIcon, CommentIcon, ShareIcon, EyeIcon } = icons;
  */
 
 export const PostCard = ({ data }) => {
-    React.useEffect(() => {
-        console.log(data)
-    }, [])
-    return (
-        <Card
-            borderWidth={0}
-            borderRadius={20}
-            boxShadow='none'
-            width='100%'
-        >
-            <CardHeader>
-                <Flex spacing='4'>
-                    <Flex flex='1' gap='4'>
-                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+    const [ownerPost, setOwnerPost] = React.useState(null);
+    const [isExpand, setIsExpand] = React.useState(false);
+    const [postData, setPostData] = React.useState(null);
+    const user = useSelector((state) => state.profileData.data);
+    const dispatch = useDispatch();
+    const currentComments = useSelector((state) => state.commentsExpanding.data)
 
-                        <Box
-                            flex={1}
-                        >
-                            <Heading size='md' fontWeight='semibold' textAlign='left' noOfLines={1} textOverflow='ellipsis'>{data?.subjectCode}  /  {data?.title} </Heading>
-                            <Text fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>{data?.department}</Text>
-                        </Box>
+    useEffect(() => {
+        if (data) {
+            const postId = data.id;
+            dispatch(setCommentData(data.commentIds));
+            getPost(postId)
+                .then((res) => {
+                    setPostData(res)
+                })
+                .catch((err) => console.err(err))
+
+            getUser(data.creatorId)
+                .then((res) => setOwnerPost(res))
+                .catch((err) => console.error(err))
+        }
+    }, []);
+
+    const handleViewPost = () => {
+        setIsExpand(!isExpand);
+    }
+
+    React.useEffect(() => {
+        if (isExpand === true) {
+            let newViewedValue = postData.viewed + 1;
+            updatePost({
+                ...postData,
+                viewed: newViewedValue
+            })
+                .then((res) => {
+                    setPostData(res)
+                })
+                .catch((err) => console.log(err))
+        }
+    }, [isExpand]);
+
+    const [commentValue, setCommentValue] = React.useState('');
+    const handleComment = (val) => {
+        setCommentValue(val);
+    }
+
+    const handleSendComment = () => {
+        const createTime = new Date();
+        const uniqueId = `${data.commentIds.length}${createTime.getFullYear()}`.toString();
+        console.log({
+            id: uniqueId,
+            postId: data.id,
+            creatorId: user.id,
+            content: commentValue,
+            liked: 0,
+            disliked: 0,
+            replyTo: '',
+            createAt: `${createTime.toISOString()}`,
+            updatedAt: '',
+        })
+        createComment({
+            id: uniqueId,
+            postId: data.id,
+            creatorId: user.id,
+            content: commentValue,
+            liked: 0,
+            disliked: 0,
+            replyTo: '',
+            createAt: `${createTime.toISOString()}`,
+            updatedAt: '',
+        })
+            .then((commentedData) => {
+                dispatch(setCommentData([...currentComments, commentedData.id]));
+                setCommentValue('');
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+    }
+
+    const [isExpandComment, setIsExpandComment] = React.useState(false);
+
+    return (
+        <>
+            <Card
+                borderWidth={0}
+                borderRadius={20}
+                boxShadow='none'
+                width='100%'
+            >
+                <CardHeader>
+                    <Flex spacing='4'>
+                        <Flex flex='1' gap='4'>
+                            <Avatar name={ownerPost?.username} src={ownerPost?.avatar} />
+
+                            <Box
+                                flex={1}
+                            >
+                                <Heading size='md' fontWeight='semibold' textAlign='left' noOfLines={1} textOverflow='ellipsis'>{postData?.subjectCode}  /  {postData?.title} </Heading>
+                                <Text fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>{postData?.department}</Text>
+                            </Box>
+                        </Flex>
+                        <IconButton
+                            variant='ghost'
+                            colorScheme='gray'
+                            aria-label='See menu'
+                            icon={<ExpandIcon width={20} height={20} />}
+                            onClick={handleViewPost}
+                        />
                     </Flex>
-                    <IconButton
-                        variant='ghost'
-                        colorScheme='gray'
-                        aria-label='See menu'
-                        icon={<BsThreeDotsVertical />}
+                </CardHeader>
+                <CardBody
+                    paddingTop={0}
+                >
+                    <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={isExpand ? 'auto' : 3} textOverflow='ellipsis'>{postData?.content}</Text>
+                </CardBody>
+                {
+                    postData?.cover &&
+                    <Image
+                        objectFit='cover'
+                        src={postData?.cover}
+                        alt='cover image'
+                        maxHeight={240}
                     />
-                </Flex>
-            </CardHeader>
-            <CardBody>
-                <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={3} textOverflow='ellipsis'>{data?.content}</Text>
-            </CardBody>
+                }
+
+                <CardFooter
+                    justifyContent='space-between'
+                    flexWrap='wrap'
+                    sx={{
+                        '& > button': {
+                            minW: '72px',
+                        },
+                    }}
+                >
+                    <Flex>
+                        <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<HeartIcon width={20} height={20} />}>
+                            <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{postData?.liked !== 0 ? postData?.liked : '_'}</Text>
+                        </Button>
+                        <Button onClick={() => setIsExpandComment(!isExpandComment)} width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<CommentIcon width={20} height={20} />}>
+                            <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{postData?.commentIds?.length !== 0 ? postData?.commentIds?.length : '_'}</Text>
+                        </Button>
+                        <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<ShareIcon width={20} height={20} />}>
+                            <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{postData?.shared !== 0 ? postData?.shared : '_'}</Text>
+                        </Button>
+                    </Flex>
+                    <Flex flexDirection='row' alignItems='center' padding={1} columnGap={2}>
+                        <EyeIcon width={20} height={20} />
+                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{postData?.viewed !== 0 ? postData?.viewed : '_'}</Text>
+                    </Flex>
+                </CardFooter>
+            </Card>
+
             {
-                data?.cover &&
-                <Image
-                    objectFit='cover'
-                    src={data?.cover}
-                    alt='cover image'
-                    maxHeight={240}
-                />
+                (isExpandComment && currentComments) &&
+                currentComments?.map((commentId) => (
+                    <Comment data={commentId} />
+                ))
             }
 
-            <CardFooter
-                justifyContent='space-between'
-                flexWrap='wrap'
-                sx={{
-                    '& > button': {
-                        minW: '72px',
-                    },
-                }}
-            >
-                <Flex>
-                    <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<HeartIcon />}>
-                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{data?.liked != 0 ? data?.liked : '_'}</Text>
-                    </Button>
-                    <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<CommentIcon />}>
-                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{data?.comments ? data?.comments : '_'}</Text>
-                    </Button>
-                    <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<ShareIcon />}>
-                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{data?.shared != 0 ? data?.shared : '_'}</Text>
-                    </Button>
-                </Flex>
-                <Flex flexDirection='row' alignItems='center' padding={1} >
-                    <EyeIcon />
-                    <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{data?.viewed != 0 ? data?.viewed : '_'}</Text>
-                </Flex>
-            </CardFooter>
-        </Card>
+            {
+                isExpandComment &&
+                <Card
+                    borderWidth={0}
+                    borderRadius={20}
+                    boxShadow='none'
+                    width='100%'
+                >
+                    <Flex
+                        flexDirection='row'
+                        columnGap={3}
+                        paddingX={5}
+                        paddingTop={5}
+                        paddingBottom={3}
+                    >
+                        <Avatar src={user?.avatar}/>
+                        <Flex
+                            flexDirection='column'
+                            flex={1}
+                        >
+                            <Textarea
+                                value={commentValue}
+                                placeholder="Write a comment..."
+                                fontSize='sm'
+                                onChange={(e) => handleComment(e.target.value)}
+                            />
+
+                            <Flex
+                                flexDirection='row'
+                                justifyContent='space-between'
+                            >
+                                <Flex
+                                    flexDirection='row'
+                                    columnGap={1}
+                                >
+                                    <Button backgroundColor='transparent' _hover={{ backgroundColor: 'transparent' }} width='40px' padding={0} height='40px' leftIcon={<ATIcon width={20} height={20} />} iconSpacing={0}></Button>
+                                    <Button backgroundColor='transparent' _hover={{ backgroundColor: 'transparent' }} width='40px' padding={0} height='40px' leftIcon={<HappyIcon width={20} height={20} />} iconSpacing={0}></Button>
+                                </Flex>
+                                <Button onClick={handleSendComment} backgroundColor='transparent' _hover={{ backgroundColor: 'transparent' }} width='40px' padding={0} height='40px' leftIcon={<SendIcon width={20} height={20} />} iconSpacing={0}></Button>
+                            </Flex>
+                        </Flex>
+                    </Flex>
+
+                </Card>
+            }
+        </>
     );
 }

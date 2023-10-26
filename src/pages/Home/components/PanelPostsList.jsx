@@ -10,25 +10,25 @@ export const PanelPostsList = () => {
     const [postsData, setPostsData] = React.useState([]);
     React.useEffect(() => {
         getPosts()
-        .then((res) => {
-            // {
-            //     "content": "Content",
-            //     "department": "Software Engineering",
-            //     "commentIds": null,
-            //     "status": "pending",
-            //     "shared": 0,
-            //     "subjectCode": "Subject code",
-            //     "liked": 0,
-            //     "createAt": "2023-10-26T02:52:49.673Z",
-            //     "updatedAt": "",
-            //     "description": "",
-            //     "viewed": 0,
-            //     "id": "Test title-dbf5e1b7-fcca-4343-9962-74567547429d",
-            //     "creatorId": "google_116711084401427871681",
-            //     "title": "Test title"
-            // }
-            setPostsData(res);
-        })
+            .then((res) => {
+                // {
+                //     "content": "Content",
+                //     "department": "Software Engineering",
+                //     "commentIds": null,
+                //     "status": "pending",
+                //     "shared": 0,
+                //     "subjectCode": "Subject code",
+                //     "liked": 0,
+                //     "createAt": "2023-10-26T02:52:49.673Z",
+                //     "updatedAt": "",
+                //     "description": "",
+                //     "viewed": 0,
+                //     "id": "Test title-dbf5e1b7-fcca-4343-9962-74567547429d",
+                //     "creatorId": "google_116711084401427871681",
+                //     "title": "Test title"
+                // }
+                setPostsData(res);
+            })
     }, [])
 
     return (
@@ -45,8 +45,8 @@ export const PanelPostsList = () => {
                     alignItems='center'
                     columnGap={15}
                 >
-                    <Text fontSize='sm' fontWeight='semibold' color='gray.500'>Create your post now . . .</Text>
-                    <Button onClick={() => navigate('/create-post', )} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Create post</Button>
+                    <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Create your post now</Text>
+                    <Button onClick={() => navigate('/create-post',)} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Create post</Button>
                 </Flex>
 
             </Box>

@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import profileDataReducer from './user/profileData';
+import commentsExpandingReducer from './comments/commentsExpanding';
 
 const store = configureStore({
     middleware: (getDefaultMiddleware) =>
@@ -7,7 +8,8 @@ const store = configureStore({
             serializableCheck: false,
         }),
     reducer: {
-        profileData: profileDataReducer
+        profileData: profileDataReducer,
+        commentsExpanding: commentsExpandingReducer
     },
 });
 

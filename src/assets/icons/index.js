@@ -17,6 +17,10 @@ import { ReturnForwardIcon } from './ReturnForwardIcon';
 import { GithubIcon } from './GithubIcon';
 import { LinkedinIcon } from './LinkedinIcon';
 import { MailIcon } from './MailIcon';
+import { ExpandIcon } from './ExpandIcon';
+import { HappyIcon } from './HappyIcon';
+import { SendIcon } from './SendIcon';
+import { ATIcon } from './ATIcon';
 
 export default {
     HomeIcon,
@@ -37,5 +41,9 @@ export default {
     ReturnForwardIcon,
     GithubIcon,
     LinkedinIcon,
-    MailIcon
+    MailIcon,
+    ExpandIcon,
+    HappyIcon,
+    SendIcon,
+    ATIcon
 }

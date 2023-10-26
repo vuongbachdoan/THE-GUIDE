@@ -30,7 +30,7 @@ export const PanelCreatePost = () => {
         content: '',
         status: 'pending',
         liked: 0,
-        commentIds: null,
+        commentIds: [],
         shared: 0,
         viewed: 0
     });
@@ -132,10 +132,11 @@ export const PanelCreatePost = () => {
             content: '',
             status: 'pending',
             liked: 0,
-            commentIds: null,
+            commentIds: [],
             shared: 0,
             viewed: 0
-        })
+        });
+        setPreviewImage(null);
     }
 
     const [previewImage, setPreviewImage] = React.useState(null);
@@ -145,8 +146,6 @@ export const PanelCreatePost = () => {
 
         reader.onloadend = async () => {
             const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
-            setPreviewImage(reader.result);
-
             const type = file.type.split('/')[1];
 
             updatePostCover(user.id, base64String, type)
@@ -193,7 +192,7 @@ export const PanelCreatePost = () => {
                 <CardHeader>
                     <Flex spacing='4'>
                         <Flex flex='1' columnGap={3}>
-                            <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+                            <Avatar name={user?.username ? user?.username : 'username'} src={user?.avatar ? user?.avatar : ''} />
 
                             <Flex
                                 flex={1}
@@ -230,13 +229,15 @@ export const PanelCreatePost = () => {
                     <Box
                         height={240}
                         borderRadius={15}
-                        overflow='hidden'
                         backgroundColor='#CCCCCC30'
                         marginBottom={3}
                         position='relative'
                     >
                         <input ref={previewImageRef} onChange={handlePickerImage} type='file' accept='image/*' name='avatar' id='avatar_picker' style={{ display: 'none' }} />
-                        <Image width='100%' height='100%' objectFit='cover' src={previewImage} />
+                        {
+                            previewImage &&
+                            <Image borderRadius={15} className='after-hide' width='100%' height='100%' objectFit='cover' src={previewImage} />
+                        }
                         <Stack
                             position='absolute'
                             bottom={3}
