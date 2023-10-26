@@ -145,8 +145,6 @@ export const PanelCreatePost = () => {
 
         reader.onloadend = async () => {
             const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
-            setPreviewImage(reader.result);
-
             const type = file.type.split('/')[1];
 
             updatePostCover(user.id, base64String, type)

@@ -1,8 +1,9 @@
 import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Text } from '@chakra-ui/react'
-import { BsThreeDotsVertical } from 'react-icons/bs'
 import icons from '../../../assets/icons';
-import React from 'react';
-const { HeartIcon, CommentIcon, ShareIcon, EyeIcon } = icons;
+import React, { useEffect } from 'react';
+import { getUser } from '../../../core/services/user';
+import { getPost, updatePost } from '../../../core/services/post';
+const { HeartIcon, CommentIcon, ShareIcon, EyeIcon, ExpandIcon } = icons;
 
 /**
  * 
@@ -26,9 +27,43 @@ const { HeartIcon, CommentIcon, ShareIcon, EyeIcon } = icons;
  */
 
 export const PostCard = ({ data }) => {
+    const [ownerPost, setOwnerPost] = React.useState(null);
+    const [isExpand, setIsExpand] = React.useState(false);
+    const [postData, setPostData] = React.useState(null);
+
+    useEffect(() => {
+        if (data) {
+            const postId = data.id;
+            getPost(postId)
+                .then((res) => {
+                    setPostData(res)
+                })
+                .catch((err) => console.err(err))
+
+            getUser(data.creatorId)
+                .then((res) => setOwnerPost(res))
+                .catch((err) => console.error(err))
+        }
+    }, []);
+
+    const handleViewPost = () => {
+        setIsExpand(!isExpand);
+    }
+
     React.useEffect(() => {
-        console.log(data)
-    }, [])
+        if (isExpand === true) {
+            let newViewedValue = postData.viewed + 1;
+            updatePost({
+                ...postData,
+                viewed: newViewedValue
+            })
+                .then((res) => {
+                    setPostData(res)
+                })
+                .catch((err) => console.log(err))
+        }
+    }, [isExpand])
+
     return (
         <Card
             borderWidth={0}
@@ -39,31 +74,34 @@ export const PostCard = ({ data }) => {
             <CardHeader>
                 <Flex spacing='4'>
                     <Flex flex='1' gap='4'>
-                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+                        <Avatar name={ownerPost?.username} src={ownerPost?.avatar} />
 
                         <Box
                             flex={1}
                         >
-                            <Heading size='md' fontWeight='semibold' textAlign='left' noOfLines={1} textOverflow='ellipsis'>{data?.subjectCode}  /  {data?.title} </Heading>
-                            <Text fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>{data?.department}</Text>
+                            <Heading size='md' fontWeight='semibold' textAlign='left' noOfLines={1} textOverflow='ellipsis'>{postData?.subjectCode}  /  {postData?.title} </Heading>
+                            <Text fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>{postData?.department}</Text>
                         </Box>
                     </Flex>
                     <IconButton
                         variant='ghost'
                         colorScheme='gray'
                         aria-label='See menu'
-                        icon={<BsThreeDotsVertical />}
+                        icon={<ExpandIcon width={20} height={20} />}
+                        onClick={handleViewPost}
                     />
                 </Flex>
             </CardHeader>
-            <CardBody>
-                <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={3} textOverflow='ellipsis'>{data?.content}</Text>
+            <CardBody
+                paddingTop={0}
+            >
+                <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={isExpand ? 'auto' : 3} textOverflow='ellipsis'>{postData?.content}</Text>
             </CardBody>
             {
-                data?.cover &&
+                postData?.cover &&
                 <Image
                     objectFit='cover'
-                    src={data?.cover}
+                    src={postData?.cover}
                     alt='cover image'
                     maxHeight={240}
                 />
@@ -79,19 +117,19 @@ export const PostCard = ({ data }) => {
                 }}
             >
                 <Flex>
-                    <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<HeartIcon />}>
-                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{data?.liked != 0 ? data?.liked : '_'}</Text>
+                    <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<HeartIcon width={20} height={20} />}>
+                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{postData?.liked !== 0 ? postData?.liked : '_'}</Text>
                     </Button>
-                    <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<CommentIcon />}>
-                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{data?.comments ? data?.comments : '_'}</Text>
+                    <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<CommentIcon width={20} height={20} />}>
+                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{postData?.comments ? postData?.comments : '_'}</Text>
                     </Button>
-                    <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<ShareIcon />}>
-                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{data?.shared != 0 ? data?.shared : '_'}</Text>
+                    <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<ShareIcon width={20} height={20} />}>
+                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{postData?.shared !== 0 ? postData?.shared : '_'}</Text>
                     </Button>
                 </Flex>
-                <Flex flexDirection='row' alignItems='center' padding={1} >
-                    <EyeIcon />
-                    <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{data?.viewed != 0 ? data?.viewed : '_'}</Text>
+                <Flex flexDirection='row' alignItems='center' padding={1} columnGap={2}>
+                    <EyeIcon width={20} height={20} />
+                    <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{postData?.viewed !== 0 ? postData?.viewed : '_'}</Text>
                 </Flex>
             </CardFooter>
         </Card>
