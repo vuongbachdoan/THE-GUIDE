@@ -265,7 +265,7 @@ export const PanelCreatePost = () => {
                 </CardFooter>
             </Card>
 
-            <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
+            <Modal closeOnOverlayClick={false} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent
                     borderRadius={20}
@@ -276,7 +276,7 @@ export const PanelCreatePost = () => {
                         <Text fontWeight='semibold' fontSize='sm'>{alertMessage}</Text>
                     </ModalBody>
                     <ModalFooter>
-                        <Button borderRadius={15} colorScheme='red' onClick={handleCloseMessage}>
+                        <Button borderRadius={15} width='100px' colorScheme='red' onClick={handleCloseMessage}>
                             Close
                         </Button>
                     </ModalFooter>

@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Text, Textarea } from '@chakra-ui/react'
+import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Textarea } from '@chakra-ui/react'
 import icons from '../../../assets/icons';
 import React, { useEffect } from 'react';
 import { getUser } from '../../../core/services/user';
@@ -54,21 +54,6 @@ export const PostCard = ({ postId }) => {
             .catch((err) => console.err(err))
     }
 
-    // useEffect(() => {
-    //     if (data) {
-    //         const postId = data.id;
-    //         // getPost(postId)
-    //         //     .then((res) => {
-    //         //         setPostData(res)
-    //         //     })
-    //         //     .catch((err) => console.err(err))
-
-    //         getUser(data.creatorId)
-    //             .then((res) => setOwnerPost(res))
-    //             .catch((err) => console.error(err))
-    //     }
-    // }, []);
-
     const handleViewPost = () => {
         setIsExpand(!isExpand);
     }
@@ -117,6 +102,12 @@ export const PostCard = ({ postId }) => {
     }
 
     const [isExpandComment, setIsExpandComment] = React.useState(false);
+
+    const handleEnterCommemt = (val) => {
+        if (val === 'Enter') {
+            handleSendComment();
+        }
+    }
 
     return (
         <>
@@ -189,58 +180,68 @@ export const PostCard = ({ postId }) => {
                 </CardFooter>
             </Card>
 
-            {
-                (isExpandComment && postData?.commentIds?.length !== 0) &&
-                postData?.commentIds?.map((commentId) => (
-                    <Comment data={commentId} />
-                ))
-            }
-
-            {
-                isExpandComment &&
-                <Card
-                    borderWidth={0}
+            <Modal scrollBehavior='inside' closeOnOverlayClick={false} isOpen={isExpandComment} onClose={() => setIsExpandComment(false)}>
+                <ModalOverlay />
+                <ModalContent
                     borderRadius={20}
-                    boxShadow='none'
-                    width='100%'
+                    overflow='hidden'
                 >
-                    <Flex
-                        flexDirection='row'
-                        columnGap={3}
-                        paddingX={5}
-                        paddingTop={5}
-                        paddingBottom={3}
-                    >
-                        <Avatar src={user?.avatar} />
-                        <Flex
-                            flexDirection='column'
-                            flex={1}
-                        >
-                            <Textarea
-                                value={commentValue}
-                                placeholder="Write a comment..."
-                                fontSize='sm'
-                                onChange={(e) => handleComment(e.target.value)}
-                            />
+                    <ModalHeader>Comments</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pb={3} px={3}>
+                        {
+                            (postData?.commentIds?.length !== 0) &&
+                            postData?.commentIds?.map((commentId) => (
+                                <Comment data={commentId} />
+                            ))
+                        }
 
+                        <Card
+                            borderWidth={0}
+                            borderRadius={20}
+                            boxShadow='none'
+                            width='100%'
+                        >
                             <Flex
                                 flexDirection='row'
-                                justifyContent='space-between'
+                                columnGap={3}
+                                paddingX={5}
+                                paddingTop={5}
+                                paddingBottom={3}
                             >
+                                <Avatar src={user?.avatar} />
                                 <Flex
-                                    flexDirection='row'
-                                    columnGap={1}
+                                    flexDirection='column'
+                                    flex={1}
                                 >
-                                    <Button backgroundColor='transparent' _hover={{ backgroundColor: 'transparent' }} width='40px' padding={0} height='40px' leftIcon={<ATIcon width={20} height={20} />} iconSpacing={0}></Button>
-                                    <Button backgroundColor='transparent' _hover={{ backgroundColor: 'transparent' }} width='40px' padding={0} height='40px' leftIcon={<HappyIcon width={20} height={20} />} iconSpacing={0}></Button>
-                                </Flex>
-                                <Button onClick={handleSendComment} backgroundColor='transparent' _hover={{ backgroundColor: 'transparent' }} width='40px' padding={0} height='40px' leftIcon={<SendIcon width={20} height={20} />} iconSpacing={0}></Button>
-                            </Flex>
-                        </Flex>
-                    </Flex>
+                                    <Textarea
+                                        value={commentValue}
+                                        placeholder="Write a comment..."
+                                        fontSize='sm'
+                                        borderRadius={15}
+                                        onChange={(e) => handleComment(e.target.value)}
+                                        onKeyDown={(e) => handleEnterCommemt(e.key)}
+                                    />
 
-                </Card>
-            }
+                                    <Flex
+                                        flexDirection='row'
+                                        justifyContent='space-between'
+                                    >
+                                        <Flex
+                                            flexDirection='row'
+                                            columnGap={1}
+                                        >
+                                            <Button my={2} variant='ghost' borderRadius={10} width='40px' padding={0} height='40px' leftIcon={<ATIcon width={20} height={20} />} iconSpacing={0}></Button>
+                                            <Button my={2} variant='ghost' borderRadius={10} width='40px' padding={0} height='40px' leftIcon={<HappyIcon width={20} height={20} />} iconSpacing={0}></Button>
+                                        </Flex>
+                                        <Button my={2} onClick={handleSendComment} variant='ghost' borderRadius={10} width='40px' padding={0} height='40px' leftIcon={<SendIcon width={20} height={20} />} iconSpacing={0}></Button>
+                                    </Flex>
+                                </Flex>
+                            </Flex>
+                        </Card>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
         </>
     );
 }
