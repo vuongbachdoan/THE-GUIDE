@@ -30,29 +30,44 @@ const { HeartIcon, CommentIcon, ShareIcon, EyeIcon, ExpandIcon, HappyIcon, SendI
  *}
  */
 
-export const PostCard = ({ data }) => {
+export const PostCard = ({ postId }) => {
     const [ownerPost, setOwnerPost] = React.useState(null);
     const [isExpand, setIsExpand] = React.useState(false);
-    const [postData, setPostData] = React.useState(null);
     const user = useSelector((state) => state.profileData.data);
     const dispatch = useDispatch();
-    const currentComments = useSelector((state) => state.commentsExpanding.data)
+
+    const [postData, setPostData] = React.useState(null);
+    const [postDa, setCurrnetComments] = React.useState([]);
 
     useEffect(() => {
-        if (data) {
-            const postId = data.id;
-            dispatch(setCommentData(data.commentIds));
-            getPost(postId)
-                .then((res) => {
-                    setPostData(res)
-                })
-                .catch((err) => console.err(err))
+        loadPostData();
+    }, [])
 
-            getUser(data.creatorId)
-                .then((res) => setOwnerPost(res))
-                .catch((err) => console.error(err))
-        }
-    }, []);
+    const loadPostData = () => {
+        getPost(postId)
+            .then((postDetail) => {
+                setPostData(postDetail)
+                getUser(postDetail.creatorId)
+                    .then((ownerDetail) => setOwnerPost(ownerDetail))
+                    .catch((err) => console.error(err))
+            })
+            .catch((err) => console.err(err))
+    }
+
+    // useEffect(() => {
+    //     if (data) {
+    //         const postId = data.id;
+    //         // getPost(postId)
+    //         //     .then((res) => {
+    //         //         setPostData(res)
+    //         //     })
+    //         //     .catch((err) => console.err(err))
+
+    //         getUser(data.creatorId)
+    //             .then((res) => setOwnerPost(res))
+    //             .catch((err) => console.error(err))
+    //     }
+    // }, []);
 
     const handleViewPost = () => {
         setIsExpand(!isExpand);
@@ -79,21 +94,11 @@ export const PostCard = ({ data }) => {
 
     const handleSendComment = () => {
         const createTime = new Date();
-        const uniqueId = `${data.commentIds.length}${createTime.getFullYear()}`.toString();
-        console.log({
-            id: uniqueId,
-            postId: data.id,
-            creatorId: user.id,
-            content: commentValue,
-            liked: 0,
-            disliked: 0,
-            replyTo: '',
-            createAt: `${createTime.toISOString()}`,
-            updatedAt: '',
-        })
+        const uniqueId = `${createTime.getTime().toString()}${createTime.getFullYear()}`.toString();
+
         createComment({
             id: uniqueId,
-            postId: data.id,
+            postId: postData.id,
             creatorId: user.id,
             content: commentValue,
             liked: 0,
@@ -102,8 +107,8 @@ export const PostCard = ({ data }) => {
             createAt: `${createTime.toISOString()}`,
             updatedAt: '',
         })
-            .then((commentedData) => {
-                dispatch(setCommentData([...currentComments, commentedData.id]));
+            .then(() => {
+                loadPostData();
                 setCommentValue('');
             })
             .catch((err) => {
@@ -185,8 +190,8 @@ export const PostCard = ({ data }) => {
             </Card>
 
             {
-                (isExpandComment && currentComments) &&
-                currentComments?.map((commentId) => (
+                (isExpandComment && postData?.commentIds?.length !== 0) &&
+                postData?.commentIds?.map((commentId) => (
                     <Comment data={commentId} />
                 ))
             }
@@ -206,7 +211,7 @@ export const PostCard = ({ data }) => {
                         paddingTop={5}
                         paddingBottom={3}
                     >
-                        <Avatar src={user?.avatar}/>
+                        <Avatar src={user?.avatar} />
                         <Flex
                             flexDirection='column'
                             flex={1}

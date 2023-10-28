@@ -27,7 +27,7 @@ export const Comment = ({ data }) => {
                     // }
                     setCommentDetail(res);
                 })
-                .catch((err) => console.err(err))
+                .catch((err) => console.log(err))
         }
     }, [data]);
 

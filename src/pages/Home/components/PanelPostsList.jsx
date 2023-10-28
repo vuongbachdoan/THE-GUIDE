@@ -57,7 +57,7 @@ export const PanelPostsList = () => {
             >
                 {
                     postsData.map((post) => (
-                        <PostCard key={post.id} data={post} />
+                        <PostCard key={post.id} postId={post.id} />
                     ))
                 }
             </Flex>

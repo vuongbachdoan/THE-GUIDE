@@ -98,9 +98,9 @@ export const PanelCreatePost = () => {
      * viewed: requestJSON.viewed
      * @returns 
      */
-    const handleCreatePost = (status) => {
+    const handleCreatePost = async (status) => {
         const timeCreate = new Date();
-        const uniqueId = createUniqueId(postData.title);
+        const uniqueId = await createUniqueId(postData.title);
         createPost({
             ...postData,
             id: uniqueId,
