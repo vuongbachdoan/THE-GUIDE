@@ -33,8 +33,36 @@ export const getSubjects = async () => {
     return response.data;
 }
 
+export const getSubjectsJoined = async (userId) => {
+    const response = await axios.get(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/subjects/joined/${userId}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    return response.data;
+}
+
 export const getSubject = async (subjectId) => {
     const response = await axios.get(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/subjects/${subjectId}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    return response.data;
+}
+
+/**
+ * @param 
+ * subjectId: string
+ * {
+ *  email: string
+ *  id: string
+ * }
+ */
+export const joinSubject = async (subjectId, participantData) => {
+    const response = await axios.put(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/subjects/${subjectId}`, participantData, {
         headers: {
             'Content-Type': 'application/json'
         }

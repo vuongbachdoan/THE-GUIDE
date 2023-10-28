@@ -6,22 +6,40 @@ import SubjectDecor1 from '../../../assets/images/subject_decor_1.png';
 import { Link, useNavigate } from 'react-router-dom';
 import React from 'react';
 import { updateSubjectThumbnail } from '../../../core/services/photo';
-import { createSubject, getSubjects } from '../../../core/services/subject';
+import { createSubject, getSubjects, getSubjectsJoined, joinSubject, updateSubject } from '../../../core/services/subject';
+import { useSelector } from 'react-redux';
+import { updateUser } from '../../../core/services/user';
 
 const { LinkIcon, CameraIcon } = icons;
 
 export const PanelSubject = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
-
+    const user = useSelector((state) => state.profileData.data);
     const [openSubjectCreate, setOpenSubjectCreate] = React.useState(false);
     const finalRef = React.useRef(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [alertMessage, setAlertMessage] = React.useState(null);
     const previewImageRef = React.useRef();
     const [subjects, setSubjects] = React.useState([]);
+    const [subjectsJoined, setSubjectsJoined] = React.useState([]);
+
     React.useEffect(() => {
         loadSubject();
     }, []);
+
+    React.useEffect(() => {
+        loadSubjectsJoined();
+    }, [user]);
+
+    const loadSubjectsJoined = () => {
+        if (user) {
+            getSubjectsJoined(user.id)
+                .then((res) => {
+                    setSubjectsJoined(res);
+                })
+                .catch((err) => console.error(err))
+        }
+    }
 
     const loadSubject = () => {
         getSubjects()
@@ -131,6 +149,40 @@ export const PanelSubject = () => {
         })
     }
 
+    const handleJoinSubject = (subject) => {
+        if (!subject.studentIds.includes(user.id)) {
+            joinSubject(
+                subject.subjectCode,
+                {
+                    email: user.email,
+                    id: user.id
+                }
+            )
+                .then(() => {
+                    updateUser({
+                        ...user,
+                        subjects: [
+                            ...user.subjects,
+                            subject.subjectCode
+                        ]
+                    }).then(() => {
+                        setAlertMessage(`Successfully join subject ${subject.subjectCode}!`);
+                        onOpen();
+                        loadSubjectsJoined();
+                    }).catch(() => {
+                        setAlertMessage(`Fail to join subject ${subject.subjectCode}!`);
+                        onOpen();
+                    })
+                })
+                .catch(() => {
+                    setAlertMessage(`Fail to join subject ${subject.subjectCode}!`);
+                    onOpen();
+                })
+        } else {
+            setAlertMessage(`You already join subject ${subject.subjectCode}!`);
+            onOpen();
+        }
+    }
 
     return (
         <>
@@ -167,7 +219,7 @@ export const PanelSubject = () => {
                     columnGap={15}
                 >
                     <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Create subject</Text>
-                    <Button onClick={() => setOpenSubjectCreate(true)} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Create post</Button>
+                    <Button onClick={() => setOpenSubjectCreate(true)} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Create</Button>
                 </Flex>
             </Card>
 
@@ -284,7 +336,7 @@ export const PanelSubject = () => {
                                             left={0}
                                             width='100%'
                                         />
-                                        <Image marginTop={30} src={subject?.thumbnail} width={100} height={100} borderRadius={14} zIndex={10} />
+                                        <Image objectFit='cover' marginTop={30} src={subject?.thumbnail} width={100} height={100} borderRadius={14} zIndex={10} />
                                         <Text marginTop={3} fontWeight='semibold' fontSize='xl'>{subject?.subjectCode}</Text>
                                         <Text marginTop={3} fontWeight='semibold' fontSize='sm' lineHeight='15px'>{subject?.subjectName}</Text>
                                         <Flex
@@ -294,7 +346,61 @@ export const PanelSubject = () => {
                                             <LinkIcon width={18} height={18} />
                                             <Text textAlign='center' fontSize='x-small' color='gray.500'>Dung and 500 others</Text>
                                         </Flex>
-                                        <Link to='/subject-detail'><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Join</Text></Link>
+                                        <Link onClick={() => handleJoinSubject(subject)}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Join</Text></Link>
+                                    </Flex>
+                                </GridItem>
+                            ))
+                        }
+                    </Grid>
+                </CardBody>
+            </Card >
+
+            <Card
+                borderWidth={0}
+                borderRadius={20}
+                boxShadow='none'
+                width='100%'
+            >
+                <Box margin={6}>
+                    <Text textAlign='left' fontSize='xl' fontWeight='semibold'>My subjects</Text>
+                </Box>
+                <CardBody>
+                    <Grid
+                        templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(2, 1fr)' }} gap={3}
+                    >
+                        {
+                            subjectsJoined.map((subject) => (
+                                <GridItem
+                                    bg={bg}
+                                    borderRadius={20}
+                                >
+                                    <Flex
+                                        justifyContent='center'
+                                        alignItems='center'
+                                        position='relative'
+                                        margin='20px'
+                                        flexDirection='column'
+                                    >
+                                        <Image src={SubjectDecor1}
+                                            maxHeight={75}
+                                            borderRadius={20}
+                                            objectFit='cover'
+                                            position='absolute'
+                                            top={0}
+                                            left={0}
+                                            width='100%'
+                                        />
+                                        <Image objectFit='cover' marginTop={30} src={subject?.thumbnail} width={100} height={100} borderRadius={14} zIndex={10} />
+                                        <Text marginTop={3} fontWeight='semibold' fontSize='xl'>{subject?.subjectCode}</Text>
+                                        <Text marginTop={3} fontWeight='semibold' fontSize='sm' lineHeight='15px'>{subject?.subjectName}</Text>
+                                        <Flex
+                                            flexDirection='row'
+                                            alignItems='center'
+                                        >
+                                            <LinkIcon width={18} height={18} />
+                                            <Text textAlign='center' fontSize='x-small' color='gray.500'>Dung and 500 others</Text>
+                                        </Flex>
+                                        <Link onClick={() => handleJoinSubject(subject)}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Join</Text></Link>
                                     </Flex>
                                 </GridItem>
                             ))
