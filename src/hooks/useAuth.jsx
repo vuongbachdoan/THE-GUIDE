@@ -35,6 +35,7 @@ const useAuth = () => {
                                 linkedin: '',
                                 website: '',
                                 phone: '',
+                                subjects: [],
                                 studentCode: ''
                             })
                             dispatch(setProfileData(createdUser))
