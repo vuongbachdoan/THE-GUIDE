@@ -115,7 +115,7 @@ export const PanelEditProfile = () => {
     }
 
     React.useEffect(() => {
-        if(previewImage) {
+        if (previewImage) {
             setUpdatedData({
                 ...updatedData,
                 avatar: previewImage
@@ -125,7 +125,7 @@ export const PanelEditProfile = () => {
 
     return (
         <>
-            <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
+            <Modal closeOnOverlayClick={false} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent
                     borderRadius={20}
@@ -136,7 +136,7 @@ export const PanelEditProfile = () => {
                         <Text fontWeight='semibold' fontSize='sm'>{alertMessage}</Text>
                     </ModalBody>
                     <ModalFooter>
-                        <Button borderRadius={15} colorScheme='red' onClick={handleCloseMessage}>
+                        <Button borderRadius={15} width='100px' colorScheme='red' onClick={handleCloseMessage}>
                             Close
                         </Button>
                     </ModalFooter>
@@ -156,7 +156,7 @@ export const PanelEditProfile = () => {
                     alignItems='center'
                     columnGap={15}
                 >
-                    <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Edit profile</Text>
+                    <Text textAlign='left' fontWeight='semibold'>Edit profile</Text>
                     <Button onClick={handleUpdateProfile} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Save</Button>
                 </Flex>
 
@@ -199,8 +199,8 @@ export const PanelEditProfile = () => {
                                 <CameraIcon color='#1E1E1E' width={30} height={30} />
                             </Stack>
                         </Box>
-                        <Input value={updatedData?.username} onChange={(e) => handleUsername(e.target.value)} backgroundColor='#1E1E1E20' marginTop={3} width='100%' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' fontSize='xl' placeholder='username' />
-                        <Input value={updatedData?.studentCode} onChange={(e) => handleStudentCode(e.target.value)} backgroundColor='#1E1E1E20' marginTop={3} width='100%' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' fontSize='xl' placeholder='user code' />
+                        <Input value={updatedData?.username} fontSize='sm' onChange={(e) => handleUsername(e.target.value)} backgroundColor='#1E1E1E20' marginTop={3} width='100%' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' placeholder='User name' />
+                        <Input value={updatedData?.studentCode} fontSize='sm' onChange={(e) => handleStudentCode(e.target.value)} backgroundColor='#1E1E1E20' marginTop={3} width='100%' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' placeholder='User code' />
                         <Flex
                             flexDirection='row'
                             justifyContent='flex-start'
@@ -210,7 +210,7 @@ export const PanelEditProfile = () => {
                             marginTop={3}
                         >
                             <Button padding={0} size='md' backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white' leftIcon={<MailIcon color='#FFF' width={18} height={18} />} iconSpacing={0} />
-                            <Input value={updatedData?.email} onChange={(e) => handleEmail(e.target.value)} backgroundColor='#1E1E1E20' width='fit-content' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' fontSize='sm' placeholder='email' />
+                            <Input value={updatedData?.email} fontSize='sm' onChange={(e) => handleEmail(e.target.value)} backgroundColor='#1E1E1E20' width='fit-content' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' placeholder='email' />
                         </Flex>
                         <Flex
                             flexDirection='row'
@@ -221,7 +221,7 @@ export const PanelEditProfile = () => {
                             marginTop={3}
                         >
                             <Button padding={0} size='md' backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white' leftIcon={<LinkedinIcon color='#FFF' width={18} height={18} />} iconSpacing={0} />
-                            <Input value={updatedData?.linkedin} onChange={(e) => handleLinkedIn(e.target.value)} backgroundColor='#1E1E1E20' width='fit-content' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' fontSize='sm' placeholder='linkedin.com/in/user' />
+                            <Input value={updatedData?.linkedin} fontSize='sm' onChange={(e) => handleLinkedIn(e.target.value)} backgroundColor='#1E1E1E20' width='fit-content' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' placeholder='linkedin.com/in/user' />
                         </Flex>
                         <Flex
                             flexDirection='row'
@@ -232,7 +232,7 @@ export const PanelEditProfile = () => {
                             marginTop={3}
                         >
                             <Button padding={0} size='md' backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white' leftIcon={<GithubIcon color='#FFF' width={18} height={18} />} iconSpacing={0} />
-                            <Input value={updatedData?.github} onChange={(e) => handleGithub(e.target.value)} backgroundColor='#1E1E1E20' width='fit-content' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' fontSize='sm' placeholder='github.com/user' />
+                            <Input value={updatedData?.github} fontSize='sm' onChange={(e) => handleGithub(e.target.value)} backgroundColor='#1E1E1E20' width='fit-content' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' placeholder='github.com/user' />
                         </Flex>
                     </Flex>
                 </Box>
