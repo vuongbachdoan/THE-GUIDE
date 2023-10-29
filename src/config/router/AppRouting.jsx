@@ -12,22 +12,29 @@ import { PanelNotification } from '../../pages/Home/components/PanelNotification
 import { PanelProfile } from '../../pages/Home/components/PanelProfile';
 import { PanelEditProfile } from '../../pages/Home/components/PanelEditProfile';
 import { PanelViewPost } from '../../pages/Home/components/PanelViewPost';
+import { LectureManaging } from '../../pages/Home/components/LectureManaging';
+import { LectureManagingStudent } from '../../pages/Home/components/PanelLectureManagingStudent';
+import { LectureManagingDashboard } from '../../pages/Home/components/LectureManagingDashboard';
 
 export const AppRouting = () => {
     return (
         <Routes>
-            <Route path='/auth' element={<Auth/>}>
-                <Route path='' element={<SelectRole/>}/>
-                <Route path='login' element={<SignIn/>}/>
+            <Route path='/auth' element={<Auth />}>
+                <Route path='' element={<SelectRole />} />
+                <Route path='login' element={<SignIn />} />
             </Route>
             <Route path='/' element={<Home />}>
-                <Route path='' element={<PanelPostsList/>}/>
-                <Route path='create-post' element={<PanelCreatePost/>}/>
-                <Route path='subject' element={<PanelSubject/>}/>
-                <Route path='notification' element={<PanelNotification/>}/>
-                <Route path='profile' element={<PanelProfile/>}/>
-                <Route path='profile/edit' element={<PanelEditProfile/>}/>
-                <Route path='posts' element={<PanelViewPost/>}/>
+                <Route path='' element={<PanelPostsList />} />
+                <Route path='create-post' element={<PanelCreatePost />} />
+                <Route path='subject' element={<PanelSubject />} />
+                <Route path='notification' element={<PanelNotification />} />
+                <Route path='profile' element={<PanelProfile />} />
+                <Route path='profile/edit' element={<PanelEditProfile />} />
+                <Route path='posts' element={<PanelViewPost />} />
+                <Route path='admin' element={<LectureManaging />}>
+                    <Route path='dashboard' element={<LectureManagingDashboard />} />
+                    <Route path='student' element={<LectureManagingStudent />} />
+                </Route>
             </Route>
             <Route path='*' element={<Error />} />
         </Routes>
