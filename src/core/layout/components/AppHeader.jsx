@@ -6,7 +6,7 @@ import { Auth } from "aws-amplify";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-const { ProfileIcon, LogoutIcon } = icons;
+const { PersonIcon, CloseIcon } = icons;
 
 export const AppHeader = () => {
     const navigate = useNavigate();
@@ -56,11 +56,11 @@ export const AppHeader = () => {
                                 transform: 'translateY(12px)'
                             }}
                         >
-                            <MenuItem borderRadius={15} icon={<ProfileIcon width={40} height={40} color='#A0A0A0' />}>
-                                <Text fontSize='md' fontWeight='normal' color='gray.500'>Profile</Text>
+                            <MenuItem onClick={() => navigate('/profile')} borderRadius={15} icon={<PersonIcon width={20} height={20} color='#A0A0A0' />}>
+                                <Text fontSize='sm' fontWeight='normal' color='gray.500'>Profile</Text>
                             </MenuItem>
-                            <MenuItem onClick={logOut} borderRadius={15} icon={<LogoutIcon color='#FF0000' />}>
-                                <Text color='#FF0000' fontSize='md' fontWeight='medium'>Log out</Text>
+                            <MenuItem onClick={logOut} borderRadius={15} icon={<CloseIcon width={20} height={20} color='#FF0000' />}>
+                                <Text color='#FF0000' fontSize='sm' fontWeight='medium'>Log out</Text>
                             </MenuItem>
                         </MenuList>
                     </Menu>

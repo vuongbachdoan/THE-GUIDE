@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { createPost } from '../../../core/services/post';
 import { updatePostCover } from '../../../core/services/photo';
 import { getSubjects } from '../../../core/services/subject';
+import { useNavigate } from 'react-router-dom';
 const { SyncIcon } = icons;
 
 export const PanelCreatePost = () => {
@@ -18,6 +19,7 @@ export const PanelCreatePost = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const previewImageRef = React.useRef();
     const [subjects, setSubjects] = React.useState([]);
+    const navigate = useNavigate();
 
     const [postData, setPostData] = React.useState({
         id: '',
@@ -30,7 +32,7 @@ export const PanelCreatePost = () => {
         cover: null,
         updatedAt: '',
         content: '',
-        status: 'pending',
+        status: 'Pending',
         liked: 0,
         commentIds: [],
         shared: 0,
@@ -43,7 +45,7 @@ export const PanelCreatePost = () => {
                 ...postData,
                 creatorId: user.id
             })
-            getSubjects() 
+            getSubjects()
                 .then((res) => setSubjects(res))
         }
     }, [user]);
@@ -105,6 +107,7 @@ export const PanelCreatePost = () => {
     const handleCreatePost = async (status) => {
         const timeCreate = new Date();
         const uniqueId = await createUniqueId(postData.title);
+
         createPost({
             ...postData,
             id: uniqueId,
@@ -115,12 +118,23 @@ export const PanelCreatePost = () => {
                 setAlertMessage('Successfully create post!');
                 onOpen();
                 resetPostData();
+                navigate('/subject')
             })
             .catch((err) => {
                 setAlertMessage('Fail to create post!');
                 onOpen();
             })
     }
+
+    React.useEffect(() => {
+        createUniqueId(postData.title)
+            .then((uniqueId) => {
+                setPostData({
+                    ...postData,
+                    id: uniqueId
+                })
+            })
+    }, [postData.title]);
 
     const resetPostData = () => {
         setPostData({
@@ -134,7 +148,7 @@ export const PanelCreatePost = () => {
             cover: '',
             updatedAt: '',
             content: '',
-            status: 'pending',
+            status: 'Pending',
             liked: 0,
             commentIds: [],
             shared: 0,
@@ -146,28 +160,34 @@ export const PanelCreatePost = () => {
     const [isLoadingImage, setIsLoadingImage] = React.useState(false);
     const [previewImage, setPreviewImage] = React.useState(null);
     const handlePickerImage = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
+        if (postData.id === '') {
+            onOpen();
+            setAlertMessage('Please enter title of post first!');
+        } else {
+            console.log(postData)
+            const file = e.target.files[0];
+            const reader = new FileReader();
 
-        reader.onloadend = async () => {
-            const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
-            const type = file.type.split('/')[1];
+            reader.onloadend = async () => {
+                const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
+                const type = file.type.split('/')[1];
 
-            setIsLoadingImage(true);
-            updatePostCover(user.id, base64String, type)
-                .then((res) => {
-                    setPreviewImage(res);
-                    setIsLoadingImage(false);
-                })
-                .catch(() => {
-                    onOpen();
-                    setAlertMessage('Fail to upload this image!');
-                    setIsLoadingImage(false);
-                })
-        };
+                setIsLoadingImage(true);
+                updatePostCover(postData.id, base64String, type)
+                    .then((res) => {
+                        setPreviewImage(res);
+                        setIsLoadingImage(false);
+                    })
+                    .catch(() => {
+                        onOpen();
+                        setAlertMessage('Fail to upload this image!');
+                        setIsLoadingImage(false);
+                    })
+            };
 
-        if (file) {
-            reader.readAsDataURL(file);
+            if (file) {
+                reader.readAsDataURL(file);
+            }
         }
     }
 
@@ -270,7 +290,7 @@ export const PanelCreatePost = () => {
                             right={3}
                             onClick={() => previewImageRef.current.click()}
                         >
-                            <Button display='flex' justifyContent='center' alignItems='center' padding={0} iconSpacing={0} rightIcon={isLoadingImage ? <Spinner /> : <SyncIcon  width={18} height={18} color='#1E1E1E' />} borderRadius='full' />
+                            <Button display='flex' justifyContent='center' alignItems='center' padding={0} iconSpacing={0} rightIcon={isLoadingImage ? <Spinner /> : <SyncIcon width={18} height={18} color='#1E1E1E' />} borderRadius='full' />
                         </Stack>
                     </Box>
                     <Textarea value={postData.content} onChange={(e) => handleContent(e.target.value)} borderRadius={15} minHeight={240} placeholder='Content of your post here . . .' />
