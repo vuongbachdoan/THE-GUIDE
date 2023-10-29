@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Image, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, Textarea, useColorModeValue, useDisclosure } from '@chakra-ui/react'
+import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Image, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Stack, Text, Textarea, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import icons from '../../../assets/icons';
 import { FaChevronDown } from 'react-icons/fa';
 import React from 'react';
@@ -6,6 +6,7 @@ import { createUniqueId } from '../../../helper/createUniqueId';
 import { useSelector } from 'react-redux';
 import { createPost } from '../../../core/services/post';
 import { updatePostCover } from '../../../core/services/photo';
+import { getSubjects } from '../../../core/services/subject';
 const { SyncIcon } = icons;
 
 export const PanelCreatePost = () => {
@@ -16,6 +17,7 @@ export const PanelCreatePost = () => {
     const [alertMessage, setAlertMessage] = React.useState(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const previewImageRef = React.useRef();
+    const [subjects, setSubjects] = React.useState([]);
 
     const [postData, setPostData] = React.useState({
         id: '',
@@ -41,6 +43,8 @@ export const PanelCreatePost = () => {
                 ...postData,
                 creatorId: user.id
             })
+            getSubjects() 
+                .then((res) => setSubjects(res))
         }
     }, [user]);
 
@@ -139,6 +143,7 @@ export const PanelCreatePost = () => {
         setPreviewImage(null);
     }
 
+    const [isLoadingImage, setIsLoadingImage] = React.useState(false);
     const [previewImage, setPreviewImage] = React.useState(null);
     const handlePickerImage = (e) => {
         const file = e.target.files[0];
@@ -148,13 +153,16 @@ export const PanelCreatePost = () => {
             const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
             const type = file.type.split('/')[1];
 
+            setIsLoadingImage(true);
             updatePostCover(user.id, base64String, type)
                 .then((res) => {
                     setPreviewImage(res);
+                    setIsLoadingImage(false);
                 })
                 .catch(() => {
                     onOpen();
-                    setAlertMessage('Fail to upload this image!')
+                    setAlertMessage('Fail to upload this image!');
+                    setIsLoadingImage(false);
                 })
         };
 
@@ -200,7 +208,25 @@ export const PanelCreatePost = () => {
                                 rowGap={1}
                             >
                                 <Flex columnGap={3} width='100%' flexDirection='row' alignItems='center'>
-                                    <Input value={postData.subjectCode} onChange={(e) => handleSubjectCode(e.target.value)} padding={1} color={color} _placeholder={{ color: placeholderColor }} height={22} htmlSize={5} width={100} borderWidth={0} _focus={{ borderWidth: 0, boxShadow: 'none' }} outline='none' fontWeight='semibold' textAlign='left' placeholder='Subject' />
+                                    <Menu>
+                                        <MenuButton width='180px' iconSpacing={2} as={Button} paddingY={1} paddingX={2} height='fit-content' rightIcon={<FaChevronDown size={12} />}>
+                                            <Text textAlign='left' fontSize='sm'>{postData?.subjectCode ? postData?.subjectCode : 'Subject'}</Text>
+                                        </MenuButton>
+                                        <MenuList
+                                            padding={1}
+                                            borderRadius={12}
+                                            boxShadow='xl'
+                                            minWidth='fit-content'
+                                        >
+                                            {
+                                                subjects.map((subject) => (
+                                                    <MenuItem onClick={() => handleSubjectCode(subject.subjectCode)} borderWidth={0} fontSize='sm' borderRadius={8}>
+                                                        <Text>{subject.subjectCode}</Text>
+                                                    </MenuItem>
+                                                ))
+                                            }
+                                        </MenuList>
+                                    </Menu>
                                     <Text cursor='default'>/</Text>
                                     <Input value={postData.title} onChange={(e) => handleTitle(e.target.value)} padding={1} color={color} _placeholder={{ color: placeholderColor }} height={22} borderWidth={0} _focus={{ borderWidth: 0, boxShadow: 'none' }} outline='none' fontWeight='semibold' textAlign='left' placeholder='Post title' />
                                 </Flex>
@@ -244,7 +270,7 @@ export const PanelCreatePost = () => {
                             right={3}
                             onClick={() => previewImageRef.current.click()}
                         >
-                            <Button display='flex' justifyContent='center' alignItems='center' padding={0} iconSpacing={0} rightIcon={<SyncIcon width={18} height={18} color='#1E1E1E' />} borderRadius='full' />
+                            <Button display='flex' justifyContent='center' alignItems='center' padding={0} iconSpacing={0} rightIcon={isLoadingImage ? <Spinner /> : <SyncIcon  width={18} height={18} color='#1E1E1E' />} borderRadius='full' />
                         </Stack>
                     </Box>
                     <Textarea value={postData.content} onChange={(e) => handleContent(e.target.value)} borderRadius={15} minHeight={240} placeholder='Content of your post here . . .' />
