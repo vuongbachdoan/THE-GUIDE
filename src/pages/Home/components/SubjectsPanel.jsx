@@ -7,6 +7,8 @@ import { getSubjects, joinSubject } from '../../../core/services/subject';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { updateUser } from '../../../core/services/user';
+import { filterMostJoinedSubject } from '../../../helper/filterMostJoinedSubject';
+
 const { PlusIcon, AddPostIcon } = icons;
 
 export const SubjectsPanel = () => {
@@ -17,6 +19,7 @@ export const SubjectsPanel = () => {
     const finalRef = React.useRef(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [alertMessage, setAlertMessage] = React.useState(null);
+    const [mostJoinedSubject, setMostJoinedSubject] = React.useState(null);
 
     React.useEffect(() => {
         getSubjects()
@@ -25,6 +28,12 @@ export const SubjectsPanel = () => {
             })
             .catch((err) => console.error(err));
     }, []);
+
+    React.useEffect(() => {
+        const mostJoined = filterMostJoinedSubject(subjects);
+        console.log(mostJoined);
+        setMostJoinedSubject(mostJoined);
+    }, [subjects])
 
     const handleJoinSubject = (subject) => {
         if (!subject.studentIds.includes(user.id)) {
@@ -45,6 +54,7 @@ export const SubjectsPanel = () => {
                     }).then(() => {
                         setAlertMessage(`Successfully join subject ${subject.subjectCode}!`);
                         onOpen();
+                        navigate('/subject');
                     }).catch(() => {
                         setAlertMessage(`Fail to join subject ${subject.subjectCode}!`);
                         onOpen();
@@ -181,26 +191,29 @@ export const SubjectsPanel = () => {
                     </Flex>
                 </Box>
 
-                <Box
-                    width={285}
-                    bg={bg}
-                    borderRadius={20}
-                    paddingTop={15}
-                    paddingX={30}
-                    paddingBottom={30}
-                >
-                    <Flex
-                        flexDirection='column'
-                        justifyContent='center'
-                        alignItems='center'
-                        rowGap={3}
+                {
+                    mostJoinedSubject &&
+                    <Box
+                        width={285}
+                        bg={bg}
+                        borderRadius={20}
+                        paddingTop={15}
+                        paddingX={30}
+                        paddingBottom={30}
                     >
-                        <Image src={Subject1} width={100} height={100} borderRadius={8} />
-                        <Text fontWeight='semibold' fontSize='md' color='gray.500' marginBlock={3}>Recommend for you</Text>
-                        <Text fontWeight='semibold' fontSize='xl'>PRJ301</Text>
-                        <Link to='/subject'><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Join</Text></Link>
-                    </Flex>
-                </Box>
+                        <Flex
+                            flexDirection='column'
+                            justifyContent='center'
+                            alignItems='center'
+                            rowGap={3}
+                        >
+                            <Image src={Subject1} width={100} height={100} borderRadius={8} />
+                            <Text fontWeight='semibold' fontSize='md' color='gray.500' marginBlock={3}>Recommend for you</Text>
+                            <Text fontWeight='semibold' fontSize='xl'>{mostJoinedSubject?.subjectCode}</Text>
+                            <Stack cursor='pointer' onClick={() => handleJoinSubject(mostJoinedSubject)}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Join</Text></Stack>
+                        </Flex>
+                    </Box>
+                }
             </Flex>
         </>
     );

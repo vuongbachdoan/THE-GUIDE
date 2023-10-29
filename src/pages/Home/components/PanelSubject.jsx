@@ -6,7 +6,7 @@ import SubjectDecor1 from '../../../assets/images/subject_decor_1.png';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import { updateSubjectThumbnail } from '../../../core/services/photo';
-import { createSubject, getSubjects, getSubjectsJoined, joinSubject, updateSubject } from '../../../core/services/subject';
+import { createSubject, getSubjects, getSubjectsJoined, joinSubject } from '../../../core/services/subject';
 import { useSelector } from 'react-redux';
 import { updateUser } from '../../../core/services/user';
 import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
