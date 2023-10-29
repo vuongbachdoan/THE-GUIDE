@@ -1,14 +1,15 @@
-import { Box, Button, Card, CardBody, Flex, Grid, GridItem, Image, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Card, CardBody, Flex, Grid, GridItem, Image, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Stack, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import icons from '../../../assets/icons';
 import { FaChevronDown } from 'react-icons/fa';
 import Subject1 from '../../../assets/images/PRJ301.png';
 import SubjectDecor1 from '../../../assets/images/subject_decor_1.png';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import React from 'react';
 import { updateSubjectThumbnail } from '../../../core/services/photo';
 import { createSubject, getSubjects, getSubjectsJoined, joinSubject, updateSubject } from '../../../core/services/subject';
 import { useSelector } from 'react-redux';
 import { updateUser } from '../../../core/services/user';
+import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
 
 const { LinkIcon, CameraIcon } = icons;
 
@@ -47,6 +48,7 @@ export const PanelSubject = () => {
             .catch((err) => console.error(err))
     }
 
+    const [isLoadingThumbnail, setIsLoadingThumbnail] = React.useState(false);
     const [previewImage, setPreviewImage] = React.useState(null);
     const handlePickerImage = (e) => {
         if (!(subjectData.subjectCode)) {
@@ -57,17 +59,20 @@ export const PanelSubject = () => {
             const reader = new FileReader();
 
             reader.onloadend = async () => {
+                setIsLoadingThumbnail(true);
                 const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
                 const type = file.type.split('/')[1];
 
                 updateSubjectThumbnail(subjectData.subjectCode, base64String, type)
                     .then((res) => {
                         setPreviewImage(res);
+                        setIsLoadingThumbnail(false);
                     })
                     .catch(() => {
                         onOpen();
                         setPreviewImage(null);
                         setAlertMessage('Fail to upload this image!');
+                        setIsLoadingThumbnail(false);
                     })
             };
 
@@ -115,6 +120,7 @@ export const PanelSubject = () => {
             createAt: null,
             studentIds: [],
             lectureIds: [],
+            department: null,
             postIds: [],
             thumbnail: null
         });
@@ -301,6 +307,65 @@ export const PanelSubject = () => {
                 </CardBody>
             </Card>
 
+            {/* Subjects joined */}
+            {
+                subjectsJoined.length !== 0 &&
+                <Card
+                    borderWidth={0}
+                    borderRadius={20}
+                    boxShadow='none'
+                    width='100%'
+                >
+                    <Box margin={6}>
+                        <Text textAlign='left' fontSize='xl' fontWeight='semibold'>My subjects</Text>
+                    </Box>
+                    <CardBody>
+                        <Grid
+                            templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(2, 1fr)' }} gap={3}
+                        >
+                            {
+                                subjectsJoined.map((subject) => (
+                                    <GridItem
+                                        bg={bg}
+                                        borderRadius={20}
+                                    >
+                                        <Flex
+                                            justifyContent='center'
+                                            alignItems='center'
+                                            position='relative'
+                                            margin='20px'
+                                            flexDirection='column'
+                                        >
+                                            <Image src={SubjectDecor1}
+                                                maxHeight={75}
+                                                borderRadius={20}
+                                                objectFit='cover'
+                                                position='absolute'
+                                                top={0}
+                                                left={0}
+                                                width='100%'
+                                            />
+                                            <Image objectFit='cover' marginTop={30} src={subject?.thumbnail} width={100} height={100} borderRadius={14} zIndex={10} />
+                                            <Text marginTop={3} fontWeight='semibold' fontSize='xl'>{subject?.subjectCode}</Text>
+                                            <Text marginTop={3} fontWeight='semibold' fontSize='sm' lineHeight='15px'>{subject?.subjectName}</Text>
+                                            <Flex
+                                                flexDirection='row'
+                                                alignItems='center'
+                                            >
+                                                <LinkIcon width={18} height={18} />
+                                                <Text textAlign='center' fontSize='x-small' color='gray.500'>Dung and 500 others</Text>
+                                            </Flex>
+                                            <Link onClick={() => handleJoinSubject(subject)}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Go to subject</Text></Link>
+                                        </Flex>
+                                    </GridItem>
+                                ))
+                            }
+                        </Grid>
+                    </CardBody>
+                </Card >
+            }
+
+            {/* Subject recommend */}
             <Card
                 borderWidth={0}
                 borderRadius={20}
@@ -316,60 +381,6 @@ export const PanelSubject = () => {
                     >
                         {
                             subjects.map((subject) => (
-                                <GridItem
-                                    bg={bg}
-                                    borderRadius={20}
-                                >
-                                    <Flex
-                                        justifyContent='center'
-                                        alignItems='center'
-                                        position='relative'
-                                        margin='20px'
-                                        flexDirection='column'
-                                    >
-                                        <Image src={SubjectDecor1}
-                                            maxHeight={75}
-                                            borderRadius={20}
-                                            objectFit='cover'
-                                            position='absolute'
-                                            top={0}
-                                            left={0}
-                                            width='100%'
-                                        />
-                                        <Image objectFit='cover' marginTop={30} src={subject?.thumbnail} width={100} height={100} borderRadius={14} zIndex={10} />
-                                        <Text marginTop={3} fontWeight='semibold' fontSize='xl'>{subject?.subjectCode}</Text>
-                                        <Text marginTop={3} fontWeight='semibold' fontSize='sm' lineHeight='15px'>{subject?.subjectName}</Text>
-                                        <Flex
-                                            flexDirection='row'
-                                            alignItems='center'
-                                        >
-                                            <LinkIcon width={18} height={18} />
-                                            <Text textAlign='center' fontSize='x-small' color='gray.500'>Dung and 500 others</Text>
-                                        </Flex>
-                                        <Link onClick={() => handleJoinSubject(subject)}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Join</Text></Link>
-                                    </Flex>
-                                </GridItem>
-                            ))
-                        }
-                    </Grid>
-                </CardBody>
-            </Card >
-
-            <Card
-                borderWidth={0}
-                borderRadius={20}
-                boxShadow='none'
-                width='100%'
-            >
-                <Box margin={6}>
-                    <Text textAlign='left' fontSize='xl' fontWeight='semibold'>My subjects</Text>
-                </Box>
-                <CardBody>
-                    <Grid
-                        templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(2, 1fr)' }} gap={3}
-                    >
-                        {
-                            subjectsJoined.map((subject) => (
                                 <GridItem
                                     bg={bg}
                                     borderRadius={20}
@@ -433,7 +444,7 @@ export const PanelSubject = () => {
                                 position='relative'
                             >
                                 <input ref={previewImageRef} onChange={handlePickerImage} type="file" accept="image/*" name='avatar' id='avatar_picker' style={{ display: 'none' }} />
-                                <Image objectFit='cover' backgroundColor='#1E1E1E20' borderWidth={0} src={previewImage ? previewImage : ''} width={200} height={200} borderRadius={20} zIndex={10} />
+                                <Image objectFit='cover' backgroundColor='#1E1E1E20' borderWidth={0} src={previewImage ? previewImage : PlaceholderImage} width={200} height={200} borderRadius={20} zIndex={10} />
                                 <Stack
                                     position='absolute'
                                     right={2}
@@ -444,7 +455,11 @@ export const PanelSubject = () => {
                                     boxShadow='2xl'
                                     onClick={() => previewImageRef.current.click()}
                                 >
-                                    <CameraIcon color='#1E1E1E' width={30} height={30} />
+                                    {
+                                        isLoadingThumbnail ?
+                                            <Spinner /> :
+                                            <CameraIcon color='#1E1E1E' width={30} height={30} />
+                                    }
                                 </Stack>
                             </Box>
                             <Input onChange={(e) => handleSubjectCode(e.target.value)} backgroundColor='#1E1E1E20' marginTop={3} width='100%' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' fontSize='sm' placeholder='Subject code' />

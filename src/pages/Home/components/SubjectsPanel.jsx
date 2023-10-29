@@ -1,103 +1,121 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Box, Flex, Image, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Flex, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import { InformationIcon } from '../../../assets/icons/InformationIcon';
 import Subject1 from '../../../assets/images/subject1.png';
 import icons from '../../../assets/icons';
+import { getSubjects, joinSubject } from '../../../core/services/subject';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { updateUser } from '../../../core/services/user';
 const { PlusIcon, AddPostIcon } = icons;
 
 export const SubjectsPanel = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
     const navigate = useNavigate();
+    const user = useSelector((state) => state.profileData.data);
+    const [subjects, setSubjects] = React.useState([]);
+    const finalRef = React.useRef(null);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [alertMessage, setAlertMessage] = React.useState(null);
+
+    React.useEffect(() => {
+        getSubjects()
+            .then((res) => {
+                setSubjects(res);
+            })
+            .catch((err) => console.error(err));
+    }, []);
+
+    const handleJoinSubject = (subject) => {
+        if (!subject.studentIds.includes(user.id)) {
+            joinSubject(
+                subject.subjectCode,
+                {
+                    email: user.email,
+                    id: user.id
+                }
+            )
+                .then(() => {
+                    updateUser({
+                        ...user,
+                        subjects: [
+                            ...user.subjects,
+                            subject.subjectCode
+                        ]
+                    }).then(() => {
+                        setAlertMessage(`Successfully join subject ${subject.subjectCode}!`);
+                        onOpen();
+                    }).catch(() => {
+                        setAlertMessage(`Fail to join subject ${subject.subjectCode}!`);
+                        onOpen();
+                    })
+                })
+                .catch(() => {
+                    setAlertMessage(`Fail to join subject ${subject.subjectCode}!`);
+                    onOpen();
+                })
+        } else {
+            setAlertMessage(`You already join subject ${subject.subjectCode}!`);
+            onOpen();
+        }
+    }
 
     return (
-        <Flex
-            flexDirection='column'
-            height='100%'
-            rowGap={3}
-            display={{ base: 'none', lg: 'flex' }}
-        >
-
-            <Box
-                width={285}
-                bg={bg}
-                borderRadius={20}
-                paddingTop={15}
-                paddingX={30}
-                paddingBottom={30}
-            >
-                <Flex
-                    flexDirection='row'
-                    alignItems='center'
-                    justifyContent='space-between'
-                    fontSize='xl'
-                    fontWeight='semibold'
+        <>
+            <Modal closeOnOverlayClick={false} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent
+                    borderRadius={20}
                 >
-                    <Text fontSize='xl' fontWeight='semibold' marginBlock={3}>Trending</Text>
-                    <Box
-                        onClick={() => navigate('/create-post', )}
-                        cursor='pointer'
-                    >
-                        <AddPostIcon width={40} height={40} />
-                    </Box>
-                </Flex>
+                    <ModalHeader>Message</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Text fontWeight='semibold' fontSize='sm'>{alertMessage}</Text>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button borderRadius={15} width='100px' colorScheme='red' onClick={onClose}>
+                            Close
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
 
-                <Flex
-                    flexDirection='column'
-                    rowGap={3}
-                    marginTop={3}
+            <Flex
+                flexDirection='column'
+                height='100%'
+                rowGap={3}
+                display={{ base: 'none', lg: 'flex' }}
+                ref={finalRef}
+            >
+
+                <Box
+                    width={285}
+                    bg={bg}
+                    borderRadius={20}
+                    paddingTop={15}
+                    paddingX={30}
+                    paddingBottom={30}
                 >
                     <Flex
                         flexDirection='row'
-                        columnGap={3}
+                        alignItems='center'
+                        justifyContent='space-between'
+                        fontSize='xl'
+                        fontWeight='semibold'
                     >
-                        <Image src={Subject1} width={50} height={50} borderRadius={8} />
-                        <Box>
-                            <Text textAlign='left' fontSize='md' fontWeight='semibold'>PRJ301</Text>
-                            <Text textAlign='left' fontSize='sm' color='gray.500' noOfLines={1} textOverflow='ellipsis'>Introduction to web based Java application </Text>
+                        <Text fontSize='xl' fontWeight='semibold' marginBlock={3}>Trending</Text>
+                        <Box
+                            onClick={() => navigate('/create-post',)}
+                            cursor='pointer'
+                        >
+                            <AddPostIcon width={40} height={40} />
                         </Box>
                     </Flex>
 
                     <Flex
-                        flexDirection='row'
-                        columnGap={3}
-                    >
-                        <Image src={Subject1} width={50} height={50} borderRadius={8} />
-                        <Box>
-                            <Text textAlign='left' fontSize='md' fontWeight='semibold'>PRJ301</Text>
-                            <Text textAlign='left' fontSize='sm' color='gray.500' noOfLines={1} textOverflow='ellipsis'>Introduction to web based Java application </Text>
-                        </Box>
-                    </Flex>
-                </Flex>
-            </Box>
-
-            <Box
-                width={285}
-                bg={bg}
-                borderRadius={20}
-                paddingTop={15}
-                paddingX={30}
-                paddingBottom={30}
-            >
-                <Flex
-                    flexDirection='row'
-                    alignItems='center'
-                    justifyContent='space-between'
-                    fontSize='xl'
-                    fontWeight='semibold'
-                >
-                    <Text fontSize='xl' fontWeight='semibold' marginBlock={3}>Join a subject</Text>
-                    <InformationIcon width={40} height={40} />
-                </Flex>
-
-                <Flex
-                    flexDirection='column'
-                    rowGap={3}
-                    marginTop={3}
-                >
-                    <Flex
-                        flexDirection='row'
-                        justifyContent='space-between'
-                        alignItems='center'
+                        flexDirection='column'
+                        rowGap={3}
+                        marginTop={3}
                     >
                         <Flex
                             flexDirection='row'
@@ -106,73 +124,84 @@ export const SubjectsPanel = () => {
                             <Image src={Subject1} width={50} height={50} borderRadius={8} />
                             <Box>
                                 <Text textAlign='left' fontSize='md' fontWeight='semibold'>PRJ301</Text>
-                                <Text textAlign='left' fontSize='sm' fontWeight='medium' color='gray.500'>IT</Text>
+                                <Text textAlign='left' fontSize='x-small' color='gray.500' noOfLines={1} textOverflow='ellipsis'>Introduction to web based Java application </Text>
                             </Box>
                         </Flex>
-
-                        <PlusIcon width={40} height={40} />
                     </Flex>
+                </Box>
 
-                    <Flex
-                        flexDirection='row'
-                        justifyContent='space-between'
-                        alignItems='center'
-                    >
-                        <Flex
-                            flexDirection='row'
-                            columnGap={3}
-                        >
-                            <Image src={Subject1} width={50} height={50} borderRadius={8} />
-                            <Box>
-                                <Text textAlign='left' fontSize='md' fontWeight='semibold'>PRJ301</Text>
-                                <Text textAlign='left' fontSize='sm' fontWeight='medium' color='gray.500'>IT</Text>
-                            </Box>
-                        </Flex>
-
-                        <PlusIcon width={40} height={40} />
-                    </Flex>
-
-                    <Flex
-                        flexDirection='row'
-                        justifyContent='space-between'
-                        alignItems='center'
-                    >
-                        <Flex
-                            flexDirection='row'
-                            columnGap={3}
-                        >
-                            <Image src={Subject1} width={50} height={50} borderRadius={8} />
-                            <Box>
-                                <Text textAlign='left' fontSize='md' fontWeight='semibold'>PRJ301</Text>
-                                <Text textAlign='left' fontSize='sm' fontWeight='medium' color='gray.500'>IT</Text>
-                            </Box>
-                        </Flex>
-
-                        <PlusIcon width={40} height={40} />
-                    </Flex>
-                </Flex>
-            </Box>
-
-            <Box
-                width={285}
-                bg={bg}
-                borderRadius={20}
-                paddingTop={15}
-                paddingX={30}
-                paddingBottom={30}
-            >
-                <Flex
-                    flexDirection='column'
-                    justifyContent='center'
-                    alignItems='center'
-                    rowGap={3}
+                <Box
+                    width={285}
+                    bg={bg}
+                    borderRadius={20}
+                    paddingTop={15}
+                    paddingX={30}
+                    paddingBottom={30}
                 >
-                    <Image src={Subject1} width={100} height={100} borderRadius={8} />
-                    <Text fontWeight='semibold' fontSize='md' color='gray.500' marginBlock={3}>Recommend for you</Text>
-                    <Text fontWeight='semibold' fontSize='xl'>PRJ301</Text>
-                    <Link to='/subject'><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Join</Text></Link>
-                </Flex>
-            </Box>
-        </Flex>
+                    <Flex
+                        flexDirection='row'
+                        alignItems='center'
+                        justifyContent='space-between'
+                        fontSize='xl'
+                        fontWeight='semibold'
+                    >
+                        <Text fontSize='xl' fontWeight='semibold' marginBlock={3}>Join a subject</Text>
+                        <InformationIcon width={40} height={40} />
+                    </Flex>
+
+                    <Flex
+                        flexDirection='column'
+                        rowGap={3}
+                        marginTop={3}
+                    >
+                        {
+                            subjects.map((subject) => (
+                                <Flex
+                                    flexDirection='row'
+                                    justifyContent='space-between'
+                                    alignItems='center'
+                                >
+                                    <Flex
+                                        flexDirection='row'
+                                        columnGap={3}
+                                    >
+                                        <Image src={Subject1} width={50} height={50} borderRadius={8} />
+                                        <Box>
+                                            <Text textAlign='left' fontSize='md' fontWeight='semibold' noOfLines={1} textOverflow='ellipsis'>{subject.subjectCode}</Text>
+                                            <Text textAlign='left' fontSize='x-small' color='gray.500' noOfLines={1} textOverflow='ellipsis'>{subject.department}</Text>
+                                        </Box>
+                                    </Flex>
+
+                                    <Stack onClick={() => handleJoinSubject(subject)} cursor='pointer'>
+                                        <Button iconSpacing={0} borderRadius={10} variant='ghost' width='40px' height='40px' leftIcon={<PlusIcon width={30} height={30} />} />
+                                    </Stack>
+                                </Flex>
+                            ))
+                        }
+                    </Flex>
+                </Box>
+
+                <Box
+                    width={285}
+                    bg={bg}
+                    borderRadius={20}
+                    paddingTop={15}
+                    paddingX={30}
+                    paddingBottom={30}
+                >
+                    <Flex
+                        flexDirection='column'
+                        justifyContent='center'
+                        alignItems='center'
+                        rowGap={3}
+                    >
+                        <Image src={Subject1} width={100} height={100} borderRadius={8} />
+                        <Text fontWeight='semibold' fontSize='md' color='gray.500' marginBlock={3}>Recommend for you</Text>
+                        <Text fontWeight='semibold' fontSize='xl'>PRJ301</Text>
+                        <Link to='/subject'><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Join</Text></Link>
+                    </Flex>
+                </Box>
+            </Flex>
+        </>
     );
 }

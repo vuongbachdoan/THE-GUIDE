@@ -8,6 +8,7 @@ export const PanelPostsList = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
     const navigate = useNavigate();
     const [postsData, setPostsData] = React.useState([]);
+
     React.useEffect(() => {
         getPosts()
             .then((res) => {

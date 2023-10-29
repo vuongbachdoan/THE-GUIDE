@@ -21,6 +21,8 @@ import { ExpandIcon } from './ExpandIcon';
 import { HappyIcon } from './HappyIcon';
 import { SendIcon } from './SendIcon';
 import { ATIcon } from './ATIcon';
+import { CloseIcon } from './CloseIcon'; 
+import { PersonIcon } from './PersonIcon';
 
 export default {
     HomeIcon,
@@ -45,5 +47,7 @@ export default {
     ExpandIcon,
     HappyIcon,
     SendIcon,
-    ATIcon
+    ATIcon,
+    CloseIcon,
+    PersonIcon
 }

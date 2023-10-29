@@ -58,3 +58,23 @@ export const updatePost = async (postData) => {
 
     return response.data;
 }
+
+export const getMyPosts = async (userId) => {
+    const response = await axios.get(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/users/${userId}/posts`, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    return response.data;
+}
+
+export const getMyFilteredPosts = async (userId, type) => {
+    const response = await axios.get(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/users/${userId}/posts/filter/${type}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    return response.data;
+}
