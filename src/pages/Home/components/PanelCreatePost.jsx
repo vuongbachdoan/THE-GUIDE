@@ -40,7 +40,8 @@ export const PanelCreatePost = () => {
     });
 
     React.useEffect(() => {
-        if (user) {
+        if (user?.id) {
+            console.log(user)
             setPostData({
                 ...postData,
                 creatorId: user.id
@@ -118,7 +119,7 @@ export const PanelCreatePost = () => {
                 setAlertMessage('Successfully create post!');
                 onOpen();
                 resetPostData();
-                navigate('/subject')
+                navigate('/posts')
             })
             .catch((err) => {
                 setAlertMessage('Fail to create post!');

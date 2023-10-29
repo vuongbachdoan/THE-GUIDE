@@ -15,6 +15,7 @@ import { PanelViewPost } from '../../pages/Home/components/PanelViewPost';
 import { LectureManaging } from '../../pages/Home/components/LectureManaging';
 import { LectureManagingStudent } from '../../pages/Home/components/PanelLectureManagingStudent';
 import { LectureManagingDashboard } from '../../pages/Home/components/LectureManagingDashboard';
+import { PanelSubjectDetail } from '../../pages/Home/components/PanelSubjectDetail';
 
 export const AppRouting = () => {
     return (
@@ -27,6 +28,7 @@ export const AppRouting = () => {
                 <Route path='' element={<PanelPostsList />} />
                 <Route path='create-post' element={<PanelCreatePost />} />
                 <Route path='subject' element={<PanelSubject />} />
+                <Route path='subject/detail' element={<PanelSubjectDetail />} />
                 <Route path='notification' element={<PanelNotification />} />
                 <Route path='profile' element={<PanelProfile />} />
                 <Route path='profile/edit' element={<PanelEditProfile />} />

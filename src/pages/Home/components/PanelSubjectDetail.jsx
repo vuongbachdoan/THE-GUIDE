@@ -3,7 +3,7 @@ import icons from '../../../assets/icons';
 import { FaChevronDown } from 'react-icons/fa';
 import Subject1 from '../../../assets/images/PRJ301.png';
 import SubjectDecor1 from '../../../assets/images/subject_decor_1.png';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import React from 'react';
 import { updateSubjectThumbnail } from '../../../core/services/photo';
 import { createSubject, getSubjects, getSubjectsJoined, joinSubject } from '../../../core/services/subject';
@@ -13,7 +13,10 @@ import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
 
 const { LinkIcon, CameraIcon } = icons;
 
-export const PanelSubject = () => {
+export const PanelSubjectDetail = () => {
+    const location = useLocation();
+    const subject = location.state;
+
     const bg = useColorModeValue('#FFF', 'gray.700');
     const user = useSelector((state) => state.profileData.data);
     const [openSubjectCreate, setOpenSubjectCreate] = React.useState(false);
@@ -231,7 +234,7 @@ export const PanelSubject = () => {
                     alignItems='center'
                     columnGap={15}
                 >
-                    <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Create subject</Text>
+                    <Text textAlign='left' fontSize='xl' fontWeight='semibold'>{subject?.subjectName}</Text>
                     <Button onClick={() => setOpenSubjectCreate(true)} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Create</Button>
                 </Flex>
             </Card>
@@ -362,7 +365,7 @@ export const PanelSubject = () => {
                                                 <LinkIcon width={18} height={18} />
                                                 <Text textAlign='center' fontSize='x-small' color='gray.500'>Dung and 500 others</Text>
                                             </Flex>
-                                            <Link to='detail' state={subject}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Go to subject</Text></Link>
+                                            <Link onClick={() => toSubjectPage(subject)}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Go to subject</Text></Link>
                                         </Flex>
                                     </GridItem>
                                 ))
