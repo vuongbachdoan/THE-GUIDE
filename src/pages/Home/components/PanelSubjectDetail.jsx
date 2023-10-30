@@ -6,10 +6,11 @@ import SubjectDecor1 from '../../../assets/images/subject_decor_1.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import React from 'react';
 import { updateSubjectThumbnail } from '../../../core/services/photo';
-import { createSubject, getSubjects, getSubjectsJoined, joinSubject } from '../../../core/services/subject';
+import { createSubject, getSubject, getSubjects, getSubjectsJoined, joinSubject } from '../../../core/services/subject';
 import { useSelector } from 'react-redux';
-import { updateUser } from '../../../core/services/user';
-import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
+import { getUser, updateUser } from '../../../core/services/user';
+import DecorGreen from '../../../assets/images/decor_role_green.png';
+import DecorOrage from '../../../assets/images/decor_role_orange.png';
 
 const { LinkIcon, CameraIcon } = icons;
 
@@ -17,7 +18,6 @@ export const PanelSubjectDetail = () => {
     const location = useLocation();
     const subject = location.state;
 
-    const bg = useColorModeValue('#FFF', 'gray.700');
     const user = useSelector((state) => state.profileData.data);
     const [openSubjectCreate, setOpenSubjectCreate] = React.useState(false);
     const finalRef = React.useRef(null);
@@ -200,6 +200,13 @@ export const PanelSubjectDetail = () => {
         });
     }
 
+    const [lectures, setLectures] = React.useState([]);
+    const [students, setStudents] = React.useState([]);
+    React.useEffect(() => {
+        setLectures(subject.lectureIds);
+        setStudents(subject.studentIds);
+    }, [subject])
+
     return (
         <>
             <Modal closeOnOverlayClick={false} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
@@ -235,91 +242,13 @@ export const PanelSubjectDetail = () => {
                     columnGap={15}
                 >
                     <Text textAlign='left' fontSize='xl' fontWeight='semibold'>{subject?.subjectCode} / {subject?.subjectName}</Text>
-                    <Button onClick={() => {}} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Leave</Button>
+                    <Button onClick={() => { }} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Leave</Button>
                 </Flex>
             </Card>
 
-            <Card
-                borderWidth={0}
-                borderRadius={20}
-                boxShadow='none'
-                width='100%'
-            >
-                <Box margin={6}>
-                    <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Invitations</Text>
-                </Box>
-
-                <CardBody>
-                    <Flex
-                        flexDirection='column'
-                        rowGap={15}
-                    >
-                        <Flex
-                            flexDirection='row'
-                            justifyContent='space-between'
-                            alignItems='center'
-                        >
-                            <Flex
-                                flexDirection='row'
-                                columnGap={3}
-                            >
-                                <Image src={Subject1} width={50} height={50} borderRadius={8} />
-                                <Box>
-                                    <Text textAlign='left' fontSize='md' fontWeight='semibold'>IT  /  PRJ301</Text>
-                                    <Text textAlign='left' fontSize='sm' color='gray.500' noOfLines={1} textOverflow='ellipsis'>HoaDNT invited you to this subject</Text>
-                                    <Flex
-                                        flexDirection='row'
-                                        alignItems='center'
-                                    >
-                                        <LinkIcon width={18} height={18} />
-                                        <Text fontSize='x-small' color='gray.500'>Nguyen Thi Thuy Dung and 500 others</Text>
-                                    </Flex>
-                                </Box>
-                            </Flex>
-                            <Flex
-                                columnGap={15}
-                            >
-                                <Button borderRadius={15}>Ignore</Button>
-                                <Button borderRadius={15} backgroundColor='#FF8F46' _hover={{ backgroundColor: '#E86C1C' }} color='white'>Accept</Button>
-                            </Flex>
-                        </Flex>
-
-                        <Flex
-                            flexDirection='row'
-                            justifyContent='space-between'
-                            alignItems='center'
-                        >
-                            <Flex
-                                flexDirection='row'
-                                columnGap={3}
-                            >
-                                <Image src={Subject1} width={50} height={50} borderRadius={8} />
-                                <Box>
-                                    <Text textAlign='left' fontSize='md' fontWeight='semibold'>IT  /  PRJ301</Text>
-                                    <Text textAlign='left' fontSize='sm' color='gray.500' noOfLines={1} textOverflow='ellipsis'>HoaDNT invited you to this subject</Text>
-                                    <Flex
-                                        flexDirection='row'
-                                        alignItems='center'
-                                    >
-                                        <LinkIcon width={18} height={18} />
-                                        <Text fontSize='x-small' color='gray.500'>Nguyen Thi Thuy Dung and 500 others</Text>
-                                    </Flex>
-                                </Box>
-                            </Flex>
-                            <Flex
-                                columnGap={15}
-                            >
-                                <Button borderRadius={15}>Ignore</Button>
-                                <Button borderRadius={15} backgroundColor='#FF8F46' _hover={{ backgroundColor: '#E86C1C' }} color='white'>Accept</Button>
-                            </Flex>
-                        </Flex>
-                    </Flex>
-                </CardBody>
-            </Card>
-
-            {/* Subjects joined */}
+            {/* List lecture */}
             {
-                subjectsJoined.length !== 0 &&
+                lectures.length !== 0 &&
                 <Card
                     borderWidth={0}
                     borderRadius={20}
@@ -327,47 +256,15 @@ export const PanelSubjectDetail = () => {
                     width='100%'
                 >
                     <Box margin={6}>
-                        <Text textAlign='left' fontSize='xl' fontWeight='semibold'>My subjects</Text>
+                        <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Lectures</Text>
                     </Box>
                     <CardBody>
                         <Grid
                             templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(2, 1fr)' }} gap={3}
                         >
                             {
-                                subjectsJoined.map((subject) => (
-                                    <GridItem
-                                        bg={bg}
-                                        borderRadius={20}
-                                    >
-                                        <Flex
-                                            justifyContent='center'
-                                            alignItems='center'
-                                            position='relative'
-                                            margin='20px'
-                                            flexDirection='column'
-                                        >
-                                            <Image src={SubjectDecor1}
-                                                maxHeight={75}
-                                                borderRadius={20}
-                                                objectFit='cover'
-                                                position='absolute'
-                                                top={0}
-                                                left={0}
-                                                width='100%'
-                                            />
-                                            <Image objectFit='cover' marginTop={30} src={subject?.thumbnail} width={100} height={100} borderRadius={14} zIndex={10} />
-                                            <Text marginTop={3} fontWeight='semibold' fontSize='xl'>{subject?.subjectCode}</Text>
-                                            <Text marginTop={3} fontWeight='semibold' fontSize='sm' lineHeight='15px'>{subject?.subjectName}</Text>
-                                            <Flex
-                                                flexDirection='row'
-                                                alignItems='center'
-                                            >
-                                                <LinkIcon width={18} height={18} />
-                                                <Text textAlign='center' fontSize='x-small' color='gray.500'>Dung and 500 others</Text>
-                                            </Flex>
-                                            <Link onClick={() => toSubjectPage(subject)}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Go to subject</Text></Link>
-                                        </Flex>
-                                    </GridItem>
+                                lectures.map((lectureId) => (
+                                    <UserCard userId={lectureId} isLecture={true}/>
                                 ))
                             }
                         </Grid>
@@ -375,139 +272,72 @@ export const PanelSubjectDetail = () => {
                 </Card >
             }
 
-            {/* Subject recommend */}
-            <Card
-                borderWidth={0}
-                borderRadius={20}
-                boxShadow='none'
-                width='100%'
-            >
-                <Box margin={6}>
-                    <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Subjects you may like</Text>
-                </Box>
-                <CardBody>
-                    <Grid
-                        templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(2, 1fr)' }} gap={3}
-                    >
-                        {
-                            subjects.map((subject) => (
-                                <GridItem
-                                    bg={bg}
-                                    borderRadius={20}
-                                >
-                                    <Flex
-                                        justifyContent='center'
-                                        alignItems='center'
-                                        position='relative'
-                                        margin='20px'
-                                        flexDirection='column'
-                                    >
-                                        <Image src={SubjectDecor1}
-                                            maxHeight={75}
-                                            borderRadius={20}
-                                            objectFit='cover'
-                                            position='absolute'
-                                            top={0}
-                                            left={0}
-                                            width='100%'
-                                        />
-                                        <Image objectFit='cover' marginTop={30} src={subject?.thumbnail} width={100} height={100} borderRadius={14} zIndex={10} />
-                                        <Text marginTop={3} fontWeight='semibold' fontSize='xl'>{subject?.subjectCode}</Text>
-                                        <Text marginTop={3} fontWeight='semibold' fontSize='sm' lineHeight='15px'>{subject?.subjectName}</Text>
-                                        <Flex
-                                            flexDirection='row'
-                                            alignItems='center'
-                                        >
-                                            <LinkIcon width={18} height={18} />
-                                            <Text textAlign='center' fontSize='x-small' color='gray.500'>Dung and 500 others</Text>
-                                        </Flex>
-                                        <Link onClick={() => handleJoinSubject(subject)}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Join</Text></Link>
-                                    </Flex>
-                                </GridItem>
-                            ))
-                        }
-                    </Grid>
-                </CardBody>
-            </Card >
-
-            {/* Dialog create subject */}
-            <Modal scrollBehavior='inside' closeOnOverlayClick={false} isOpen={openSubjectCreate} onClose={() => setOpenSubjectCreate(false)}>
-                <ModalOverlay />
-                <ModalContent
+            {/* List students */}
+            {
+                students.length !== 0 &&
+                <Card
+                    borderWidth={0}
                     borderRadius={20}
-                    overflow='hidden'
+                    boxShadow='none'
+                    width='100%'
                 >
-                    <ModalHeader>Create subject</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody pb={6}>
-
-                        <Flex
-                            justifyContent='center'
-                            alignItems='center'
-                            position='relative'
-                            margin='20px'
-                            flexDirection='column'
-                            width={240}
-                            marginX='auto'
+                    <Box margin={6}>
+                        <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Students</Text>
+                    </Box>
+                    <CardBody>
+                        <Grid
+                            templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(2, 1fr)' }} gap={3}
                         >
-                            <Box
-                                position='relative'
-                            >
-                                <input ref={previewImageRef} onChange={handlePickerImage} type="file" accept="image/*" name='avatar' id='avatar_picker' style={{ display: 'none' }} />
-                                <Image objectFit='cover' backgroundColor='#1E1E1E20' borderWidth={0} src={previewImage ? previewImage : PlaceholderImage} width={200} height={200} borderRadius={20} zIndex={10} />
-                                <Stack
-                                    position='absolute'
-                                    right={2}
-                                    bottom={2}
-                                    borderRadius={30}
-                                    backgroundColor='#FFF'
-                                    cursor='pointer'
-                                    boxShadow='2xl'
-                                    onClick={() => previewImageRef.current.click()}
-                                >
-                                    {
-                                        isLoadingThumbnail ?
-                                            <Spinner /> :
-                                            <CameraIcon color='#1E1E1E' width={30} height={30} />
-                                    }
-                                </Stack>
-                            </Box>
-                            <Input onChange={(e) => handleSubjectCode(e.target.value)} backgroundColor='#1E1E1E20' marginTop={3} width='100%' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' fontSize='sm' placeholder='Subject code' />
-                            <Input onChange={(e) => handleSubjectName(e.target.value)} backgroundColor='#1E1E1E20' marginTop={3} width='100%' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' fontSize='sm' placeholder='Subject name' />
-                            <Stack marginTop={3} width='100%'>
-                                <Menu>
-                                    <MenuButton borderRadius={15} width='100%' iconSpacing={2} as={Button} rightIcon={<FaChevronDown size={12} />}>
-                                        <Text textAlign='left' fontSize='sm'>{subjectData.department ? subjectData.department : 'Department'}</Text>
-                                    </MenuButton>
-                                    <MenuList
-                                        padding={1}
-                                        borderRadius={12}
-                                        boxShadow='xl'
-                                        minWidth='fit-content'
-                                    >
-                                        <MenuItem onClick={() => handleDepartment('Software Engineering')} borderWidth={0} fontSize='sm' borderRadius={8}>Software Engineering</MenuItem>
-                                        <MenuItem onClick={() => handleDepartment('Artificial Intelligence')} borderWidth={0} fontSize='sm' borderRadius={8}>Artificial Intelligence</MenuItem>
-                                        <MenuItem onClick={() => handleDepartment('Business')} borderWidth={0} fontSize='sm' borderRadius={8}>Bussiness</MenuItem>
-                                        <MenuItem onClick={() => handleDepartment('Hospitality')} borderWidth={0} fontSize='sm' borderRadius={8}>Hospitality</MenuItem>
-                                        <MenuItem onClick={() => handleDepartment('Digital Art')} borderWidth={0} fontSize='sm' borderRadius={8}>Digital Art</MenuItem>
-                                    </MenuList>
-                                </Menu>
-                            </Stack>
-                        </Flex>
-                    </ModalBody>
-
-                    <ModalFooter>
-                        <Flex width='100%' justifyContent='center'>
-                            <Button borderRadius={15} width='100px' mr={3} onClick={handleCreateSubject}>
-                                Create
-                            </Button>
-                            <Button borderRadius={15} width='100px' colorScheme='red' onClick={() => setOpenSubjectCreate(false)}>
-                                Cancel
-                            </Button>
-                        </Flex>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
+                            {
+                                students.map((studentId) => (
+                                    <UserCard userId={studentId} isLecture={false}/>
+                                ))
+                            }
+                        </Grid>
+                    </CardBody>
+                </Card >
+            }
         </>
+    );
+}
+
+const UserCard = ({ userId, isLecture }) => {
+    const bg = useColorModeValue('#FFF', 'gray.700');
+    const [userData, setUserData] = React.useState(null);
+    React.useEffect(() => {
+        getUser(userId)
+            .then((res) => {
+                setUserData(res);
+            })
+            .catch((err) => console.error(err));
+    }, [userId]);
+
+    return (
+        <GridItem
+            bg={bg}
+            borderRadius={20}
+        >
+            <Flex
+                justifyContent='center'
+                alignItems='center'
+                position='relative'
+                margin='20px'
+                flexDirection='column'
+            >
+                <Image src={isLecture ? DecorGreen : DecorOrage}
+                    maxHeight={75}
+                    borderRadius={20}
+                    objectFit='cover'
+                    position='absolute'
+                    top={0}
+                    left={0}
+                    width='100%'
+                />
+                <Image objectFit='cover' marginTop={30} src={userData?.avatar} width={100} height={100} borderRadius={14} zIndex={10} />
+                <Text marginTop={3} fontWeight='semibold' fontSize='medium' lineHeight='15px' textTransform='uppercase'>{userData?.userCode}</Text>
+                <Text marginTop={3} fontWeight='semibold' fontSize='sm'>{userData?.username}</Text>
+                <Link><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>View</Text></Link>
+            </Flex>
+        </GridItem>
     );
 }
