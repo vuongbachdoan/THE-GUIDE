@@ -157,7 +157,7 @@ export const PanelSubject = () => {
     }
 
     const handleJoinSubject = (subject) => {
-        if (!subject.studentIds.includes(user.id)) {
+        if (!(subject.studentIds.includes(user.id) || subject.lectureIds.includes(user.id))) {
             joinSubject(
                 subject.subjectCode,
                 {
