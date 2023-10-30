@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Head
 import icons from '../../../assets/icons';
 import React, { useEffect } from 'react';
 import { getUser } from '../../../core/services/user';
-import { getPost, updatePost } from '../../../core/services/post';
+import { getPost, likePost, updatePost } from '../../../core/services/post';
 import { Comment } from './Comment';
 import { createComment } from '../../../core/services/comment';
 import { useDispatch, useSelector } from 'react-redux';
@@ -109,6 +109,14 @@ export const PostCard = ({ postId }) => {
         }
     }
 
+    const handleLikePost = (postId) => {
+        likePost(postId, user.id)
+            .then((res) => {
+                loadPostData();
+            })
+            .catch((err) => console.error(err));
+    }
+
     return (
         <>
             <Card
@@ -163,8 +171,8 @@ export const PostCard = ({ postId }) => {
                     }}
                 >
                     <Flex>
-                        <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<HeartIcon width={20} height={20} />}>
-                            <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{postData?.liked !== 0 ? postData?.liked : '_'}</Text>
+                        <Button onClick={() => handleLikePost(postData.id)} width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<HeartIcon color={postData?.liked.length !== 0 ? 'red' : '#A0A0A0'} width={20} height={20} />}>
+                            <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{postData?.liked?.length !== 0 ? postData?.liked?.length : '_'}</Text>
                         </Button>
                         <Button onClick={() => setIsExpandComment(!isExpandComment)} width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<CommentIcon width={20} height={20} />}>
                             <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{postData?.commentIds?.length !== 0 ? postData?.commentIds?.length : '_'}</Text>
