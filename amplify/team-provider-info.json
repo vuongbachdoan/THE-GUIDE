@@ -1,28 +1,19 @@
 {
-  "dev": {
+  "staging": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-theguide-dev-172127-authRole",
-      "UnauthRoleArn": "arn:aws:iam::955228589631:role/amplify-theguide-dev-172127-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::955228589631:role/amplify-theguide-dev-172127-authRole",
+      "AuthRoleName": "amplify-theguidev4-staging-41842-authRole",
+      "UnauthRoleArn": "arn:aws:iam::955228589631:role/amplify-theguidev4-staging-41842-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::955228589631:role/amplify-theguidev4-staging-41842-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-theguide-dev-172127-deployment",
-      "UnauthRoleName": "amplify-theguide-dev-172127-unauthRole",
-      "StackName": "amplify-theguide-dev-172127",
-      "StackId": "arn:aws:cloudformation:us-east-1:955228589631:stack/amplify-theguide-dev-172127/19ae0420-7257-11ee-ad02-0adb98c5867f",
-      "AmplifyAppId": "d2eerrll03dy2w"
+      "DeploymentBucketName": "amplify-theguidev4-staging-41842-deployment",
+      "UnauthRoleName": "amplify-theguidev4-staging-41842-unauthRole",
+      "StackName": "amplify-theguidev4-staging-41842",
+      "StackId": "arn:aws:cloudformation:us-east-1:955228589631:stack/amplify-theguidev4-staging-41842/695493d0-76db-11ee-891c-0a10bfdfa7f9",
+      "AmplifyAppId": "d1y0cbvtfdinla"
     },
     "categories": {
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d2eerrll03dy2w",
-          "type": "manual"
-        }
-      },
       "auth": {
-        "theguide": {}
-      },
-      "function": {
-        "theguideusers": {}
+        "theguidev4": {}
       }
     }
   }
