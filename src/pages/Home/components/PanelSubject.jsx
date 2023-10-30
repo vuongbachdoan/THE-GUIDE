@@ -217,24 +217,27 @@ export const PanelSubject = () => {
                 </ModalContent>
             </Modal>
 
-            <Card
-                borderWidth={0}
-                borderRadius={20}
-                boxShadow='none'
-                width='100%'
-                ref={finalRef}
-            >
-                <Flex
-                    margin={6}
-                    flexDirection='row'
-                    justifyContent='space-between'
-                    alignItems='center'
-                    columnGap={15}
+            {
+                user?.role === 'Admin' &&
+                <Card
+                    borderWidth={0}
+                    borderRadius={20}
+                    boxShadow='none'
+                    width='100%'
+                    ref={finalRef}
                 >
-                    <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Create subject</Text>
-                    <Button onClick={() => setOpenSubjectCreate(true)} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Create</Button>
-                </Flex>
-            </Card>
+                    <Flex
+                        margin={6}
+                        flexDirection='row'
+                        justifyContent='space-between'
+                        alignItems='center'
+                        columnGap={15}
+                    >
+                        <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Create subject</Text>
+                        <Button onClick={() => setOpenSubjectCreate(true)} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Create</Button>
+                    </Flex>
+                </Card>
+            }
 
             <Card
                 borderWidth={0}

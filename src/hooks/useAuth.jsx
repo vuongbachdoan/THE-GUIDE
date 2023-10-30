@@ -20,7 +20,7 @@ const useAuth = () => {
 
                         let existedUser = null;
                         users.forEach(user => {
-                            if(user.id === profile.username) existedUser = user;
+                            if (user.id === profile.username) existedUser = user;
                         });
 
                         if (existedUser) {
@@ -30,22 +30,25 @@ const useAuth = () => {
                                 id: profile.username,
                                 username: profile.attributes.name ?? 'user',
                                 email: profile.attributes.email ?? '',
-                                avatar: profile.attributes.profile ?? '',
+                                avatar: profile.attributes.picture ?? '',
                                 github: '',
                                 linkedin: '',
                                 website: '',
                                 phone: '',
                                 subjects: [],
-                                studentCode: ''
+                                studentCode: '',
+                                role: 'Student'
                             })
                             dispatch(setProfileData(createdUser))
                         }
                     })
-                .catch((err) => console.error(err))
+                .catch((err) => {
+                    console.error(err)
+                })
             setLoading(false);
         } catch (err) {
             setLoading(false);
-            navigate('/auth/login',)
+            navigate('/auth/login')
         }
     }
 

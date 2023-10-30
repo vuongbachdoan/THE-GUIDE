@@ -172,18 +172,18 @@ export const PostCard = ({ postId }) => {
                 >
                     <Flex>
                         <Button onClick={() => handleLikePost(postData.id)} width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<HeartIcon color={postData?.liked.length !== 0 ? 'red' : '#A0A0A0'} width={20} height={20} />}>
-                            <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{postData?.liked?.length !== 0 ? postData?.liked?.length : '_'}</Text>
+                            <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.liked?.length !== 0 ? postData?.liked?.length : '_'}</Text>
                         </Button>
                         <Button onClick={() => setIsExpandComment(!isExpandComment)} width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<CommentIcon width={20} height={20} />}>
-                            <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{postData?.commentIds?.length !== 0 ? postData?.commentIds?.length : '_'}</Text>
+                            <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.commentIds?.length !== 0 ? postData?.commentIds?.length : '_'}</Text>
                         </Button>
                         <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<ShareIcon width={20} height={20} />}>
-                            <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{postData?.shared !== 0 ? postData?.shared : '_'}</Text>
+                            <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.shared !== 0 ? postData?.shared : '_'}</Text>
                         </Button>
                     </Flex>
                     <Flex flexDirection='row' alignItems='center' padding={1} columnGap={2}>
                         <EyeIcon width={20} height={20} />
-                        <Text fontSize='sm' marginRight={3} fontWeight='semibold' color='gray.500'>{postData?.viewed !== 0 ? postData?.viewed : '_'}</Text>
+                        <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.viewed !== 0 ? postData?.viewed : '_'}</Text>
                     </Flex>
                 </CardFooter>
             </Card>
