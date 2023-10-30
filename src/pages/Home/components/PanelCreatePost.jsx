@@ -33,7 +33,7 @@ export const PanelCreatePost = () => {
         updatedAt: '',
         content: '',
         status: 'Pending',
-        liked: 0,
+        liked: [],
         commentIds: [],
         shared: 0,
         viewed: 0
@@ -150,7 +150,7 @@ export const PanelCreatePost = () => {
             updatedAt: '',
             content: '',
             status: 'Pending',
-            liked: 0,
+            liked: [],
             commentIds: [],
             shared: 0,
             viewed: 0

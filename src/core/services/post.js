@@ -78,3 +78,13 @@ export const getMyFilteredPosts = async (userId, type) => {
 
     return response.data;
 }
+
+export const likePost = async (postId, userId) => {
+    const response = await axios.put(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/posts/${postId}/reaction`, {userId: userId}, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    return response.data;
+}
