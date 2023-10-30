@@ -234,8 +234,8 @@ export const PanelSubjectDetail = () => {
                     alignItems='center'
                     columnGap={15}
                 >
-                    <Text textAlign='left' fontSize='xl' fontWeight='semibold'>{subject?.subjectName}</Text>
-                    <Button onClick={() => setOpenSubjectCreate(true)} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Create</Button>
+                    <Text textAlign='left' fontSize='xl' fontWeight='semibold'>{subject?.subjectCode} / {subject?.subjectName}</Text>
+                    <Button onClick={() => {}} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Leave</Button>
                 </Flex>
             </Card>
 
