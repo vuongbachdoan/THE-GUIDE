@@ -72,7 +72,7 @@ export const Sidebar = () => {
                         <Image objectFit='cover' marginTop={30}  backgroundColor='#FAFAFA' borderWidth={0} src={user?.avatar} width={100} height={100} borderRadius={14} zIndex={10} />
                         <Text marginTop={3} fontWeight='semibold' fontSize='xl'>{user?.username ? user?.username : 'username'}</Text>
                         <Link to='/profile'><Text fontSize='md' color='#FF8F46' _hover={{textDecoration: 'underline'}}>Detail</Text></Link>
-                        <Text fontWeight='semibold' fontSize='md' color='gray.500'>{user?.studentCode ? user?.studentCode : 'USER CODE'}</Text>
+                        <Text fontWeight='semibold' fontSize='md' color='gray.500' textTransform='uppercase'>{user?.userCode ? user?.userCode : 'USER CODE'}</Text>
                     </Flex>
                 </Box>
         </Flex>
