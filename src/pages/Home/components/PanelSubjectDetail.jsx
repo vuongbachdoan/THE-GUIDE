@@ -11,6 +11,7 @@ export const PanelSubjectDetail = () => {
     const location = useLocation();
     const subject = location.state;
     const navigate = useNavigate();
+    const user = useSelector((state) => state.profileData.data);
 
     const finalRef = React.useRef(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -19,21 +20,11 @@ export const PanelSubjectDetail = () => {
     const [lectures, setLectures] = React.useState([]);
     const [students, setStudents] = React.useState([]);
     React.useEffect(() => {
-        getSubject('FER201m')
-            .then((res) => {
-                setLectures(res.lectureIds);
-                setStudents(res.studentIds);
-            })
-            .catch((err) => console.error(err));
+        loadSubject();
     }, [location.state]);
 
     React.useEffect(() => {
-        getSubject(subject.subjectCode)
-            .then((res) => {
-                setLectures(res.lectureIds);
-                setStudents(res.studentIds);
-            })
-            .catch((err) => console.error(err))
+        loadSubject();
     }, []);
 
     const handleUserCardAlert = (message) => {
@@ -42,6 +33,38 @@ export const PanelSubjectDetail = () => {
         });
         setAlertMessage(message);
         onOpen();
+    }
+
+    const handleLeaveSubject = () => {
+        leaveSubject(subject?.subjectCode, user?.id)
+            .then(() => {
+                leaveUser(user?.id, subject?.subjectCode)
+                    .then(() => {
+                        setAlertMessage(`You leaved ${subject.subjectCode}!`);
+                        onOpen();
+                        loadSubject();
+                        setTimeout(() => {
+                            navigate('/subject');
+                        }, 3000);
+                    })
+                    .catch(() => {
+                        setAlertMessage(`Fail to leave ${subject.subjectCode}!`);
+                        onOpen();
+                    });
+            })
+            .catch(() => {
+                setAlertMessage(`Fail to leave ${subject.subjectCode}!`);
+                onOpen();
+            })
+    }
+
+    const loadSubject = () => {
+        getSubject(subject?.subjectCode)
+            .then((res) => {
+                setLectures(res.lectureIds);
+                setStudents(res.studentIds);
+            })
+            .catch((err) => console.error(err))
     }
 
     return (
@@ -79,7 +102,7 @@ export const PanelSubjectDetail = () => {
                     columnGap={15}
                 >
                     <Text textAlign='left' fontSize='xl' fontWeight='semibold'>{subject?.subjectCode} / {subject?.subjectName}</Text>
-                    <Button onClick={() => { }} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Leave</Button>
+                    <Button onClick={handleLeaveSubject} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Leave</Button>
                 </Flex>
             </Card>
 
