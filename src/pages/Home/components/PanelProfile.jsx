@@ -53,7 +53,7 @@ export const PanelProfile = () => {
                     >
                         <Image src={user?.avatar} backgroundColor='#1E1E1E20' borderRadius={20} borderWidth={0} width={200} height={200} zIndex={10} />
                         <Text marginTop={3} fontWeight='semibold' fontSize='xl'>{user?.username ? user?.username : 'username'}</Text>
-                        <Text marginY={3} fontWeight='semibold' fontSize='xl'>{user?.studentCode ? user?.studentCode : 'USER CODE'}</Text>
+                        <Text marginY={3} fontWeight='semibold' fontSize='xl' textTransform='uppercase'>{user?.userCode ? user?.userCode : 'USER CODE'}</Text>
                         <Flex
                             flexDirection='row'
                             justifyContent='flex-start'

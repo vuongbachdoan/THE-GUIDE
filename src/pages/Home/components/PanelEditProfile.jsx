@@ -35,10 +35,10 @@ export const PanelEditProfile = () => {
         })
     }
 
-    const handleStudentCode = (val) => {
+    const handleUserCode = (val) => {
         setUpdatedData({
             ...updatedData,
-            studentCode: val
+            userCode: val
         })
     }
 
@@ -200,7 +200,7 @@ export const PanelEditProfile = () => {
                             </Stack>
                         </Box>
                         <Input value={updatedData?.username} fontSize='sm' onChange={(e) => handleUsername(e.target.value)} backgroundColor='#1E1E1E20' marginTop={3} width='100%' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' placeholder='User name' />
-                        <Input value={updatedData?.studentCode} fontSize='sm' onChange={(e) => handleStudentCode(e.target.value)} backgroundColor='#1E1E1E20' marginTop={3} width='100%' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' placeholder='User code' />
+                        <Input value={updatedData?.userCode} fontSize='sm' onChange={(e) => handleUserCode(e.target.value)} backgroundColor='#1E1E1E20' marginTop={3} width='100%' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' placeholder='User code'  textTransform='uppercase'/>
                         <Flex
                             flexDirection='row'
                             justifyContent='flex-start'

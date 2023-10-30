@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { createUser, getUser, getUsers } from "../core/services/user";
 import { useDispatch } from "react-redux";
 import { setProfileData } from "../core/store/user/profileData";
+import { checkMailLecture } from "../helper/checkMail";
+import { extractCode } from "../helper/extractCode";
 
 
 const useAuth = () => {
@@ -36,8 +38,8 @@ const useAuth = () => {
                                 website: '',
                                 phone: '',
                                 subjects: [],
-                                studentCode: '',
-                                role: 'Student'
+                                userCode: extractCode(profile.attributes.email),
+                                role: checkMailLecture(profile.attributes.email) ? 'Lecture' : 'Student'
                             })
                             dispatch(setProfileData(createdUser))
                         }
@@ -65,7 +67,7 @@ const useAuth = () => {
             });
             getUserData();
         } catch (err) {
-
+            navigate('/auth/login')
         }
     }, []);
 }
