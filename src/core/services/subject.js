@@ -80,3 +80,13 @@ export const updateSubject = async (subjectData) => {
 
     return response.data;
 }
+
+export const leaveSubject = async (subjectCode, userId) => {
+    const response = await axios.delete(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/subjects/${subjectCode}/leave/${userId}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    return response.data;
+}

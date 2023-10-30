@@ -1,14 +1,14 @@
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Button, Flex, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import { InformationIcon } from '../../../assets/icons/InformationIcon';
 import Subject1 from '../../../assets/images/subject1.png';
-import icons from '../../../assets/icons';
 import { getSubjects, joinSubject } from '../../../core/services/subject';
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { updateUser } from '../../../core/services/user';
 import { filterMostJoinedSubject } from '../../../helper/filterMostJoinedSubject';
 
+import icons from '../../../assets/icons';
 const { PlusIcon, AddPostIcon } = icons;
 
 export const SubjectsPanel = () => {
@@ -36,7 +36,7 @@ export const SubjectsPanel = () => {
     }, [subjects])
 
     const handleJoinSubject = (subject) => {
-        if (!subject.studentIds.includes(user.id)) {
+        if (!(subject.studentIds.includes(user.id) || subject.lectureIds.includes(user.id))) {
             joinSubject(
                 subject.subjectCode,
                 {

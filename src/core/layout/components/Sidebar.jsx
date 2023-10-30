@@ -12,9 +12,11 @@ export const Sidebar = () => {
     const user = useSelector((state) => state.profileData.data);
 
     const handleChangeRoute = (route) => {
-        navigate(route, {
-            state: user.id
-        });
+        if(user) {
+            navigate(route, {
+                state: user.id
+            });
+        }
     }
 
     return (
