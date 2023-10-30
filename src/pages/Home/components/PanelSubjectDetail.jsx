@@ -336,7 +336,7 @@ const UserCard = ({ userId, isLecture }) => {
                 <Image objectFit='cover' marginTop={30} src={userData?.avatar} width={100} height={100} borderRadius={14} zIndex={10} />
                 <Text marginTop={3} fontWeight='semibold' fontSize='medium' lineHeight='15px' textTransform='uppercase'>{userData?.userCode}</Text>
                 <Text marginTop={3} fontWeight='semibold' fontSize='sm'>{userData?.username}</Text>
-                <Link><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>View</Text></Link>
+                <Link to='/profile' state={userId}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>View</Text></Link>
             </Flex>
         </GridItem>
     );
