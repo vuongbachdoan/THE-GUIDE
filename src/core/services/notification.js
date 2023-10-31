@@ -13,7 +13,7 @@ import axios from 'axios';
  * @returns 
  */
 export const postMyNotification = async (data) => {
-    const response = await axios.get('https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/notifications', data, {
+    const response = await axios.post('https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/notifications', data, {
         headers: {
             'Content-Type': 'application/json'
         },
