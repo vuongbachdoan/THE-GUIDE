@@ -111,9 +111,8 @@ export const PostCard = ({ postId }) => {
     }
 
     const handleLikePost = (postData) => {
-        console.log(postData?.id)
         likePost(postData?.id, user?.id)
-            .then((res) => {
+            .then(() => {
                 mappingNotification(
                     'post_change',
                     `${user?.username} liked on your post!`,
