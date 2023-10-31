@@ -41,15 +41,17 @@ export const PanelCreatePost = () => {
 
     React.useEffect(() => {
         if (user?.id) {
-            console.log(user)
             setPostData({
                 ...postData,
                 creatorId: user.id
             })
-            getSubjects()
-                .then((res) => setSubjects(res))
         }
     }, [user]);
+
+    React.useEffect(() => {
+        getSubjects()
+            .then((res) => setSubjects(res))
+    }, []);
 
     const handleDepartment = (val) => {
         setPostData({
