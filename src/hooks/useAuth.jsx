@@ -46,6 +46,7 @@ const useAuth = () => {
                     })
                 .catch((err) => {
                     console.error(err)
+                    navigate('/auth/login')
                 })
             setLoading(false);
         } catch (err) {

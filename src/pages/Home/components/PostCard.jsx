@@ -7,6 +7,7 @@ import { Comment } from './Comment';
 import { createComment } from '../../../core/services/comment';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCommentData } from '../../../core/store/comments/commentsExpanding';
+import { mappingNotification } from '../../../helper/mappingNotification';
 const { HeartIcon, CommentIcon, ShareIcon, EyeIcon, ExpandIcon, HappyIcon, SendIcon, ATIcon } = icons;
 
 /**
@@ -109,9 +110,16 @@ export const PostCard = ({ postId }) => {
         }
     }
 
-    const handleLikePost = (postId) => {
-        likePost(postId, user.id)
+    const handleLikePost = (postData) => {
+        console.log(postData?.id)
+        likePost(postData?.id, user?.id)
             .then((res) => {
+                mappingNotification(
+                    'post_change',
+                    `${user?.username} liked on your post!`,
+                    postData?.creatorId,
+                    postId
+                );
                 loadPostData();
             })
             .catch((err) => console.error(err));
@@ -171,7 +179,7 @@ export const PostCard = ({ postId }) => {
                     }}
                 >
                     <Flex>
-                        <Button onClick={() => handleLikePost(postData.id)} width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<HeartIcon color={postData?.liked.length !== 0 ? 'red' : '#A0A0A0'} width={20} height={20} />}>
+                        <Button onClick={() => handleLikePost(postData)} width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<HeartIcon color={postData?.liked.length !== 0 ? 'red' : '#A0A0A0'} width={20} height={20} />}>
                             <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.liked?.length !== 0 ? postData?.liked?.length : '_'}</Text>
                         </Button>
                         <Button onClick={() => setIsExpandComment(!isExpandComment)} width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<CommentIcon width={20} height={20} />}>
