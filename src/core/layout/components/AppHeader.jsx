@@ -12,7 +12,7 @@ export const AppHeader = () => {
     const navigate = useNavigate();
     const bg = useColorModeValue('#FFF', 'gray.700');
     const logoColor = useColorModeValue('#1E1E1E', '#FFF');
-    const user = useSelector((state) => state.profileData.data)
+    const user = useSelector((state) => state.profileData.data);
 
     const logOut = () => {
         Auth.signOut();
