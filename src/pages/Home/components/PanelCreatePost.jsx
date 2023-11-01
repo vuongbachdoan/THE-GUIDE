@@ -27,7 +27,7 @@ export const PanelCreatePost = () => {
         department: null,
         title: '',
         description: '',
-        creatorId: '',
+        creatorId: user.id ?? '',
         createAt: null,
         cover: null,
         updatedAt: '',
@@ -38,15 +38,6 @@ export const PanelCreatePost = () => {
         shared: 0,
         viewed: 0
     });
-
-    React.useEffect(() => {
-        if (user?.id) {
-            setPostData({
-                ...postData,
-                creatorId: user.id
-            })
-        }
-    }, []);
 
     React.useEffect(() => {
         getSubjects()
