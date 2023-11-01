@@ -6,7 +6,7 @@ import { createUniqueId } from '../../../helper/createUniqueId';
 import { useSelector } from 'react-redux';
 import { createPost } from '../../../core/services/post';
 import { updatePostCover } from '../../../core/services/photo';
-import { getSubjects } from '../../../core/services/subject';
+import { getSubjects, getSubjectsJoined } from '../../../core/services/subject';
 import { useNavigate } from 'react-router-dom';
 import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
 const { SyncIcon } = icons;
@@ -193,6 +193,17 @@ export const PanelCreatePost = () => {
         setAlertMessage(null);
     }
 
+    const [subjectsAvailable, setSubjectsAvailable] = React.useState([]);
+    React.useEffect(() => {
+        if (user) {
+            getSubjectsJoined(user.id)
+                .then((res) => {
+                    setSubjectsAvailable(res);
+                })
+                .catch((err) => console.error(err));
+        }
+    }, [])
+
     return (
         <>
             <Card
@@ -248,11 +259,19 @@ export const PanelCreatePost = () => {
                                         boxShadow='xl'
                                         minWidth='fit-content'
                                     >
-                                        <MenuItem onClick={() => handleDepartment('Software Engineering')} borderWidth={0} fontSize='sm' borderRadius={8}>Software Engineering</MenuItem>
-                                        <MenuItem onClick={() => handleDepartment('Artificial Intelligence')} borderWidth={0} fontSize='sm' borderRadius={8}>Artificial Intelligence</MenuItem>
+                                        {
+                                            subjectsAvailable.map((subject) => (
+                                                <MenuItem onClick={() => handleDepartment(subject.subjectName)} borderWidth={0} fontSize='sm' borderRadius={8}>{subject.subjectName}</MenuItem>
+                                            ))
+                                        }
+                                        {
+                                            subjectsAvailable.length === 0 &&
+                                            <MenuItem disabled borderWidth={0} fontSize='sm' borderRadius={8}>-You haven't joined any subject!-</MenuItem>
+                                        }
+                                        {/* <MenuItem onClick={() => handleDepartment('Artificial Intelligence')} borderWidth={0} fontSize='sm' borderRadius={8}>Artificial Intelligence</MenuItem>
                                         <MenuItem onClick={() => handleDepartment('Business')} borderWidth={0} fontSize='sm' borderRadius={8}>Bussiness</MenuItem>
                                         <MenuItem onClick={() => handleDepartment('Hospitality')} borderWidth={0} fontSize='sm' borderRadius={8}>Hospitality</MenuItem>
-                                        <MenuItem onClick={() => handleDepartment('Digital Art')} borderWidth={0} fontSize='sm' borderRadius={8}>Digital Art</MenuItem>
+                                        <MenuItem onClick={() => handleDepartment('Digital Art')} borderWidth={0} fontSize='sm' borderRadius={8}>Digital Art</MenuItem> */}
                                     </MenuList>
                                 </Menu>
                             </Flex>
@@ -268,7 +287,7 @@ export const PanelCreatePost = () => {
                         position='relative'
                     >
                         <input ref={previewImageRef} onChange={handlePickerImage} type='file' accept='image/*' name='avatar' id='avatar_picker' style={{ display: 'none' }} />
-                        
+
                         <Image borderRadius={15} className='after-hide' width='100%' height='100%' objectFit='cover' src={previewImage ? previewImage : PlaceholderImage} />
                         <Stack
                             position='absolute'
