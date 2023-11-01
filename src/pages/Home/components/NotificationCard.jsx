@@ -4,6 +4,9 @@ import icons from '../../../assets/icons';
 import React from 'react';
 import { convertTimestamp } from '../../../helper/convertTimestamp';
 import { IoIosArrowForward } from 'react-icons/io';
+import { useNavigate } from 'react-router-dom';
+import { getPost } from '../../../core/services/post';
+import { getSubject } from '../../../core/services/subject';
 const { HeartIcon, CommentIcon, ShareIcon, EyeIcon, ReturnForwardIcon } = icons;
 
 /**
@@ -28,6 +31,34 @@ const { HeartIcon, CommentIcon, ShareIcon, EyeIcon, ReturnForwardIcon } = icons;
  */
 
 export const NotificationCard = ({key, data}) => {
+    const navigate = useNavigate();
+    const handleNavigateDetail = (type, id) => {
+        if(type === 'post_change') {
+            navigate(`/posts/detail/${id}`);
+        } else if(type === 'subject_change') {
+            // navigate('/subjects/detail/')
+        }
+    }
+
+
+    const [description, setDescription] = React.useState('');
+    React.useEffect(() => {
+        if(data) {
+            if(data.type === 'post_change') {
+                getPost(data.navigate) 
+                    .then((res) => {
+                        setDescription(`- ${res.title}`);
+                    })
+            }
+
+            if(data.type === 'subject_change') {
+                getSubject(data.navigate) 
+                    .then((res) => {
+                        setDescription(res.subjectName);
+                    })
+            }
+        }
+    }, [data])
 
     return (
         <Card
@@ -45,8 +76,8 @@ export const NotificationCard = ({key, data}) => {
                         <Box
                             flex={1}
                         >
-                            <Heading size='md' fontWeight='semibold' textAlign='left' noOfLines={1} textOverflow='ellipsis'>{data.title}</Heading>
-                            <Text fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>{convertTimestamp(data.timestamp)}</Text>
+                            <Heading size='md' fontWeight='semibold' textAlign='left' noOfLines={1} textOverflow='ellipsis'>{data.message}</Heading>
+                            <Text fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>{convertTimestamp(data.createAt)}</Text>
                         </Box>
                     </Flex>
                     <IconButton
@@ -54,13 +85,14 @@ export const NotificationCard = ({key, data}) => {
                         colorScheme='gray'
                         aria-label='See menu'
                         icon={<ReturnForwardIcon width={18} height={18}/>}
+                        onClick={() => handleNavigateDetail(data.type, data.navigate)}
                     />
                 </Flex>
             </CardHeader>
             <CardBody
                 backgroundColor="#1E1E1E20"
             >
-                <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={3} textOverflow='ellipsis'>{data.description}</Text>
+                <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={3} textOverflow='ellipsis'>{description}</Text>
             </CardBody>
         </Card>
     );

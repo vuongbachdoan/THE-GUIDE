@@ -22,8 +22,8 @@ export const postMyNotification = async (data) => {
     return response.data;
 }
 
-export const getMyNotifications = async () => {
-    const response = await axios.get('https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/notifications', {
+export const getMyNotifications = async (userId) => {
+    const response = await axios.get(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/notifications/${userId}`, {
         headers: {
             'Content-Type': 'application/json'
         },

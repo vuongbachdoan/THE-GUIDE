@@ -8,6 +8,7 @@ import { createComment } from '../../../core/services/comment';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCommentData } from '../../../core/store/comments/commentsExpanding';
 import { mappingNotification } from '../../../helper/mappingNotification';
+import { useParams } from 'react-router-dom';
 const { HeartIcon, CommentIcon, ShareIcon, EyeIcon, ExpandIcon, HappyIcon, SendIcon, ATIcon } = icons;
 
 /**
@@ -31,11 +32,11 @@ const { HeartIcon, CommentIcon, ShareIcon, EyeIcon, ExpandIcon, HappyIcon, SendI
  *}
  */
 
-export const PostCard = ({ postId }) => {
+export const PanelPostDetail = () => {
     const [ownerPost, setOwnerPost] = React.useState(null);
     const [isExpand, setIsExpand] = React.useState(false);
     const user = useSelector((state) => state.profileData.data);
-    const dispatch = useDispatch();
+    const { postId } = useParams();
 
     const [postData, setPostData] = React.useState(null);
     const [postDa, setCurrnetComments] = React.useState([]);
@@ -112,15 +113,13 @@ export const PostCard = ({ postId }) => {
 
     const handleLikePost = (postData) => {
         likePost(postData?.id, user?.id)
-            .then((res) => {
-                if(res == -1) {
-                    mappingNotification(
-                        'post_change',
-                        `${user?.username} liked on your post!`,
-                        postData?.creatorId,
-                        postId
-                    );
-                }
+            .then(() => {
+                mappingNotification(
+                    'post_change',
+                    `${user?.username} liked on your post!`,
+                    postData?.creatorId,
+                    postId
+                );
                 loadPostData();
             })
             .catch((err) => console.error(err));

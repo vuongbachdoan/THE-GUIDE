@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import profileDataReducer from './user/profileData';
 import commentsExpandingReducer from './comments/commentsExpanding';
+import searchDataReducer from './search/globalSearchPost';
 
 const store = configureStore({
     middleware: (getDefaultMiddleware) =>
@@ -9,7 +10,8 @@ const store = configureStore({
         }),
     reducer: {
         profileData: profileDataReducer,
-        commentsExpanding: commentsExpandingReducer
+        commentsExpanding: commentsExpandingReducer,
+        searchData: searchDataReducer
     },
 });
 

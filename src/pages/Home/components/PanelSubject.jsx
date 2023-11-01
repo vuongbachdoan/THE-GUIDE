@@ -376,59 +376,62 @@ export const PanelSubject = () => {
             }
 
             {/* Subject recommend */}
-            <Card
-                borderWidth={0}
-                borderRadius={20}
-                boxShadow='none'
-                width='100%'
-            >
-                <Box margin={6}>
-                    <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Subjects you may like</Text>
-                </Box>
-                <CardBody>
-                    <Grid
-                        templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(2, 1fr)' }} gap={3}
-                    >
-                        {
-                            subjects.map((subject) => (
-                                <GridItem
-                                    bg={bg}
-                                    borderRadius={20}
-                                >
-                                    <Flex
-                                        justifyContent='center'
-                                        alignItems='center'
-                                        position='relative'
-                                        margin='20px'
-                                        flexDirection='column'
+            {
+                subjects.length !== 0 &&
+                <Card
+                    borderWidth={0}
+                    borderRadius={20}
+                    boxShadow='none'
+                    width='100%'
+                >
+                    <Box margin={6}>
+                        <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Subjects you may like</Text>
+                    </Box>
+                    <CardBody>
+                        <Grid
+                            templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(2, 1fr)' }} gap={3}
+                        >
+                            {
+                                subjects.map((subject) => (
+                                    <GridItem
+                                        bg={bg}
+                                        borderRadius={20}
                                     >
-                                        <Image src={SubjectDecor1}
-                                            maxHeight={75}
-                                            borderRadius={20}
-                                            objectFit='cover'
-                                            position='absolute'
-                                            top={0}
-                                            left={0}
-                                            width='100%'
-                                        />
-                                        <Image objectFit='cover' marginTop={30} src={subject?.thumbnail} width={100} height={100} borderRadius={14} zIndex={10} />
-                                        <Text marginTop={3} fontWeight='semibold' fontSize='xl'>{subject?.subjectCode}</Text>
-                                        <Text marginTop={3} fontWeight='semibold' fontSize='sm' lineHeight='15px'>{subject?.subjectName}</Text>
                                         <Flex
-                                            flexDirection='row'
+                                            justifyContent='center'
                                             alignItems='center'
+                                            position='relative'
+                                            margin='20px'
+                                            flexDirection='column'
                                         >
-                                            <LinkIcon width={18} height={18} />
-                                            <Text textAlign='center' fontSize='x-small' color='gray.500'>Dung and 500 others</Text>
+                                            <Image src={SubjectDecor1}
+                                                maxHeight={75}
+                                                borderRadius={20}
+                                                objectFit='cover'
+                                                position='absolute'
+                                                top={0}
+                                                left={0}
+                                                width='100%'
+                                            />
+                                            <Image objectFit='cover' marginTop={30} src={subject?.thumbnail} width={100} height={100} borderRadius={14} zIndex={10} />
+                                            <Text marginTop={3} fontWeight='semibold' fontSize='xl'>{subject?.subjectCode}</Text>
+                                            <Text marginTop={3} fontWeight='semibold' fontSize='sm' lineHeight='15px'>{subject?.subjectName}</Text>
+                                            <Flex
+                                                flexDirection='row'
+                                                alignItems='center'
+                                            >
+                                                <LinkIcon width={18} height={18} />
+                                                <Text textAlign='center' fontSize='x-small' color='gray.500'>Dung and 500 others</Text>
+                                            </Flex>
+                                            <Link onClick={() => handleJoinSubject(subject)}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Join</Text></Link>
                                         </Flex>
-                                        <Link onClick={() => handleJoinSubject(subject)}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Join</Text></Link>
-                                    </Flex>
-                                </GridItem>
-                            ))
-                        }
-                    </Grid>
-                </CardBody>
-            </Card >
+                                    </GridItem>
+                                ))
+                            }
+                        </Grid>
+                    </CardBody>
+                </Card >
+            }
 
             {/* Dialog create subject */}
             <Modal scrollBehavior='inside' closeOnOverlayClick={false} isOpen={openSubjectCreate} onClose={() => setOpenSubjectCreate(false)}>

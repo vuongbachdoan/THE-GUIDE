@@ -88,3 +88,13 @@ export const likePost = async (postId, userId) => {
 
     return response.data;
 }
+
+export const searchPosts = async (searchVal) => {
+    const response = await axios.get(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/posts/search/${searchVal}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    return response.data;
+}

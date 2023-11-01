@@ -5,17 +5,30 @@ import { AnimatedLogo } from "../../../assets/icons/AnimatedLogo";
 import { Auth } from "aws-amplify";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchData } from "../../store/search/globalSearchPost";
+import { searchPosts } from "../../services/post";
 const { PersonIcon, CloseIcon } = icons;
 
 export const AppHeader = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const bg = useColorModeValue('#FFF', 'gray.700');
     const logoColor = useColorModeValue('#1E1E1E', '#FFF');
     const user = useSelector((state) => state.profileData.data);
 
     const logOut = () => {
         Auth.signOut();
+    }
+
+    const [searchVal, setSearchVal] = React.useState('');
+    const handleGlobalSearch = () => {
+        searchPosts(searchVal)
+            .then((res) => {
+                dispatch(setSearchData(res));
+                navigate('/');
+            })
+            .catch((err) => console.error(err));
     }
 
     return (
@@ -69,9 +82,13 @@ export const AppHeader = () => {
                 <AnimatedLogo height={40} color={logoColor} />
 
                 <InputGroup display={{ base: 'none', md: 'flex' }} maxWidth={{ base: 175, lg: 305 }} height='44px' borderRadius={12}>
-                    <Input placeholder='Search' borderRadius={12} />
+                    <Input onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            handleGlobalSearch();
+                        }
+                    }} onChange={(e) => setSearchVal(e.target.value)} value={searchVal} placeholder='Search' borderRadius={12} />
                     <InputRightElement>
-                        <FaSearch color='#A0A0A0' />
+                        <FaSearch color='#A0A0A0' cursor='pointer' onClick={handleGlobalSearch} />
                     </InputRightElement>
                 </InputGroup>
             </Flex>

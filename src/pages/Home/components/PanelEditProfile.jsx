@@ -1,8 +1,4 @@
-import { Box, Button, Flex, Image, Input, Link, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react'
-import { posts } from '../../../mocks/data';
-import { PostCard } from './PostCard';
-import { useNavigate } from 'react-router-dom';
-import UserAvatar from '../../../assets/images/student1.png';
+import { Box, Button, Flex, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import icons from '../../../assets/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import React from 'react';
