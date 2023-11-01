@@ -98,3 +98,13 @@ export const searchPosts = async (searchVal) => {
 
     return response.data;
 }
+
+export const getPostsBelongSubject = async (subjectCode) => {
+    const response = await axios.get(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/posts/of/${subjectCode}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    return response.data;
+}

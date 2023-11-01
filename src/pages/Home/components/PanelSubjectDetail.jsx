@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardBody, Flex, Grid, GridItem, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Card, CardBody, Flex, Grid, GridItem, IconButton, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import React from 'react';
 import { getSubject, leaveSubject } from '../../../core/services/subject';
@@ -8,6 +8,10 @@ import DecorGreen from '../../../assets/images/decor_role_green.png';
 import DecorOrage from '../../../assets/images/decor_role_orange.png';
 import { IoMdSettings } from 'react-icons/io';
 import { DialogManageSubject } from './DialogManageSubject';
+import icons from '../../../assets/icons';
+import { getPostsBelongSubject } from '../../../core/services/post';
+import { PostCard } from './PostCard';
+const { ExpandIcon } = icons;
 
 export const PanelSubjectDetail = () => {
     const location = useLocation();
@@ -74,6 +78,20 @@ export const PanelSubjectDetail = () => {
         setIsOpenManageSubject(false);
     }
 
+    const [isStudentsExpand, setIsStudentsExpand] = React.useState(true);
+    const [isLecturesExpand, setIsLecturesExpand] = React.useState(true);
+
+    const [postsBelongSubject, setPostsBelongSubject] = React.useState([]);
+    React.useEffect(() => {
+        if (subject) {
+            getPostsBelongSubject(subject?.subjectCode)
+                .then((res) => {
+                    setPostsBelongSubject(res);
+                })
+                .catch((err) => console.error(err));
+        }
+    }, [subject]);
+
     return (
         <>
             <Modal closeOnOverlayClick={false} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
@@ -94,7 +112,7 @@ export const PanelSubjectDetail = () => {
                 </ModalContent>
             </Modal>
 
-            <DialogManageSubject canOpen={isOpenManageSubject} close={handleCloseManageSubject} leave={handleLeaveSubject}/>
+            <DialogManageSubject canOpen={isOpenManageSubject} close={handleCloseManageSubject} leave={handleLeaveSubject} />
 
             <Card
                 borderWidth={0}
@@ -104,14 +122,14 @@ export const PanelSubjectDetail = () => {
                 ref={finalRef}
             >
                 <Flex
-                    margin={6}
+                    margin={5}
                     flexDirection='row'
                     justifyContent='space-between'
                     alignItems='center'
                     columnGap={15}
                 >
                     <Text textAlign='left' fontSize='xl' fontWeight='semibold'>{subject?.subjectCode} / {subject?.subjectName}</Text>
-                    <Button onClick={() => setIsOpenManageSubject(true)} width='40px' height='40px' borderRadius={15} _hover={{transform: 'rotate(720deg)', transitionDuration: '0.5s'}} iconSpacing={0} variant='ghost' leftIcon={<IoMdSettings size={20}/>}/>
+                    <Button onClick={() => setIsOpenManageSubject(true)} width='40px' height='40px' borderRadius={15} _hover={{ transform: 'rotate(720deg)', transitionDuration: '0.5s' }} iconSpacing={0} variant='ghost' leftIcon={<IoMdSettings size={20} />} />
                     {/* <Button onClick={handleLeaveSubject} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Leave</Button> */}
                 </Flex>
             </Card>
@@ -125,20 +143,30 @@ export const PanelSubjectDetail = () => {
                     boxShadow='none'
                     width='100%'
                 >
-                    <Box margin={6}>
+                    <Flex flexDirection='row' justifyContent='space-between' alignItems='center' margin={5}>
                         <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Lectures</Text>
-                    </Box>
-                    <CardBody>
-                        <Grid
-                            templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(2, 1fr)' }} gap={3}
-                        >
-                            {
-                                lectures?.map((lectureId) => (
-                                    <UserCard userId={lectureId} isLecture={true} handleAlert={(message) => handleUserCardAlert(message)} onClose={onClose} />
-                                ))
-                            }
-                        </Grid>
-                    </CardBody>
+                        <IconButton
+                            variant='ghost'
+                            colorScheme='gray'
+                            aria-label='See menu'
+                            icon={<ExpandIcon width={20} height={20} />}
+                            onClick={() => setIsLecturesExpand(!isLecturesExpand)}
+                        />
+                    </Flex>
+                    {
+                        isLecturesExpand &&
+                        <CardBody>
+                            <Grid
+                                templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(2, 1fr)' }} gap={3}
+                            >
+                                {
+                                    lectures?.map((lectureId) => (
+                                        <UserCard userId={lectureId} isLecture={true} handleAlert={(message) => handleUserCardAlert(message)} onClose={onClose} />
+                                    ))
+                                }
+                            </Grid>
+                        </CardBody>
+                    }
                 </Card >
             }
 
@@ -151,21 +179,38 @@ export const PanelSubjectDetail = () => {
                     boxShadow='none'
                     width='100%'
                 >
-                    <Box margin={6}>
+                    <Flex flexDirection='row' justifyContent='space-between' alignItems='center' margin={5}>
                         <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Students</Text>
-                    </Box>
-                    <CardBody>
-                        <Grid
-                            templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(2, 1fr)' }} gap={3}
-                        >
-                            {
-                                students?.map((studentId) => (
-                                    <UserCard userId={studentId} isLecture={false} handleAlert={(message) => handleUserCardAlert(message)} onClose={onClose} />
-                                ))
-                            }
-                        </Grid>
-                    </CardBody>
+                        <IconButton
+                            variant='ghost'
+                            colorScheme='gray'
+                            aria-label='See menu'
+                            icon={<ExpandIcon width={20} height={20} />}
+                            onClick={() => setIsStudentsExpand(!isStudentsExpand)}
+                        />
+                    </Flex>
+                    {
+                        isStudentsExpand &&
+                        <CardBody>
+                            <Grid
+                                templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(2, 1fr)' }} gap={3}
+                            >
+                                {
+                                    students?.map((studentId) => (
+                                        <UserCard userId={studentId} isLecture={false} handleAlert={(message) => handleUserCardAlert(message)} onClose={onClose} />
+                                    ))
+                                }
+                            </Grid>
+                        </CardBody>
+                    }
                 </Card >
+            }
+
+            {/* Posts belong to this subject */}
+            {
+                postsBelongSubject.map((post) => (
+                    <PostCard key={post.id} postId={post.id} />
+                ))
             }
         </>
     );
