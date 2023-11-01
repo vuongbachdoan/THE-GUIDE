@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import { getUser, leaveUser } from '../../../core/services/user';
 import DecorGreen from '../../../assets/images/decor_role_green.png';
 import DecorOrage from '../../../assets/images/decor_role_orange.png';
+import { IoMdSettings } from 'react-icons/io';
+import { DialogManageSubject } from './DialogManageSubject';
 
 export const PanelSubjectDetail = () => {
     const location = useLocation();
@@ -67,6 +69,11 @@ export const PanelSubjectDetail = () => {
             .catch((err) => console.error(err))
     }
 
+    const [isOpenManageSubject, setIsOpenManageSubject] = React.useState(false);
+    const handleCloseManageSubject = () => {
+        setIsOpenManageSubject(false);
+    }
+
     return (
         <>
             <Modal closeOnOverlayClick={false} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
@@ -87,6 +94,8 @@ export const PanelSubjectDetail = () => {
                 </ModalContent>
             </Modal>
 
+            <DialogManageSubject canOpen={isOpenManageSubject} close={handleCloseManageSubject} leave={handleLeaveSubject}/>
+
             <Card
                 borderWidth={0}
                 borderRadius={20}
@@ -102,7 +111,8 @@ export const PanelSubjectDetail = () => {
                     columnGap={15}
                 >
                     <Text textAlign='left' fontSize='xl' fontWeight='semibold'>{subject?.subjectCode} / {subject?.subjectName}</Text>
-                    <Button onClick={handleLeaveSubject} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Leave</Button>
+                    <Button onClick={() => setIsOpenManageSubject(true)} width='40px' height='40px' borderRadius={15} _hover={{transform: 'rotate(720deg)', transitionDuration: '0.5s'}} iconSpacing={0} variant='ghost' leftIcon={<IoMdSettings size={20}/>}/>
+                    {/* <Button onClick={handleLeaveSubject} backgroundColor='#FF8F46' borderRadius={15} _hover={{ backgroundColor: '#E86C1C' }} color='white'>Leave</Button> */}
                 </Flex>
             </Card>
 

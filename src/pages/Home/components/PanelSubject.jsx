@@ -191,12 +191,6 @@ export const PanelSubject = () => {
         }
     }
 
-    const toSubjectPage = (subject) => {
-        navigate('/subject/detail', {
-            state: subject
-        });
-    }
-
     return (
         <>
             <Modal closeOnOverlayClick={false} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
