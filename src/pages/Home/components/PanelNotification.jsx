@@ -2,11 +2,27 @@ import { Box, Button, Flex, Text, useColorModeValue } from '@chakra-ui/react'
 import { PostCard } from './PostCard';
 import { useNavigate } from 'react-router-dom';
 import { NotificationCard } from './NotificationCard';
-import { notifications } from '../../../mocks/data';
+import { getMyNotifications } from '../../../core/services/notification';
+import { useSelector } from 'react-redux';
+import React from 'react';
 
 export const PanelNotification = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
     const navigate = useNavigate();
+    const user = useSelector((state) => state.profileData.data);
+
+    const [notifications, setNotifications] = React.useState([]);
+    React.useEffect(() => {
+        if (user) {
+            getMyNotifications(user.email)
+                .then((res) => {
+                    setNotifications(res);
+                })
+                .catch((err) => {
+                    console.error(err);
+                })
+        }
+    }, [user]);
 
     return (
         <>

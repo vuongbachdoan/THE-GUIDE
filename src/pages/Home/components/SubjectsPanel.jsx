@@ -174,10 +174,10 @@ export const SubjectsPanel = () => {
                                         flexDirection='row'
                                         columnGap={3}
                                     >
-                                        <Image src={Subject1} width={50} height={50} borderRadius={8} />
+                                        <Image objectFit='cover' src={subject.thumbnail} width={50} height={50} borderRadius={8} />
                                         <Box>
                                             <Text textAlign='left' fontSize='md' fontWeight='semibold' noOfLines={1} textOverflow='ellipsis'>{subject.subjectCode}</Text>
-                                            <Text textAlign='left' fontSize='x-small' color='gray.500' noOfLines={1} textOverflow='ellipsis'>{subject.department}</Text>
+                                            <Text textAlign='left' fontSize='x-small' color='gray.500' noOfLines={1} textOverflow='ellipsis'>{subject.subjectName}</Text>
                                         </Box>
                                     </Flex>
 
@@ -206,7 +206,7 @@ export const SubjectsPanel = () => {
                             alignItems='center'
                             rowGap={3}
                         >
-                            <Image src={Subject1} width={100} height={100} borderRadius={8} />
+                            <Image objectFit='cover' src={mostJoinedSubject.thumbnail} width={100} height={100} borderRadius={8} />
                             <Text fontWeight='semibold' fontSize='md' color='gray.500' marginBlock={3}>Recommend for you</Text>
                             <Text fontWeight='semibold' fontSize='xl'>{mostJoinedSubject?.subjectCode}</Text>
                             <Stack cursor='pointer' onClick={() => handleJoinSubject(mostJoinedSubject)}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Join</Text></Stack>

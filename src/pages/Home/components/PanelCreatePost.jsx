@@ -8,6 +8,7 @@ import { createPost } from '../../../core/services/post';
 import { updatePostCover } from '../../../core/services/photo';
 import { getSubjects } from '../../../core/services/subject';
 import { useNavigate } from 'react-router-dom';
+import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
 const { SyncIcon } = icons;
 
 export const PanelCreatePost = () => {
@@ -27,7 +28,7 @@ export const PanelCreatePost = () => {
         department: null,
         title: '',
         description: '',
-        creatorId: user.id ?? '',
+        creatorId: user?.id ?? '',
         createAt: null,
         cover: null,
         updatedAt: '',
@@ -147,26 +148,26 @@ export const PanelCreatePost = () => {
     const [isLoadingImage, setIsLoadingImage] = React.useState(false);
     const [previewImage, setPreviewImage] = React.useState(null);
     const handlePickerImage = (e) => {
-        if (postData.id === '') {
-            onOpen();
+        if (postData?.id === '') {
             setAlertMessage('Please enter title of post first!');
+            onOpen();
         } else {
-            console.log(postData)
             const file = e.target.files[0];
             const reader = new FileReader();
 
             reader.onloadend = async () => {
+                setIsLoadingImage(true);
                 const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
                 const type = file.type.split('/')[1];
 
-                setIsLoadingImage(true);
-                updatePostCover(postData.id, base64String, type)
+                updatePostCover(postData?.id, base64String, type)
                     .then((res) => {
                         setPreviewImage(res);
                         setIsLoadingImage(false);
                     })
                     .catch(() => {
                         onOpen();
+                        setPreviewImage(null);
                         setAlertMessage('Fail to upload this image!');
                         setIsLoadingImage(false);
                     })
@@ -267,10 +268,8 @@ export const PanelCreatePost = () => {
                         position='relative'
                     >
                         <input ref={previewImageRef} onChange={handlePickerImage} type='file' accept='image/*' name='avatar' id='avatar_picker' style={{ display: 'none' }} />
-                        {
-                            previewImage &&
-                            <Image borderRadius={15} className='after-hide' width='100%' height='100%' objectFit='cover' src={previewImage} />
-                        }
+                        
+                        <Image borderRadius={15} className='after-hide' width='100%' height='100%' objectFit='cover' src={previewImage ? previewImage : PlaceholderImage} />
                         <Stack
                             position='absolute'
                             bottom={3}

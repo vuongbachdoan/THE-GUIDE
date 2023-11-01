@@ -3,11 +3,13 @@ import { PostCard } from './PostCard';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import { getPosts } from '../../../core/services/post';
+import { useSelector } from 'react-redux';
 
 export const PanelPostsList = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
     const navigate = useNavigate();
     const [postsData, setPostsData] = React.useState([]);
+    const searchedPosts = useSelector((state) => state.searchData.data);
 
     React.useEffect(() => {
         getPosts()
@@ -31,6 +33,17 @@ export const PanelPostsList = () => {
                 setPostsData(res);
             })
     }, [])
+
+    React.useEffect(() => {
+        if (searchedPosts) {
+            setPostsData(searchedPosts);
+        } else {
+            getPosts()
+                .then((res) => {
+                    setPostsData(res);
+                })
+        }
+    }, [searchedPosts])
 
     return (
         <>
