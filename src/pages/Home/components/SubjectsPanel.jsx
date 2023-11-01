@@ -31,7 +31,6 @@ export const SubjectsPanel = () => {
 
     React.useEffect(() => {
         const mostJoined = filterMostJoinedSubject(subjects);
-        console.log(mostJoined);
         setMostJoinedSubject(mostJoined);
     }, [subjects])
 

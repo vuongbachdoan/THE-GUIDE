@@ -16,6 +16,8 @@ import { LectureManaging } from '../../pages/Home/components/LectureManaging';
 import { LectureManagingStudent } from '../../pages/Home/components/PanelLectureManagingStudent';
 import { LectureManagingDashboard } from '../../pages/Home/components/LectureManagingDashboard';
 import { PanelSubjectDetail } from '../../pages/Home/components/PanelSubjectDetail';
+import { Policy } from '../../pages/Policy';
+import { AboutUs } from '../../pages/AboutUs';
 
 export const AppRouting = () => {
     return (
@@ -38,6 +40,8 @@ export const AppRouting = () => {
                     <Route path='student' element={<LectureManagingStudent />} />
                 </Route>
             </Route>
+            <Route path='/policy' element={<Policy />} />
+            <Route path='/about-us' element={<AboutUs />} />
             <Route path='*' element={<Error />} />
         </Routes>
     );

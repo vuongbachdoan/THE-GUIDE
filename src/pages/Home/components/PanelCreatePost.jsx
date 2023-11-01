@@ -46,7 +46,7 @@ export const PanelCreatePost = () => {
                 creatorId: user.id
             })
         }
-    }, [user]);
+    }, []);
 
     React.useEffect(() => {
         getSubjects()
@@ -64,13 +64,6 @@ export const PanelCreatePost = () => {
         setPostData({
             ...postData,
             title: val
-        })
-    }
-
-    const handleDescription = (val) => {
-        setPostData({
-            ...postData,
-            description: val
         })
     }
 
