@@ -5,6 +5,7 @@ import React from 'react';
 import { getPosts } from '../../../core/services/post';
 import { useSelector } from 'react-redux';
 import { sortArrayByCreatedAt } from '../../../helper/sortArrayByCreatedAt';
+import { sortPostByLike } from '../../../helper/sortPostByLike';
 
 export const PanelPostsList = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
@@ -33,18 +34,27 @@ export const PanelPostsList = () => {
                 // }
                 setPostsData(sortArrayByCreatedAt(res));
             })
-    }, [])
+    }, []);
 
     React.useEffect(() => {
         if (searchedPosts) {
-            setPostsData(searchedPosts);
+            setPostsData(sortArrayByCreatedAt(searchedPosts));
         } else {
             getPosts()
                 .then((res) => {
-                    setPostsData(res);
+                    setPostsData(sortArrayByCreatedAt(res));
                 })
         }
-    }, [searchedPosts])
+    }, [searchedPosts]);
+
+    const [sortType, setSortType] = React.useState('time');
+    React.useEffect(() => {
+        if (sortType === 'time') {
+            setPostsData(sortArrayByCreatedAt(postsData));
+        } else if (sortType === 'like') {
+            setPostsData(sortPostByLike(postsData));
+        }
+    }, [sortType])
 
     return (
         <>
@@ -65,6 +75,10 @@ export const PanelPostsList = () => {
                 </Flex>
 
             </Box>
+            <Flex flexDirection='row' justifyContent='flex-end' width='100%' columnGap={3}>
+                <Button onClick={() => setPostsData(sortPostByLike(postsData))} backgroundColor={bg} borderRadius={15} fontSize='sm'>Most Vote</Button>
+                <Button onClick={() => setPostsData(sortArrayByCreatedAt(postsData))} backgroundColor={bg} borderRadius={15} fontSize='sm'>Newest</Button>
+            </Flex>
             <Flex
                 flexDirection='column'
                 rowGap={3}
