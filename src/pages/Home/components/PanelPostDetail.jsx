@@ -141,7 +141,7 @@ export const PanelPostDetail = () => {
                             <Box
                                 flex={1}
                             >
-                                <Heading size='md' fontWeight='semibold' textAlign='left' noOfLines={1} textOverflow='ellipsis'>{postData?.subjectCode}  /  {postData?.title} </Heading>
+                                <Heading size='md' fontWeight='semibold' textAlign='left'>{postData?.subjectCode}  /  {postData?.title} </Heading>
                                 <Text fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>{postData?.department}</Text>
                             </Box>
                         </Flex>

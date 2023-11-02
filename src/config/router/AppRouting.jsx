@@ -19,6 +19,7 @@ import { PanelSubjectDetail } from '../../pages/Home/components/PanelSubjectDeta
 import { Policy } from '../../pages/Policy';
 import { AboutUs } from '../../pages/AboutUs';
 import { PanelPostDetail } from '../../pages/Home/components/PanelPostDetail';
+import { PanelEditPost } from '../../pages/Home/components/PanelEditPost';
 
 export const AppRouting = () => {
     return (
@@ -37,6 +38,7 @@ export const AppRouting = () => {
                 <Route path='profile/edit' element={<PanelEditProfile />} />
                 <Route path='posts' element={<PanelViewPost />} />
                 <Route path='posts/detail/:postId' element={<PanelPostDetail />} />
+                <Route path='posts/edit/:postId' element={<PanelEditPost />} />
                 <Route path='admin' element={<LectureManaging />}>
                     <Route path='dashboard' element={<LectureManagingDashboard />} />
                     <Route path='student' element={<LectureManagingStudent />} />
