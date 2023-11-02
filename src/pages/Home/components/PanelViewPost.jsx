@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, CardBody, CardHeader, Flex, Heading, IconButton, Image, Link, Menu, MenuButton, MenuItem, MenuList, Text, filter, useColorModeValue } from '@chakra-ui/react'
+import { Avatar, Box, Button, Card, CardBody, CardHeader, Flex, Heading, IconButton, Image, Link, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, filter, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import { posts } from '../../../mocks/data';
 import { PostCard } from './PostCard';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +7,7 @@ import icons from '../../../assets/icons';
 import { FaChevronDown } from 'react-icons/fa';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import React from 'react';
-import { getMyFilteredPosts, getMyPosts } from '../../../core/services/post';
+import { deletePost, getMyFilteredPosts, getMyPosts } from '../../../core/services/post';
 import { useSelector } from 'react-redux';
 import { getUser } from '../../../core/services/user';
 import { sortArrayByCreatedAt } from '../../../helper/sortArrayByCreatedAt';
@@ -16,11 +16,12 @@ import { sortArrayByCreatedAt } from '../../../helper/sortArrayByCreatedAt';
 export const PanelViewPost = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
     const user = useSelector((state) => state.profileData.data);
-    const bgWarning = useColorModeValue('red.100', 'red.900');
-    const bgSuccess = useColorModeValue('green.100', 'green.900');
-    const bdPending = useColorModeValue('gray.100', 'gray.900');
     const navigate = useNavigate();
     const [status, setStatus] = React.useState('All');
+    const finalRef = React.useRef(null);
+    const [alertMessage, setAlertMessage] = React.useState(null);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
     React.useEffect(() => {
         setStatus('All');
     }, [])
@@ -28,14 +29,17 @@ export const PanelViewPost = () => {
     const [myPosts, setMyPosts] = React.useState([]);
     React.useEffect(() => {
         if (user) {
-            getMyPosts(user.id)
-                .then((res) => {
-                    console.log(sortArrayByCreatedAt(res));
-                    setMyPosts(sortArrayByCreatedAt(res));
-                })
-                .catch((err) => console.error(err));
+            loadMyPost();
         }
     }, [user]);
+
+    const loadMyPost = () => {
+        getMyPosts(user.id)
+            .then((res) => {
+                setMyPosts(sortArrayByCreatedAt(res));
+            })
+            .catch((err) => console.error(err));
+    }
 
     React.useEffect(() => {
         filterPost();
@@ -48,6 +52,24 @@ export const PanelViewPost = () => {
                 })
                 .catch((err) => console.error(err));
         }
+    }
+
+    const handleDeletePost = (postId) => {
+        deletePost(postId)
+            .then(() => {
+                loadMyPost();
+                setAlertMessage('Delete post successfully!');
+                onOpen();
+            })
+            .catch(() => {
+                setAlertMessage('Fail to delete post!');
+                onOpen();
+            })
+    }
+
+    const handleCloseMessage = () => {
+        onClose();
+        setAlertMessage(null);
     }
 
     return (
@@ -91,8 +113,8 @@ export const PanelViewPost = () => {
                             >
                                 <MenuItem onClick={() => setStatus('All')} borderWidth={0} fontSize='sm' borderRadius={8}>All</MenuItem>
                                 <MenuItem onClick={() => setStatus('published')} borderWidth={0} fontSize='sm' borderRadius={8}>Published</MenuItem>
-                                <MenuItem onClick={() => setStatus('rejected')} borderWidth={0} fontSize='sm' borderRadius={8}>Pending</MenuItem>
-                                <MenuItem onClick={() => setStatus('pending')} borderWidth={0} fontSize='sm' borderRadius={8}>Rejected</MenuItem>
+                                <MenuItem onClick={() => setStatus('pending')} borderWidth={0} fontSize='sm' borderRadius={8}>Pending</MenuItem>
+                                <MenuItem onClick={() => setStatus('rejected')} borderWidth={0} fontSize='sm' borderRadius={8}>Rejected</MenuItem>
                             </MenuList>
                         </Menu>
                     </Flex>
@@ -126,12 +148,26 @@ export const PanelViewPost = () => {
                                             <Text fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>{post?.department}</Text>
                                         </Box>
                                     </Flex>
-                                    <IconButton
-                                        variant='ghost'
-                                        colorScheme='gray'
-                                        aria-label='See menu'
-                                        icon={<BsThreeDotsVertical />}
-                                    />
+                                    <Menu>
+                                        <MenuButton as={Button} rightIcon={
+                                            <IconButton
+                                                variant='ghost'
+                                                colorScheme='gray'
+                                                aria-label='See menu'
+                                                icon={<BsThreeDotsVertical />}
+                                            />
+                                        } iconSpacing={0} width='40px' height='40px' variant='unstyled'></MenuButton>
+                                        <MenuList
+                                            padding={1}
+                                            borderRadius={12}
+                                            boxShadow='xl'
+                                            minWidth='fit-content'
+                                        >
+                                            <MenuItem onClick={() => navigate(`/posts/detail/${post?.id}`)} borderWidth={0} fontSize='sm' borderRadius={8}>Read</MenuItem>
+                                            <MenuItem onClick={() => navigate(`/posts/edit/${post?.id}`)} borderWidth={0} fontSize='sm' borderRadius={8}>Edit</MenuItem>
+                                            <MenuItem onClick={() => handleDeletePost(post?.id)} borderWidth={0} fontSize='sm' borderRadius={8}>Delete</MenuItem>
+                                        </MenuList>
+                                    </Menu>
                                 </Flex>
                             </CardHeader>
                             <CardBody
@@ -143,77 +179,23 @@ export const PanelViewPost = () => {
                     ))
                 }
 
-                {/* <Card
-                    borderWidth={0}
-                    borderRadius={20}
-                    boxShadow='none'
-                    backgroundColor={bgWarning}
-                >
-                    <CardHeader>
-                        <Flex spacing='4'>
-                            <Flex flex='1' gap='4'>
-                                <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-
-                                <Box
-                                    flex={1}
-                                >
-                                    <Heading size='md' fontWeight='semibold' textAlign='left' noOfLines={1} textOverflow='ellipsis'>PRJ301  /  Java Fundamental </Heading>
-                                    <Text fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>IT department</Text>
-                                </Box>
-                            </Flex>
-                            <IconButton
-                                variant='ghost'
-                                colorScheme='gray'
-                                aria-label='See menu'
-                                icon={<BsThreeDotsVertical />}
-                            />
-                        </Flex>
-                    </CardHeader>
-                    <CardBody
-                        paddingTop={0}
+                <Modal closeOnOverlayClick={false} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
+                    <ModalContent
+                        borderRadius={20}
                     >
-                        <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={3} textOverflow='ellipsis'>
-                            A Java Servlet is a server-side technology that is used to create web applications. It is a Java class that extends the capabilities of a web server and responds to incoming requests. Servlets are robust and scalable because of the Java language 1.
-                            Before Servlets, Common Gateway Interface (CGI) scripting language was commonly used as a server-side programming language. However, there were many disadvantages to this technology. Servlets provide many advantages over CGI, such as scalability, robustness, and better performance 1.
-                        </Text>
-                    </CardBody>
-                </Card>
-
-                <Card
-                    borderWidth={0}
-                    borderRadius={20}
-                    boxShadow='none'
-                    backgroundColor={bgSuccess}
-                >
-                    <CardHeader>
-                        <Flex spacing='4'>
-                            <Flex flex='1' gap='4'>
-                                <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-
-                                <Box
-                                    flex={1}
-                                >
-                                    <Heading size='md' fontWeight='semibold' textAlign='left' noOfLines={1} textOverflow='ellipsis'>PRJ301  /  Java Fundamental </Heading>
-                                    <Text fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>IT department</Text>
-                                </Box>
-                            </Flex>
-                            <IconButton
-                                variant='ghost'
-                                colorScheme='gray'
-                                aria-label='See menu'
-                                icon={<BsThreeDotsVertical />}
-                            />
-                        </Flex>
-                    </CardHeader>
-                    <CardBody
-                        paddingTop={0}
-                    >
-                        <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={3} textOverflow='ellipsis'>
-                            A Java Servlet is a server-side technology that is used to create web applications. It is a Java class that extends the capabilities of a web server and responds to incoming requests. Servlets are robust and scalable because of the Java language 1.
-                            Before Servlets, Common Gateway Interface (CGI) scripting language was commonly used as a server-side programming language. However, there were many disadvantages to this technology. Servlets provide many advantages over CGI, such as scalability, robustness, and better performance 1.
-                        </Text>
-                    </CardBody>
-                </Card> */}
+                        <ModalHeader>Message</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            <Text fontWeight='semibold' fontSize='sm'>{alertMessage}</Text>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button borderRadius={15} width='100px' colorScheme='red' onClick={handleCloseMessage}>
+                                Close
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
             </Flex>
         </>
     );

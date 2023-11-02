@@ -118,3 +118,13 @@ export const approvePost = async (postId, data) => {
 
     return response.data;
 }
+
+export const deletePost = async (postId) => {
+    const response = await axios.delete(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/posts/${postId}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    return response.data;
+}
