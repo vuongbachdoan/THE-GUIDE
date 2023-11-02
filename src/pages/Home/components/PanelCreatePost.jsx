@@ -238,7 +238,7 @@ export const PanelCreatePost = () => {
                                             minWidth='fit-content'
                                         >
                                             {
-                                                subjects.map((subject) => (
+                                                subjectsAvailable.map((subject) => (
                                                     <MenuItem onClick={() => handleSubjectCode(subject.subjectCode)} borderWidth={0} fontSize='sm' borderRadius={8}>
                                                         <Text>{subject.subjectCode}</Text>
                                                     </MenuItem>
@@ -259,19 +259,20 @@ export const PanelCreatePost = () => {
                                         boxShadow='xl'
                                         minWidth='fit-content'
                                     >
-                                        {
+                                        {/* {
                                             subjectsAvailable.map((subject) => (
                                                 <MenuItem onClick={() => handleDepartment(subject.subjectName)} borderWidth={0} fontSize='sm' borderRadius={8}>{subject.subjectName}</MenuItem>
                                             ))
-                                        }
+                                        } */}
                                         {
                                             subjectsAvailable.length === 0 &&
                                             <MenuItem disabled borderWidth={0} fontSize='sm' borderRadius={8}>-You haven't joined any subject!-</MenuItem>
                                         }
-                                        {/* <MenuItem onClick={() => handleDepartment('Artificial Intelligence')} borderWidth={0} fontSize='sm' borderRadius={8}>Artificial Intelligence</MenuItem>
+                                        <MenuItem onClick={() => handleDepartment('Software Engineering')} borderWidth={0} fontSize='sm' borderRadius={8}>Software Engineering</MenuItem>
+                                        <MenuItem onClick={() => handleDepartment('Artificial Intelligence')} borderWidth={0} fontSize='sm' borderRadius={8}>Artificial Intelligence</MenuItem>
                                         <MenuItem onClick={() => handleDepartment('Business')} borderWidth={0} fontSize='sm' borderRadius={8}>Bussiness</MenuItem>
                                         <MenuItem onClick={() => handleDepartment('Hospitality')} borderWidth={0} fontSize='sm' borderRadius={8}>Hospitality</MenuItem>
-                                        <MenuItem onClick={() => handleDepartment('Digital Art')} borderWidth={0} fontSize='sm' borderRadius={8}>Digital Art</MenuItem> */}
+                                        <MenuItem onClick={() => handleDepartment('Digital Art')} borderWidth={0} fontSize='sm' borderRadius={8}>Digital Art</MenuItem>
                                     </MenuList>
                                 </Menu>
                             </Flex>

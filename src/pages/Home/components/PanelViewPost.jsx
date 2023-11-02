@@ -10,6 +10,7 @@ import React from 'react';
 import { getMyFilteredPosts, getMyPosts } from '../../../core/services/post';
 import { useSelector } from 'react-redux';
 import { getUser } from '../../../core/services/user';
+import { sortArrayByCreatedAt } from '../../../helper/sortArrayByCreatedAt';
 // const { MailIcon, LinkedinIcon, GithubIcon } = icons;
 
 export const PanelViewPost = () => {
@@ -29,7 +30,8 @@ export const PanelViewPost = () => {
         if (user) {
             getMyPosts(user.id)
                 .then((res) => {
-                    setMyPosts(res);
+                    console.log(sortArrayByCreatedAt(res));
+                    setMyPosts(sortArrayByCreatedAt(res));
                 })
                 .catch((err) => console.error(err));
         }
@@ -42,7 +44,7 @@ export const PanelViewPost = () => {
         if (user) {
             getMyFilteredPosts(user.id, status)
                 .then((res) => {
-                    setMyPosts(res);
+                    setMyPosts(sortArrayByCreatedAt(res));
                 })
                 .catch((err) => console.error(err));
         }
@@ -79,7 +81,7 @@ export const PanelViewPost = () => {
                         <Text>/</Text>
                         <Menu>
                             <MenuButton width='fit-content' iconSpacing={2} as={Button} paddingY={1} paddingX={2} height='fit-content' rightIcon={<FaChevronDown size={12} />}>
-                                <Text fontSize='sm'>All</Text>
+                                <Text fontSize='sm' textTransform='capitalize'>{status}</Text>
                             </MenuButton>
                             <MenuList
                                 padding={1}
@@ -88,9 +90,9 @@ export const PanelViewPost = () => {
                                 minWidth='fit-content'
                             >
                                 <MenuItem onClick={() => setStatus('All')} borderWidth={0} fontSize='sm' borderRadius={8}>All</MenuItem>
-                                <MenuItem onClick={() => setStatus('Published')} borderWidth={0} fontSize='sm' borderRadius={8}>Published</MenuItem>
-                                <MenuItem onClick={() => setStatus('Pending')} borderWidth={0} fontSize='sm' borderRadius={8}>Pending</MenuItem>
-                                <MenuItem onClick={() => setStatus('Rejected')} borderWidth={0} fontSize='sm' borderRadius={8}>Rejected</MenuItem>
+                                <MenuItem onClick={() => setStatus('published')} borderWidth={0} fontSize='sm' borderRadius={8}>Published</MenuItem>
+                                <MenuItem onClick={() => setStatus('rejected')} borderWidth={0} fontSize='sm' borderRadius={8}>Pending</MenuItem>
+                                <MenuItem onClick={() => setStatus('pending')} borderWidth={0} fontSize='sm' borderRadius={8}>Rejected</MenuItem>
                             </MenuList>
                         </Menu>
                     </Flex>
@@ -109,7 +111,8 @@ export const PanelViewPost = () => {
                             borderWidth={0}
                             borderRadius={20}
                             boxShadow='none'
-                            opacity={post?.status === 'Pending' ? 0.5 : 1}
+                            opacity={post?.status === 'pending' ? 0.5 : 1}
+                            backgroundColor={post?.status === 'rejected' ? '#FF00002E' : bg}
                         >
                             <CardHeader>
                                 <Flex spacing='4'>

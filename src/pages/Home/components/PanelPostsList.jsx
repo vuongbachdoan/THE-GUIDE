@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import { getPosts } from '../../../core/services/post';
 import { useSelector } from 'react-redux';
+import { sortArrayByCreatedAt } from '../../../helper/sortArrayByCreatedAt';
 
 export const PanelPostsList = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
@@ -30,7 +31,7 @@ export const PanelPostsList = () => {
                 //     "creatorId": "google_116711084401427871681",
                 //     "title": "Test title"
                 // }
-                setPostsData(res);
+                setPostsData(sortArrayByCreatedAt(res));
             })
     }, [])
 
@@ -70,9 +71,13 @@ export const PanelPostsList = () => {
                 width='100%'
             >
                 {
-                    postsData.map((post) => (
-                        <PostCard key={post.id} postId={post.id} />
-                    ))
+                    postsData.map((post) => {
+                        if (post?.status === 'published') {
+                            return (
+                                <PostCard key={post.id} postId={post.id} />
+                            );
+                        }
+                    })
                 }
             </Flex>
         </>

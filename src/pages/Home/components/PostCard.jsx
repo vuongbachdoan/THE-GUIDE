@@ -1,8 +1,8 @@
-import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Textarea } from '@chakra-ui/react'
+import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Textarea, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import icons from '../../../assets/icons';
 import React, { useEffect } from 'react';
 import { getUser } from '../../../core/services/user';
-import { getPost, likePost, updatePost } from '../../../core/services/post';
+import { approvePost, getPost, likePost, updatePost } from '../../../core/services/post';
 import { Comment } from './Comment';
 import { createComment } from '../../../core/services/comment';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,10 +35,9 @@ export const PostCard = ({ postId }) => {
     const [ownerPost, setOwnerPost] = React.useState(null);
     const [isExpand, setIsExpand] = React.useState(false);
     const user = useSelector((state) => state.profileData.data);
-    const dispatch = useDispatch();
+    const bg = useColorModeValue('#FFF', 'gray.700');
 
     const [postData, setPostData] = React.useState(null);
-    const [postDa, setCurrnetComments] = React.useState([]);
 
     useEffect(() => {
         loadPostData();
@@ -113,7 +112,7 @@ export const PostCard = ({ postId }) => {
     const handleLikePost = (postData) => {
         likePost(postData?.id, user?.id)
             .then((res) => {
-                if(res == -1) {
+                if (res == -1) {
                     mappingNotification(
                         'post_change',
                         `${user?.username} liked on your post!`,
@@ -126,24 +125,48 @@ export const PostCard = ({ postId }) => {
             .catch((err) => console.error(err));
     }
 
+    const handleApprovePost = (id, type) => {
+        approvePost(id, { accept: type === 'APPROVE' })
+            .then((res) => {
+                setAlertMessage(`Post ${res}!`);
+                onOpen();
+                loadPostData();
+            })
+            .catch(() => {
+                setAlertMessage('Please wait a while and try again!');
+                onOpen();
+            })
+    }
+
+
+    const finalRef = React.useRef(null);
+    const [alertMessage, setAlertMessage] = React.useState(null);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const handleCloseMessage = () => {
+        onClose();
+        setAlertMessage(null);
+    }
+
     return (
         <>
             <Card
+                ref={finalRef}
                 borderWidth={0}
                 borderRadius={20}
                 boxShadow='none'
                 width='100%'
+                backgroundColor={postData?.status === 'rejected' ? '#FF00002E' : bg}
             >
                 <CardHeader>
                     <Flex spacing='4'>
                         <Flex flex='1' gap='4'>
-                            <Avatar name={ownerPost?.username} src={ownerPost?.avatar} />
+                            <Avatar opacity={postData?.status === 'pending' ? 0.5 : 1} name={ownerPost?.username} src={ownerPost?.avatar} />
 
                             <Box
                                 flex={1}
                             >
-                                <Heading size='md' fontWeight='semibold' textAlign='left' noOfLines={1} textOverflow='ellipsis'>{postData?.subjectCode}  /  {postData?.title} </Heading>
-                                <Text fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>{postData?.department}</Text>
+                                <Heading opacity={postData?.status === 'pending' ? 0.5 : 1} size='md' fontWeight='semibold' textAlign='left' noOfLines={1} textOverflow='ellipsis'>{postData?.subjectCode}  /  {postData?.title} </Heading>
+                                <Text opacity={postData?.status === 'pending' ? 0.5 : 1} fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>{postData?.department}</Text>
                             </Box>
                         </Flex>
                         <IconButton
@@ -152,13 +175,14 @@ export const PostCard = ({ postId }) => {
                             aria-label='See menu'
                             icon={<ExpandIcon width={20} height={20} />}
                             onClick={handleViewPost}
+                            opacity={postData?.status === 'pending' ? 0.5 : 1}
                         />
                     </Flex>
                 </CardHeader>
                 <CardBody
                     paddingTop={0}
                 >
-                    <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={isExpand ? 'auto' : 3} textOverflow='ellipsis'>{postData?.content}</Text>
+                    <Text opacity={postData?.status === 'pending' ? 0.5 : 1} fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={isExpand ? 'auto' : 3} textOverflow='ellipsis'>{postData?.content}</Text>
                 </CardBody>
                 {
                     postData?.cover &&
@@ -167,6 +191,7 @@ export const PostCard = ({ postId }) => {
                         src={postData?.cover}
                         alt='cover image'
                         maxHeight={240}
+                        opacity={postData?.status === 'pending' ? 0.5 : 1}
                     />
                 }
 
@@ -179,21 +204,47 @@ export const PostCard = ({ postId }) => {
                         },
                     }}
                 >
-                    <Flex>
-                        <Button onClick={() => handleLikePost(postData)} width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<HeartIcon color={postData?.liked.length !== 0 ? 'red' : '#A0A0A0'} width={20} height={20} />}>
-                            <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.liked?.length !== 0 ? postData?.liked?.length : '_'}</Text>
-                        </Button>
-                        <Button onClick={() => setIsExpandComment(!isExpandComment)} width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<CommentIcon width={20} height={20} />}>
-                            <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.commentIds?.length !== 0 ? postData?.commentIds?.length : '_'}</Text>
-                        </Button>
-                        <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<ShareIcon width={20} height={20} />}>
-                            <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.shared !== 0 ? postData?.shared : '_'}</Text>
-                        </Button>
-                    </Flex>
-                    <Flex flexDirection='row' alignItems='center' padding={1} columnGap={2}>
-                        <EyeIcon width={20} height={20} />
-                        <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.viewed !== 0 ? postData?.viewed : '_'}</Text>
-                    </Flex>
+                    {
+                        postData?.status === 'published' &&
+                        <>
+                            <Flex>
+                                <Button onClick={() => handleLikePost(postData)} width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<HeartIcon color={postData?.liked.length !== 0 ? 'red' : '#A0A0A0'} width={20} height={20} />}>
+                                    <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.liked?.length !== 0 ? postData?.liked?.length : '_'}</Text>
+                                </Button>
+                                <Button onClick={() => setIsExpandComment(!isExpandComment)} width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<CommentIcon width={20} height={20} />}>
+                                    <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.commentIds?.length !== 0 ? postData?.commentIds?.length : '_'}</Text>
+                                </Button>
+                                <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<ShareIcon width={20} height={20} />}>
+                                    <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.shared !== 0 ? postData?.shared : '_'}</Text>
+                                </Button>
+                            </Flex>
+                            <Flex flexDirection='row' alignItems='center' padding={1} columnGap={2}>
+                                <EyeIcon width={20} height={20} />
+                                <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.viewed !== 0 ? postData?.viewed : '_'}</Text>
+                            </Flex>
+                        </>
+                    }
+
+                    {
+                        (postData?.status === 'pending' || postData?.status === 'rejected') &&
+                        <Flex flexDirection='row' justifyContent='space-between' width='100%' alignItems='center'>
+                            <Text fontSize='x-small' color='gray.500' fontWeight='semibold'>{postData?.status === 'pending' ? 'This post is waiting to be published!' : 'This post has been rejected!'}</Text>
+                            <Box flex={1}></Box>
+                            {
+                                (user?.role === 'Lecture' || user?.role === 'Admin') &&
+                                <Flex
+                                    flexDirection='row'
+                                    columnGap={3}
+                                >
+                                    <Button onClick={() => handleApprovePost(postData?.id, 'APPROVE')} fontSize='small' width={100} borderRadius={15}>Approve</Button>
+                                    {
+                                        postData?.status !== 'rejected' &&
+                                        <Button onClick={() => handleApprovePost(postData?.id, 'REJECT')} fontSize='small' colorScheme='red' width={100} borderRadius={15}>Reject</Button>
+                                    }
+                                </Flex>
+                            }
+                        </Flex>
+                    }
                 </CardFooter>
             </Card>
 
@@ -257,6 +308,24 @@ export const PostCard = ({ postId }) => {
                             </Flex>
                         </Card>
                     </ModalBody>
+                </ModalContent>
+            </Modal>
+
+            <Modal closeOnOverlayClick={false} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent
+                    borderRadius={20}
+                >
+                    <ModalHeader>Message</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Text fontWeight='semibold' fontSize='sm'>{alertMessage}</Text>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button borderRadius={15} width='100px' colorScheme='red' onClick={handleCloseMessage}>
+                            Close
+                        </Button>
+                    </ModalFooter>
                 </ModalContent>
             </Modal>
         </>

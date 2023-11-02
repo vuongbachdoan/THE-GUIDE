@@ -144,7 +144,7 @@ export const PanelSubjectDetail = () => {
                     width='100%'
                 >
                     <Flex flexDirection='row' justifyContent='space-between' alignItems='center' margin={5}>
-                        <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Lectures</Text>
+                        <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Lectures ({lectures.length})</Text>
                         <IconButton
                             variant='ghost'
                             colorScheme='gray'
@@ -180,7 +180,7 @@ export const PanelSubjectDetail = () => {
                     width='100%'
                 >
                     <Flex flexDirection='row' justifyContent='space-between' alignItems='center' margin={5}>
-                        <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Students</Text>
+                        <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Students ({students.length})</Text>
                         <IconButton
                             variant='ghost'
                             colorScheme='gray'
