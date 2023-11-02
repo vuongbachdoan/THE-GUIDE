@@ -5,6 +5,7 @@ import { NotificationCard } from './NotificationCard';
 import { getMyNotifications } from '../../../core/services/notification';
 import { useSelector } from 'react-redux';
 import React from 'react';
+import { sortArrayByCreatedAt } from '../../../helper/sortArrayByCreatedAt';
 
 export const PanelNotification = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
@@ -16,7 +17,8 @@ export const PanelNotification = () => {
         if (user) {
             getMyNotifications(user.email)
                 .then((res) => {
-                    setNotifications(res);
+                    console.log(sortArrayByCreatedAt(res));
+                    setNotifications(sortArrayByCreatedAt(res));
                 })
                 .catch((err) => {
                     console.error(err);
