@@ -108,3 +108,13 @@ export const getPostsBelongSubject = async (subjectCode) => {
 
     return response.data;
 }
+
+export const approvePost = async (postId, data) => {
+    const response = await axios.put(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/posts/${postId}/approve`, data, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    return response.data;
+}
