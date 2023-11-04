@@ -106,3 +106,16 @@
     margin: 0.5rem !important;
     font-size: 14px;
 }
+
+.ellipse-box {
+    /* display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important; 
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important; */
+
+    height: 100px; /* Adjust as needed */
+    overflow: hidden; /* Hide the overflow */
+    text-overflow: ellipsis; /* Add an ellipsis when the text overflows */
+    white-space: nowrap;
+}

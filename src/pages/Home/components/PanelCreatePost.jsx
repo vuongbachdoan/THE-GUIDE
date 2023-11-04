@@ -33,7 +33,7 @@ export const PanelCreatePost = () => {
             setHtmlContent(prevHtmlContent => prevHtmlContent + converTextToHTML(inputValue, currentVariant));
             setPostData({
                 ...postData,
-                content: htmlContent
+                content: htmlContent + converTextToHTML(inputValue, currentVariant)
             })
             setInputValue('');
         }
@@ -77,7 +77,6 @@ export const PanelCreatePost = () => {
     }
 
     const handleContent = () => {
-        console.log(htmlContent);
         setPostData({
             ...postData,
             content: `${htmlContent}`

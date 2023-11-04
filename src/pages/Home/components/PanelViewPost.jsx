@@ -173,8 +173,10 @@ export const PanelViewPost = () => {
                             <CardBody
                                 paddingTop={0}
                             >
-                                {/* <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={3} textOverflow='ellipsis'>{post?.content}</Text> */}
-                                <div dangerouslySetInnerHTML={{ __html: post?.content }}></div>
+                                <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={3} textOverflow='ellipsis'>{post?.description}</Text>
+                                {/* <div className='ellipse-box'>
+                                    <div style={{ textAlign: 'left' }} className='ignore_lib text-ellipse' dangerouslySetInnerHTML={{ __html: post?.content }}></div>
+                                </div> */}
                             </CardBody>
                         </Card>
                     ))
