@@ -330,21 +330,22 @@ export const PanelCreatePost = () => {
                             rowGap='5px'
                         >
                             <Button onClick={() => setCurrentVariant('p')} height='40px' borderRadius='10px' iconSpacing={0} paddingX={3}>None</Button>
-                            <Button onClick={() => setCurrentVariant('h1')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading1 size={20} />} />
-                            <Button onClick={() => setCurrentVariant('h2')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading2 size={20} />} />
-                            <Button onClick={() => setCurrentVariant('h3')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading3 size={20} />} />
-                            <Button onClick={() => setCurrentVariant('h4')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading4 size={20} />} />
-                            <Button onClick={() => setCurrentVariant('h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading5 size={20} />} />
-                            <Button onClick={() => setCurrentVariant('h6')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading6 size={20} />} />
-                            <Button onClick={() => setCurrentVariant('bold')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Bold size={20} />} />
-                            <Button onClick={() => setCurrentVariant('italic')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Italic size={20} />} />
-                            <Button onClick={() => setCurrentVariant('underline')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Underline size={20} />} />
-                            <Button onClick={() => setCurrentVariant('blockquote')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Quote size={20} />} />
+                            <Button onClick={() => setCurrentVariant('h1')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading1 size={18} />} />
+                            <Button onClick={() => setCurrentVariant('h2')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading2 size={18} />} />
+                            <Button onClick={() => setCurrentVariant('h3')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading3 size={18} />} />
+                            <Button onClick={() => setCurrentVariant('h4')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading4 size={18} />} />
+                            <Button onClick={() => setCurrentVariant('h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading5 size={18} />} />
+                            <Button onClick={() => setCurrentVariant('h6')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading6 size={18} />} />
+                            <Button onClick={() => setCurrentVariant('bold')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Bold size={18} />} />
+                            <Button onClick={() => setCurrentVariant('italic')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Italic size={18} />} />
+                            <Button onClick={() => setCurrentVariant('underline')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Underline size={18} />} />
+                            <Button onClick={() => setCurrentVariant('blockquote')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Quote size={18} />} />
                         </Flex>
                     </Flex>
                     <Textarea value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         onKeyDown={handleKeyDown} borderRadius={15} minHeight={120} placeholder='Content of your post here . . .' />
+                    <Text fontSize='x-small' color='orange' textAlign='right'>*Hit enter to add a new line in document.</Text>
                 </CardBody>
 
                 <CardFooter
