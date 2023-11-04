@@ -173,7 +173,8 @@ export const PanelViewPost = () => {
                             <CardBody
                                 paddingTop={0}
                             >
-                                <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={3} textOverflow='ellipsis'>{post?.content}</Text>
+                                {/* <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={3} textOverflow='ellipsis'>{post?.content}</Text> */}
+                                <div dangerouslySetInnerHTML={{ __html: post?.content }}></div>
                             </CardBody>
                         </Card>
                     ))

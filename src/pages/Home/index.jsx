@@ -2,8 +2,6 @@ import { Box, Button, Flex, Text, VStack, useColorModeValue } from '@chakra-ui/r
 import { AppLayout } from '../../core/layout/AppLayout';
 import { Sidebar } from '../../core/layout/components/Sidebar';
 import { SubjectsPanel } from './components/SubjectsPanel';
-import { PostCard } from './components/PostCard';
-import { PanelPostsList } from './components/PanelPostsList';
 import { Outlet } from 'react-router-dom';
 
 export const Home = () => {

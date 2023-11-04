@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Input, InputGroup, InputRightElement, Stack, VStack } from '@chakra-ui/react';
+import { Box, Button, Flex, Input, InputGroup, InputRightElement, Stack, VStack, useColorModeValue } from '@chakra-ui/react';
 import IVSBroadcastClient, { BASIC_LANDSCAPE } from 'amazon-ivs-web-broadcast'
 import { useEffect, useState } from 'react';
 import { MdCallEnd, MdVideocamOff, MdVideocam, MdSettings } from 'react-icons/md';
@@ -7,6 +7,7 @@ import { LivestreamChat } from './components/LivestreamChat';
 
 export const Livestream = () => {
     const [client, setClient] = useState(null);
+    const bg = useColorModeValue('#FFF', 'gray.700');
 
     useEffect(() => {
         handlePermissions()
@@ -76,6 +77,7 @@ export const Livestream = () => {
             setJoiningStatus('NONE');
         }
     }, [joiningStatus])
+    
     const joinStream = async () => {
         if (client) {
             client
@@ -208,27 +210,27 @@ export const Livestream = () => {
                             justifyContent='center'
                             columnGap={15}
                         >
-                            <Button colorScheme='red' onClick={() => setJoiningStatus('END')}><MdCallEnd size={22} /></Button>
-                            <Button onClick={() => {
+                            <Button borderRadius={15} colorScheme='red' onClick={() => setJoiningStatus('END')}><MdCallEnd size={22} /></Button>
+                            <Button borderRadius={15} onClick={() => {
                                 const status = !isCameraOn;
                                 setIsCameraOn(status)
                             }}>
                                 {isCameraOn ? <MdVideocam size={22} /> : <MdVideocamOff size={22} />}
                             </Button>
-                            <Button onClick={() => {
+                            <Button borderRadius={15} onClick={() => {
                                 const status = !isMute;
                                 setIsMute(status)
                             }}>
                                 {isMute ? <IoMdMicOff size={22} /> : <IoMdMic size={22} />}
                             </Button>
-                            <Button><MdSettings size={22} /></Button>
+                            <Button borderRadius={15}><MdSettings size={22} /></Button>
                         </Flex>
                     }
                 </Flex>
 
                 <Stack
                     width={320}
-                    backgroundColor='#FAFAFA'
+                    backgroundColor={bg}
                     borderRadius={15}
                 >
                     <LivestreamChat />

@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Text, Button, VStack, Input, Avatar, IconButton, Spacer, Flex, Heading, Stack } from '@chakra-ui/react';
+import { Box, Text, Button, VStack, Input, Avatar, IconButton, Spacer, Flex, Heading, Stack, useColorModeValue } from '@chakra-ui/react';
 import { BiMailSend } from 'react-icons/bi';
 
 export const LivestreamChat = () => {
+    const bg = useColorModeValue('#FFF', 'gray.700');
+
     return (
         <Flex
             flexDirection="column"
@@ -45,7 +47,7 @@ export const LivestreamChat = () => {
                                 alignItems='flex-start'
                                 borderRadius={7.5}
                                 _hover={{
-                                    backgroundColor:'#E5E5E5'
+                                    backgroundColor:'#000'
                                 }}
                                 cursor='pointer'
                                 padding={7.5}
@@ -58,8 +60,9 @@ export const LivestreamChat = () => {
                                 <Flex
                                     flexDirection='column'
                                     rowGap={0}
+                                    justifyContent='flex-start'
                                 >
-                                    <Text fontSize={12} fontWeight='semibold'>
+                                    <Text fontSize={12} fontWeight='semibold' textAlign='left'>
                                         DE150256 - 2 minutes
                                     </Text>
                                     <Text fontSize={12}>
