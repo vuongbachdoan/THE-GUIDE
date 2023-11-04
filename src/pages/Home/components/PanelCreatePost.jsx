@@ -23,7 +23,7 @@ export const PanelCreatePost = () => {
     const previewImageRef = React.useRef();
     const [subjects, setSubjects] = React.useState([]);
     const navigate = useNavigate();
-    const [currentVariant, setCurrentVariant] = React.useState('h1');
+    const [currentVariant, setCurrentVariant] = React.useState('p');
     const [inputValue, setInputValue] = React.useState('');
     const [htmlContent, setHtmlContent] = React.useState('');
 
@@ -329,23 +329,21 @@ export const PanelCreatePost = () => {
                             flexWrap='wrap'
                             rowGap='5px'
                         >
-                            <Button onClick={() => setCurrentVariant('p')} height='40px' borderRadius='10px' iconSpacing={0} paddingX={3}>None</Button>
-                            <Button onClick={() => setCurrentVariant('h1')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading1 size={18} />} />
-                            <Button onClick={() => setCurrentVariant('h2')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading2 size={18} />} />
-                            <Button onClick={() => setCurrentVariant('h3')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading3 size={18} />} />
-                            <Button onClick={() => setCurrentVariant('h4')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading4 size={18} />} />
-                            <Button onClick={() => setCurrentVariant('h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading5 size={18} />} />
-                            <Button onClick={() => setCurrentVariant('h6')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading6 size={18} />} />
-                            <Button onClick={() => setCurrentVariant('bold')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Bold size={18} />} />
-                            <Button onClick={() => setCurrentVariant('italic')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Italic size={18} />} />
-                            <Button onClick={() => setCurrentVariant('underline')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Underline size={18} />} />
-                            <Button onClick={() => setCurrentVariant('blockquote')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Quote size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'h1' ? 'p' : 'h1')} width='40px' height='40px' borderRadius='10px' iconSpacing={0}  backgroundColor={currentVariant === 'h1' ? '#0A0A0A' : '#EDF2F7'} _hover={{backgroundColor: '#000', color: '#FFF'}} color={currentVariant === 'h1' ? '#FFF' : '#000'} leftIcon={<Heading1 size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'h2' ? 'p' : 'h2')} width='40px' height='40px' borderRadius='10px' iconSpacing={0}  backgroundColor={currentVariant === 'h2' ? '#0A0A0A' : '#EDF2F7'} _hover={{backgroundColor: '#000', color: '#FFF'}} color={currentVariant === 'h2' ? '#FFF' : '#000'} leftIcon={<Heading2 size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'h3' ? 'p' : 'h3')} width='40px' height='40px' borderRadius='10px' iconSpacing={0}  backgroundColor={currentVariant === 'h3' ? '#0A0A0A' : '#EDF2F7'} _hover={{backgroundColor: '#000', color: '#FFF'}} color={currentVariant === 'h3' ? '#FFF' : '#000'} leftIcon={<Heading3 size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'h4' ? 'p' : 'h4')} width='40px' height='40px' borderRadius='10px' iconSpacing={0}  backgroundColor={currentVariant === 'h4' ? '#0A0A0A' : '#EDF2F7'} _hover={{backgroundColor: '#000', color: '#FFF'}} color={currentVariant === 'h4' ? '#FFF' : '#000'} leftIcon={<Heading4 size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'h5' ? 'p' : 'h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0}  backgroundColor={currentVariant === 'h5' ? '#0A0A0A' : '#EDF2F7'} _hover={{backgroundColor: '#000', color: '#FFF'}} color={currentVariant === 'h5' ? '#FFF' : '#000'} leftIcon={<Heading5 size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'h6' ? 'p' : 'h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0}  backgroundColor={currentVariant === 'h6' ? '#0A0A0A' : '#EDF2F7'} _hover={{backgroundColor: '#000', color: '#FFF'}} color={currentVariant === 'h6' ? '#FFF' : '#000'} leftIcon={<Heading6 size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'bold' ? 'p' : 'bold')} width='40px' height='40px' borderRadius='10px' iconSpacing={0}  backgroundColor={currentVariant === 'bold' ? '#0A0A0A' : '#EDF2F7'} _hover={{backgroundColor: '#000', color: '#FFF'}} color={currentVariant === 'bold' ? '#FFF' : '#000'} leftIcon={<Bold size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'italic' ? 'p' : 'italic')} width='40px' height='40px' borderRadius='10px' iconSpacing={0}  backgroundColor={currentVariant === 'italic' ? '#0A0A0A' : '#EDF2F7'} _hover={{backgroundColor: '#000', color: '#FFF'}} color={currentVariant === 'italic' ? '#FFF' : '#000'} leftIcon={<Italic size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'underline' ? 'p' : 'underline')} width='40px' height='40px' borderRadius='10px' iconSpacing={0}  backgroundColor={currentVariant === 'underline' ? '#0A0A0A' : '#EDF2F7'} _hover={{backgroundColor: '#000', color: '#FFF'}} color={currentVariant === 'underline' ? '#FFF' : '#000'} leftIcon={<Underline size={18} />} />
                         </Flex>
                     </Flex>
                     <Textarea value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         onKeyDown={handleKeyDown} borderRadius={15} minHeight={120} placeholder='Content of your post here . . .' />
-                    <Text fontSize='x-small' color='orange' textAlign='right'>*Hit enter to add a new line in document.</Text>
+                    <Text fontSize='x-small' textAlign='right'>*Hit enter to add a new line in document.</Text>
                 </CardBody>
 
                 <CardFooter

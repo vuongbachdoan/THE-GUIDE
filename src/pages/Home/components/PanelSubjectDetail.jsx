@@ -208,9 +208,19 @@ export const PanelSubjectDetail = () => {
 
             {/* Posts belong to this subject */}
             {
-                postsBelongSubject.map((post) => (
-                    <PostCard key={post.id} postId={post.id} />
-                ))
+                postsBelongSubject.map((post) => {
+                    if(user?.role === 'Lecture') {
+                        return (
+                            <PostCard key={post.id} postId={post.id} />
+                        )
+                    } else {
+                        if(post?.status === 'published')  {
+                            return (
+                                <PostCard key={post.id} postId={post.id} />
+                            )
+                        }
+                    }
+                })
             }
         </>
     );
