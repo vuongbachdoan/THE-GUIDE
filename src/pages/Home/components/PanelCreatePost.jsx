@@ -9,6 +9,8 @@ import { updatePostCover } from '../../../core/services/photo';
 import { getSubjects, getSubjectsJoined } from '../../../core/services/subject';
 import { useNavigate } from 'react-router-dom';
 import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
+import { converTextToHTML } from '../../../helper/converTextToHTML';
+import { Bold, Code, Heading1, Heading2, Heading3, Heading4, Heading5, Heading6, Italic, Quote, Underline } from 'lucide-react';
 const { SyncIcon } = icons;
 
 export const PanelCreatePost = () => {
@@ -21,6 +23,21 @@ export const PanelCreatePost = () => {
     const previewImageRef = React.useRef();
     const [subjects, setSubjects] = React.useState([]);
     const navigate = useNavigate();
+    const [currentVariant, setCurrentVariant] = React.useState('h1');
+    const [inputValue, setInputValue] = React.useState('');
+    const [htmlContent, setHtmlContent] = React.useState('');
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevents the addition of a new line in contentEditable on Enter
+            setHtmlContent(prevHtmlContent => prevHtmlContent + converTextToHTML(inputValue, currentVariant));
+            setPostData({
+                ...postData,
+                content: htmlContent
+            })
+            setInputValue('');
+        }
+    }
 
     const [postData, setPostData] = React.useState({
         id: '',
@@ -59,10 +76,11 @@ export const PanelCreatePost = () => {
         })
     }
 
-    const handleContent = (val) => {
+    const handleContent = () => {
+        console.log(htmlContent);
         setPostData({
             ...postData,
-            content: val
+            content: `${htmlContent}`
         })
     }
 
@@ -93,6 +111,7 @@ export const PanelCreatePost = () => {
      * @returns 
      */
     const handleCreatePost = async (status) => {
+        handleContent();
         const timeCreate = new Date();
         const uniqueId = await createUniqueId(postData.title);
 
@@ -202,7 +221,7 @@ export const PanelCreatePost = () => {
                 })
                 .catch((err) => console.error(err));
         }
-    }, [])
+    }, []);
 
     return (
         <>
@@ -299,7 +318,34 @@ export const PanelCreatePost = () => {
                             <Button display='flex' justifyContent='center' alignItems='center' padding={0} iconSpacing={0} rightIcon={isLoadingImage ? <Spinner /> : <SyncIcon width={18} height={18} color='#1E1E1E' />} borderRadius='full' />
                         </Stack>
                     </Box>
-                    <Textarea value={postData.content} onChange={(e) => handleContent(e.target.value)} borderRadius={15} minHeight={240} placeholder='Content of your post here . . .' />
+                    <div style={{ textAlign: 'left' }} className='ignore_lib' dangerouslySetInnerHTML={{ __html: htmlContent }} ></div>
+
+                    <Flex marginTop={3} flexDirection='row' justifyContent='space-between' alignItems='flex-start'>
+                        <Text textAlign='left' lineHeight='40px' height='40px' width='100px' margin={0} fontWeight='bold' fontSize='sm'>{'>'} {currentVariant}</Text>
+                        <Flex
+                            flexDirection='row'
+                            justifyContent='flex-end'
+                            columnGap={1}
+                            marginBottom='5px'
+                            flexWrap='wrap'
+                            rowGap='5px'
+                        >
+                            <Button onClick={() => setCurrentVariant('p')} height='40px' borderRadius='10px' iconSpacing={0} paddingX={3}>None</Button>
+                            <Button onClick={() => setCurrentVariant('h1')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading1 size={20} />} />
+                            <Button onClick={() => setCurrentVariant('h2')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading2 size={20} />} />
+                            <Button onClick={() => setCurrentVariant('h3')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading3 size={20} />} />
+                            <Button onClick={() => setCurrentVariant('h4')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading4 size={20} />} />
+                            <Button onClick={() => setCurrentVariant('h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading5 size={20} />} />
+                            <Button onClick={() => setCurrentVariant('h6')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Heading6 size={20} />} />
+                            <Button onClick={() => setCurrentVariant('bold')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Bold size={20} />} />
+                            <Button onClick={() => setCurrentVariant('italic')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Italic size={20} />} />
+                            <Button onClick={() => setCurrentVariant('underline')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Underline size={20} />} />
+                            <Button onClick={() => setCurrentVariant('blockquote')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} leftIcon={<Quote size={20} />} />
+                        </Flex>
+                    </Flex>
+                    <Textarea value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={handleKeyDown} borderRadius={15} minHeight={120} placeholder='Content of your post here . . .' />
                 </CardBody>
 
                 <CardFooter

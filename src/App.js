@@ -7,9 +7,9 @@ import {
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './config/theme/darkmode/ColorModeSwitcher';
 import AppRouting from './config/router/AppRouting';
-import './config/theme/css/default.css';
 import { mode } from '@chakra-ui/theme-tools';
 import useAuth from './hooks/useAuth';
+import './config/theme/css/default.css';
 
 const theme = extendTheme({
   styles: {

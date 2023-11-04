@@ -21,6 +21,7 @@ import { AboutUs } from '../../pages/AboutUs';
 import { PanelPostDetail } from '../../pages/Home/components/PanelPostDetail';
 import { PanelEditPost } from '../../pages/Home/components/PanelEditPost';
 import { Livestream } from '../../pages/Livestream';
+import { LivestreamViewer } from '../../pages/Livestream/components/LivestreamViewer';
 
 export const AppRouting = () => {
     return (
@@ -48,6 +49,7 @@ export const AppRouting = () => {
             <Route path='/policy' element={<Policy />} />
             <Route path='/about-us' element={<AboutUs />} />
             <Route path='/livestream' element={< Livestream />} />
+            <Route path='/livestream/view' element={< LivestreamViewer />} />
             <Route path='*' element={<Error />} />
         </Routes>
     );

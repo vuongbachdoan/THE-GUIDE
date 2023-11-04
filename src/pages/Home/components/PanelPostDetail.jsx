@@ -154,11 +154,6 @@ export const PanelPostDetail = () => {
                         />
                     </Flex>
                 </CardHeader>
-                <CardBody
-                    paddingTop={0}
-                >
-                    <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={isExpand ? 'auto' : 3} textOverflow='ellipsis'>{postData?.content}</Text>
-                </CardBody>
                 {
                     postData?.cover &&
                     <Image
@@ -168,7 +163,13 @@ export const PanelPostDetail = () => {
                         maxHeight={240}
                     />
                 }
-
+                <CardBody
+                    paddingTop={3}
+                    textAlign='left'
+                >
+                    {/* <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={isExpand ? 'auto' : 3} textOverflow='ellipsis'>{postData?.content}</Text> */}
+                    <div className='ignore_lib' dangerouslySetInnerHTML={{ __html: postData?.content}}></div>
+                </CardBody>
                 <CardFooter
                     justifyContent='space-between'
                     flexWrap='wrap'
