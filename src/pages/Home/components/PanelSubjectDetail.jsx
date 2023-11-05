@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardBody, Flex, Grid, GridItem, IconButton, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react'
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import React from 'react';
 import { getSubject, leaveSubject } from '../../../core/services/subject';
 import { useSelector } from 'react-redux';
@@ -15,7 +15,8 @@ const { ExpandIcon } = icons;
 
 export const PanelSubjectDetail = () => {
     const location = useLocation();
-    const subject = location.state;
+    const { subjectId } = useParams();
+    const [subject, setSubject] = React.useState(null);
     const navigate = useNavigate();
     const user = useSelector((state) => state.profileData.data);
 
@@ -25,13 +26,25 @@ export const PanelSubjectDetail = () => {
 
     const [lectures, setLectures] = React.useState([]);
     const [students, setStudents] = React.useState([]);
-    React.useEffect(() => {
-        loadSubject();
-    }, [location.state]);
 
     React.useEffect(() => {
-        loadSubject();
+        console.log(subjectId)
+        if (subjectId) {
+            getSubject(subjectId)
+                .then((res) => {
+                    setSubject(res);
+                })
+                .catch((err) => console.error(err));
+        } else {
+            loadSubject();
+        }
     }, []);
+
+    React.useEffect(() => {
+        if (subject) {
+            loadSubject();
+        }
+    }, [subject])
 
     const handleUserCardAlert = (message) => {
         navigate('/subject/detail', {
@@ -136,7 +149,7 @@ export const PanelSubjectDetail = () => {
 
             {/* List lecture */}
             {
-                lectures?.length !== 0 &&
+                (lectures && lectures?.length !== 0) &&
                 <Card
                     borderWidth={0}
                     borderRadius={20}
@@ -172,7 +185,7 @@ export const PanelSubjectDetail = () => {
 
             {/* List students */}
             {
-                students?.length !== 0 &&
+                (students && students?.length !== 0) &&
                 <Card
                     borderWidth={0}
                     borderRadius={20}
@@ -209,12 +222,12 @@ export const PanelSubjectDetail = () => {
             {/* Posts belong to this subject */}
             {
                 postsBelongSubject.map((post) => {
-                    if(user?.role === 'Lecture' || user?.role === 'Admin') {
+                    if (user?.role === 'Lecture' || user?.role === 'Admin') {
                         return (
                             <PostCard key={post.id} postId={post.id} />
                         )
                     } else {
-                        if(post?.status === 'published')  {
+                        if (post?.status === 'published') {
                             return (
                                 <PostCard key={post.id} postId={post.id} />
                             )

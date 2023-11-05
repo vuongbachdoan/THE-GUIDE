@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Text } from '@chakra-ui/react'
+import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Text, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import icons from '../../../assets/icons';
 import React from 'react';
@@ -31,6 +31,7 @@ const { HeartIcon, CommentIcon, ShareIcon, EyeIcon, ReturnForwardIcon } = icons;
  */
 
 export const NotificationCard = ({key, data}) => {
+    const descriptionColor = useColorModeValue('gray.700', 'gray.400');
     const navigate = useNavigate();
     const handleNavigateDetail = (type, id) => {
         if(type === 'post_change') {
@@ -90,9 +91,9 @@ export const NotificationCard = ({key, data}) => {
                 </Flex>
             </CardHeader>
             <CardBody
-                backgroundColor="#1E1E1E20"
+                backgroundColor="#CBD5E050"
             >
-                <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={3} textOverflow='ellipsis'>{description}</Text>
+                <Text fontSize='sm' fontWeight='normal' color={descriptionColor} textAlign='left' noOfLines={3} textOverflow='ellipsis'>{description}</Text>
             </CardBody>
         </Card>
     );

@@ -34,7 +34,7 @@ export const AppRouting = () => {
                 <Route path='' element={<PanelPostsList />} />
                 <Route path='create-post' element={<PanelCreatePost />} />
                 <Route path='subject' element={<PanelSubject />} />
-                <Route path='subject/detail' element={<PanelSubjectDetail />} />
+                <Route path='subject/detail/:subjectId' element={<PanelSubjectDetail />} />
                 <Route path='notification' element={<PanelNotification />} />
                 <Route path='profile' element={<PanelProfile />} />
                 <Route path='profile/edit' element={<PanelEditProfile />} />
