@@ -31,15 +31,12 @@ export const updatePostCover = async (userId, image, type) => {
 }
 
 export const updateSubjectThumbnail = async (subjectCode, image, type) => {
-    console.log({
-        subjectCode: subjectCode,
-        image: image,
-        type: type
-    })
     const data = {
         image: image, // base64
         type: type
     };
+
+    console.log(subjectCode)
 
     const response = await axios.post(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/subjects/${subjectCode}/thumbnail`, data, {
         headers: {

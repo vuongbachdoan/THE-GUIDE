@@ -471,7 +471,7 @@ export const PanelSubject = () => {
                             </Box>
                             <Input onChange={(e) => handleSubjectCode(e.target.value)} backgroundColor='#1E1E1E20' marginTop={3} width='100%' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' fontSize='sm' placeholder='Subject code' />
                             <Input onChange={(e) => handleSubjectName(e.target.value)} backgroundColor='#1E1E1E20' marginTop={3} width='100%' borderRadius={15} boxShadow='none' _hover={{ outline: 'none' }} borderWidth={0} fontWeight='semibold' fontSize='sm' placeholder='Subject name' />
-                            <Stack marginTop={3} width='100%'>
+                            {/* <Stack marginTop={3} width='100%'>
                                 <Menu>
                                     <MenuButton borderRadius={15} width='100%' iconSpacing={2} as={Button} rightIcon={<FaChevronDown size={12} />}>
                                         <Text textAlign='left' fontSize='sm'>{subjectData.department ? subjectData.department : 'Department'}</Text>
@@ -489,7 +489,7 @@ export const PanelSubject = () => {
                                         <MenuItem onClick={() => handleDepartment('Digital Art')} borderWidth={0} fontSize='sm' borderRadius={8}>Digital Art</MenuItem>
                                     </MenuList>
                                 </Menu>
-                            </Stack>
+                            </Stack> */}
                         </Flex>
                     </ModalBody>
 

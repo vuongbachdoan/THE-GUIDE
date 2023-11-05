@@ -78,8 +78,8 @@ export const PanelSubjectDetail = () => {
         setIsOpenManageSubject(false);
     }
 
-    const [isStudentsExpand, setIsStudentsExpand] = React.useState(true);
-    const [isLecturesExpand, setIsLecturesExpand] = React.useState(true);
+    const [isStudentsExpand, setIsStudentsExpand] = React.useState(false);
+    const [isLecturesExpand, setIsLecturesExpand] = React.useState(false);
 
     const [postsBelongSubject, setPostsBelongSubject] = React.useState([]);
     React.useEffect(() => {
@@ -112,7 +112,7 @@ export const PanelSubjectDetail = () => {
                 </ModalContent>
             </Modal>
 
-            <DialogManageSubject canOpen={isOpenManageSubject} close={handleCloseManageSubject} leave={handleLeaveSubject} />
+            <DialogManageSubject subjectData={subject} canOpen={isOpenManageSubject} close={handleCloseManageSubject} leave={handleLeaveSubject} />
 
             <Card
                 borderWidth={0}
@@ -209,7 +209,7 @@ export const PanelSubjectDetail = () => {
             {/* Posts belong to this subject */}
             {
                 postsBelongSubject.map((post) => {
-                    if(user?.role === 'Lecture') {
+                    if(user?.role === 'Lecture' || user?.role === 'Admin') {
                         return (
                             <PostCard key={post.id} postId={post.id} />
                         )

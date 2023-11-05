@@ -179,11 +179,15 @@ export const PostCard = ({ postId }) => {
                         />
                     </Flex>
                 </CardHeader>
-                <CardBody
-                    paddingTop={0}
-                >
-                    <Text opacity={postData?.status === 'pending' ? 0.5 : 1} fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={isExpand ? 'auto' : 3} textOverflow='ellipsis'>{postData?.content}</Text>
-                </CardBody>
+                {
+                    isExpand &&
+                    <CardBody
+                        paddingTop={0}
+                    >
+                        <Box opacity={postData?.status === 'pending' ? 0.5 : 1} textAlign='left' className='ignore_lib' dangerouslySetInnerHTML={{ __html: postData?.content }}></Box>
+                    </CardBody>
+                }
+                {/* <Text opacity={postData?.status === 'pending' ? 0.5 : 1} fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={isExpand ? 'auto' : 3} textOverflow='ellipsis'>{postData?.content}</Text> */}
                 {
                     postData?.cover &&
                     <Image
