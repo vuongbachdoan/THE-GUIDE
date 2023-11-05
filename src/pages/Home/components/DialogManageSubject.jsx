@@ -1,11 +1,13 @@
-import { Avatar, AvatarGroup, Box, Button, CheckboxIcon, Flex, FormControl, FormLabel, Image, Input, InputGroup, InputRightElement, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Stack, Switch, Text, useDisclosure } from "@chakra-ui/react";
+import { Avatar, AvatarGroup, Box, Button, CheckboxIcon, Flex, FormControl, FormLabel, Image, Input, InputGroup, InputRightElement, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Stack, Switch, Text, useClipboard, useDisclosure } from "@chakra-ui/react";
 import React from "react";
 import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
-import { AiOutlineCheck, AiOutlineClose } from 'react-icons/ai';
 import icons from "../../../assets/icons";
+import { getUser } from "../../../core/services/user";
+import { updateSubjectThumbnail } from "../../../core/services/photo";
+import { IoIosCopy, IoMdCopy } from "react-icons/io";
 const { CameraIcon } = icons;
 
-export const DialogManageSubject = ({ canOpen, close, leave }) => {
+export const DialogManageSubject = ({ canOpen, close, leave, subjectData }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const initialRef = React.useRef(null);
@@ -26,6 +28,32 @@ export const DialogManageSubject = ({ canOpen, close, leave }) => {
     const handleLeave = () => {
         leave();
     }
+
+    const getParticipant = async () => {
+        const studentIds = subjectData.studentIds;
+        const lectureIds = subjectData.lectureIds;
+
+        const studentsData = await Promise.all(studentIds.map(studentId => getUser(studentId)));
+        const lecturesData = await Promise.all(lectureIds.map(lectureId => getUser(lectureId)));
+
+        return ({ lecturesData, studentsData });
+    }
+
+
+    const [participants, setParticipants] = React.useState({
+        lectures: [],
+        students: []
+    });
+    React.useEffect(() => {
+        getParticipant()
+            .then((userData) => {
+                setParticipants({
+                    lectures: userData.lecturesData,
+                    students: userData.studentsData
+                });
+            })
+            .catch((err) => console.error(err));
+    }, []);
 
     const [currentTab, setCurrentTab] = React.useState('Invite people');
 
@@ -60,15 +88,15 @@ export const DialogManageSubject = ({ canOpen, close, leave }) => {
                             <Flex flex={1} flexDirection='column'>
                                 {
                                     currentTab === 'Invite people' &&
-                                    <InvitePeople />
+                                    <InvitePeople participants={participants} />
                                 }
                                 {
                                     currentTab === 'Subject settings' &&
-                                    <SubjectSettings />
+                                    <SubjectSettings subjectCode={subjectData.subjectCode} />
                                 }
                                 {
                                     currentTab === 'Decorations' &&
-                                    <Decoration />
+                                    <Decoration subjectData={subjectData} />
                                 }
                             </Flex>
                         </Flex>
@@ -80,16 +108,21 @@ export const DialogManageSubject = ({ canOpen, close, leave }) => {
     )
 }
 
-const InvitePeople = () => {
+const InvitePeople = ({ participants }) => {
     return (
         <FormControl>
-            <FormLabel>Email</FormLabel>
+            <FormLabel>Invite via Email</FormLabel>
             <AvatarGroup size='sm' max={5} marginBottom={3}>
-                <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
-                <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-                <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
-                <Avatar name='Prosper Otemuyiwa' src='https://bit.ly/prosper-baba' />
-                <Avatar name='Christian Nwamba' src='https://bit.ly/code-beast' />
+                {
+                    participants?.lectures?.map((user) => (
+                        <Avatar name={user?.username} src={user?.avatar} />
+                    ))
+                }
+                {
+                    participants?.students?.map((user) => (
+                        <Avatar name={user?.username} src={user?.avatar} />
+                    ))
+                }
             </AvatarGroup>
             <InputGroup>
                 <Input placeholder='example@email.com' fontSize='small' size='sm' borderRadius={10} />
@@ -97,12 +130,16 @@ const InvitePeople = () => {
                     <CheckboxIcon color='green.500' />
                 </InputRightElement>
             </InputGroup>
-            <Text marginTop={3} fontSize='x-small' color='gray.500'>Let invite other peoples to this subject and learn together!</Text>
+            <Text marginTop={3} fontSize='x-small' color='gray.500'>* Hit enter to send invitation via email</Text>
+            <Text fontSize='x-small' color='gray.500'>Let invite other peoples to this subject and learn together!</Text>
         </FormControl>
     );
 }
 
-const SubjectSettings = () => {
+const SubjectSettings = ({ subjectCode }) => {
+    const [showInviteLink, setShowInviteLink] = React.useState(false);
+    const { hasCopied, onCopy } = useClipboard(`https://docs.rapify-cloud.com/subjects/detail/${subjectCode}`);
+
     return (
         <Flex
             flexDirection='column'
@@ -116,18 +153,33 @@ const SubjectSettings = () => {
             </FormControl>
 
             <FormControl display='flex' alignItems='center'>
-                <Switch marginRight={3} colorScheme='orange' id='allow-join' />
+                <Switch isChecked={showInviteLink} onChange={() => setShowInviteLink(!showInviteLink)} marginRight={3} colorScheme='orange' id='allow-join' />
                 <FormLabel htmlFor='allow-join' mb='0'>
-                    <Text fontSize='small'>Every one with link can join this subject?</Text>
+                    <Text fontSize='small'>Invite other people by a link?</Text>
                 </FormLabel>
             </FormControl>
+
+            {
+                showInviteLink &&
+                <Flex
+                    flexDirection='row'
+                    columnGap={1}
+                >
+                    <Input fontSize='x-small' borderRadius={10} size='sm' value={`https://docs.rapify-cloud.com/subjects/detail/${subjectCode}`} isReadOnly />
+                    <Stack cursor='pointer' backgroundColor='#CBD5E050' _hover={{
+                        backgroundColor: '#CBD5E0'
+                    }} justifyContent='center' alignItems='center' borderRadius={10} width='32px' height='32px' onClick={onCopy}>
+                        <IoIosCopy color={hasCopied ? '#00000050' : '#FF8F46'} />
+                    </Stack>
+                </Flex>
+            }
         </Flex>
     );
 }
 
-const Decoration = () => {
+const Decoration = ({ subjectData }) => {
     const [isLoadingThumbnail, setIsLoadingThumbnail] = React.useState(false);
-    const [previewImage, setPreviewImage] = React.useState(null);
+    const [previewImage, setPreviewImage] = React.useState(subjectData?.thumbnail);
     const previewImageRef = React.useRef();
 
     const handlePickerImage = (e) => {
@@ -139,25 +191,21 @@ const Decoration = () => {
             const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
             const type = file.type.split('/')[1];
 
-            // updateSubjectThumbnail(subjectCode, base64String, type)
-            //     .then((res) => {
-            //         setPreviewImage(res);
-            //         setIsLoadingThumbnail(false);
-            //     })
-            //     .catch(() => {
-            //         onOpen();
-            //         setPreviewImage(null);
-            //         setAlertMessage('Fail to upload this image!');
-            //         setIsLoadingThumbnail(false);
-            //     })
-
+            updateSubjectThumbnail(subjectData.subjectCode, base64String, type)
+                .then((res) => {
+                    setPreviewImage(res);
+                    setIsLoadingThumbnail(false);
+                })
+                .catch(() => {
+                    setPreviewImage(null);
+                    setIsLoadingThumbnail(false);
+                })
         };
 
         if (file) {
             reader.readAsDataURL(file);
         }
     }
-
 
     return (
         <Flex
@@ -170,7 +218,12 @@ const Decoration = () => {
                 width={200} height={200}
             >
                 <input ref={previewImageRef} onChange={handlePickerImage} type="file" accept="image/*" name='avatar' id='avatar_picker' style={{ display: 'none' }} />
-                <Image objectFit='cover' backgroundColor='#1E1E1E20' borderWidth={0} src={previewImage ? previewImage : PlaceholderImage} width={200} height={200} borderRadius={20} zIndex={10} />
+                <Box
+                    backgroundColor='#1E1E1E20'
+                    width={200} height={200} borderRadius={20}
+                >
+                    <Image objectFit='cover' borderWidth={0} src={previewImage ? previewImage : PlaceholderImage} width={200} height={200} borderRadius={20} zIndex={10} />
+                </Box>
                 <Stack
                     position='absolute'
                     right={2}
@@ -192,8 +245,6 @@ const Decoration = () => {
                 flexDirection='row'
                 columnGap={3}
             >
-                <Button color='green.500' width='40px' height='40px' variant='ghost' borderRadius={12} leftIcon={<AiOutlineCheck />} iconSpacing={0} />
-                <Button color='red.500' width='40px' height='40px' variant='ghost' borderRadius={12} leftIcon={<AiOutlineClose />} iconSpacing={0} />
             </Flex>
         </Flex>
     );

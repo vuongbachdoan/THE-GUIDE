@@ -163,9 +163,9 @@ export const PanelViewPost = () => {
                                             boxShadow='xl'
                                             minWidth='fit-content'
                                         >
-                                            <MenuItem onClick={() => navigate(`/posts/detail/${post?.id}`)} borderWidth={0} fontSize='sm' borderRadius={8}>Read</MenuItem>
-                                            <MenuItem onClick={() => navigate(`/posts/edit/${post?.id}`)} borderWidth={0} fontSize='sm' borderRadius={8}>Edit</MenuItem>
-                                            <MenuItem onClick={() => handleDeletePost(post?.id)} borderWidth={0} fontSize='sm' borderRadius={8}>Delete</MenuItem>
+                                            <MenuItem minWidth='100px' onClick={() => navigate(`/posts/detail/${post?.id}`)} borderWidth={0} fontWeight='medium' fontSize='sm' borderRadius={8}>Read</MenuItem>
+                                            <MenuItem minWidth='100px' onClick={() => navigate(`/posts/edit/${post?.id}`)} borderWidth={0} fontWeight='medium' fontSize='sm' borderRadius={8}>Edit</MenuItem>
+                                            <MenuItem minWidth='100px' onClick={() => handleDeletePost(post?.id)} borderWidth={0} fontWeight='medium' fontSize='sm' borderRadius={8}>Delete</MenuItem>
                                         </MenuList>
                                     </Menu>
                                 </Flex>
@@ -174,9 +174,14 @@ export const PanelViewPost = () => {
                                 paddingTop={0}
                             >
                                 <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={3} textOverflow='ellipsis'>{post?.description}</Text>
-                                {/* <div className='ellipse-box'>
-                                    <div style={{ textAlign: 'left' }} className='ignore_lib text-ellipse' dangerouslySetInnerHTML={{ __html: post?.content }}></div>
-                                </div> */}
+                                <Image
+                                    objectFit='cover'
+                                    src={post?.cover}
+                                    alt='cover image'
+                                    maxHeight={240}
+                                    borderRadius={15}
+                                    width='100%'
+                                />
                             </CardBody>
                         </Card>
                     ))
