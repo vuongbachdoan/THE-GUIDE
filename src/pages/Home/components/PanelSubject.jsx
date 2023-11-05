@@ -359,7 +359,7 @@ export const PanelSubject = () => {
                                                 <LinkIcon width={18} height={18} />
                                                 <Text textAlign='center' fontSize='x-small' color='gray.500'>Dung and 500 others</Text>
                                             </Flex>
-                                            <Link to='detail' state={subject}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Go to subject</Text></Link>
+                                            <Link to={`detail/${subject?.subjectCode}`}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Go to subject</Text></Link>
                                         </Flex>
                                     </GridItem>
                                 ))

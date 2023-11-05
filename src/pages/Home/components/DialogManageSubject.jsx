@@ -125,7 +125,7 @@ const InvitePeople = ({ participants }) => {
                 }
             </AvatarGroup>
             <InputGroup>
-                <Input placeholder='example@email.com' fontSize='small' size='sm' borderRadius={10} />
+                <Input backgroundColor='#CBD5E010' placeholder='example@email.com' fontSize='small' size='sm' borderRadius={10} />
                 <InputRightElement>
                     <CheckboxIcon color='green.500' />
                 </InputRightElement>
