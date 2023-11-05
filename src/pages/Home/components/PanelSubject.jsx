@@ -10,6 +10,7 @@ import { createSubject, getSubjects, getSubjectsJoined, joinSubject } from '../.
 import { useSelector } from 'react-redux';
 import { updateUser } from '../../../core/services/user';
 import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
+import { filterNotJoinedsubjects } from '../../../helper/filterNotJoinedSubjects';
 
 const { LinkIcon, CameraIcon } = icons;
 
@@ -23,6 +24,7 @@ export const PanelSubject = () => {
     const previewImageRef = React.useRef();
     const [subjects, setSubjects] = React.useState([]);
     const [subjectsJoined, setSubjectsJoined] = React.useState([]);
+    const [subjectsNotJoined, setSubjectsNotJoined] = React.useState([]);
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -48,6 +50,12 @@ export const PanelSubject = () => {
             .then((res) => setSubjects(res))
             .catch((err) => console.error(err))
     }
+
+    React.useEffect(() => {
+        setSubjectsNotJoined(
+            filterNotJoinedsubjects(subjects, user?.id)
+        )
+    }, [subjects])
 
     const [isLoadingThumbnail, setIsLoadingThumbnail] = React.useState(false);
     const [previewImage, setPreviewImage] = React.useState(null);
@@ -371,7 +379,7 @@ export const PanelSubject = () => {
 
             {/* Subject recommend */}
             {
-                subjects.length !== 0 &&
+                subjectsNotJoined.length !== 0 &&
                 <Card
                     borderWidth={0}
                     borderRadius={20}
@@ -386,7 +394,7 @@ export const PanelSubject = () => {
                             templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(2, 1fr)' }} gap={3}
                         >
                             {
-                                subjects.map((subject) => (
+                                subjectsNotJoined.map((subject) => (
                                     <GridItem
                                         bg={bg}
                                         borderRadius={20}
