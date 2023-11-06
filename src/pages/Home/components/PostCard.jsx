@@ -165,7 +165,7 @@ export const PostCard = ({ postId }) => {
                             <Box
                                 flex={1}
                             >
-                                <Heading opacity={postData?.status === 'pending' ? 0.5 : 1} size='md' fontWeight='semibold' textAlign='left' noOfLines={1} textOverflow='ellipsis'>{postData?.subjectCode}  /  {postData?.title} </Heading>
+                                <Heading opacity={postData?.status === 'pending' ? 0.5 : 1} size='md' fontWeight='semibold' textAlign='left' noOfLines={isExpand ? 'auto' : 1} textOverflow='ellipsis'>{postData?.subjectCode}  /  {postData?.title} </Heading>
                                 <Text opacity={postData?.status === 'pending' ? 0.5 : 1} fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>{postData?.department}</Text>
                             </Box>
                         </Flex>
@@ -180,15 +180,6 @@ export const PostCard = ({ postId }) => {
                     </Flex>
                 </CardHeader>
                 {
-                    isExpand &&
-                    <CardBody
-                        paddingTop={0}
-                    >
-                        <Box opacity={postData?.status === 'pending' ? 0.5 : 1} textAlign='left' className='ignore_lib' dangerouslySetInnerHTML={{ __html: postData?.content }}></Box>
-                    </CardBody>
-                }
-                {/* <Text opacity={postData?.status === 'pending' ? 0.5 : 1} fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={isExpand ? 'auto' : 3} textOverflow='ellipsis'>{postData?.content}</Text> */}
-                {
                     postData?.cover &&
                     <Image
                         objectFit='cover'
@@ -198,7 +189,14 @@ export const PostCard = ({ postId }) => {
                         opacity={postData?.status === 'pending' ? 0.5 : 1}
                     />
                 }
-
+                {
+                    isExpand &&
+                    <CardBody
+                        paddingTop={0}
+                    >
+                        <Box opacity={postData?.status === 'pending' ? 0.5 : 1} textAlign='left' className='ignore_lib' dangerouslySetInnerHTML={{ __html: postData?.content }}></Box>
+                    </CardBody>
+                }
                 <CardFooter
                     justifyContent='space-between'
                     flexWrap='wrap'
