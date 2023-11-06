@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Image, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Stack, Text, Textarea, useColorModeValue, useDisclosure } from '@chakra-ui/react'
+import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Image, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Stack, Text, Textarea, useClipboard, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import icons from '../../../assets/icons';
 import { FaChevronDown } from 'react-icons/fa';
 import React from 'react';
@@ -10,7 +10,10 @@ import { getSubject, getSubjects, getSubjectsJoined } from '../../../core/servic
 import { useNavigate } from 'react-router-dom';
 import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
 import { converTextToHTML } from '../../../helper/converTextToHTML';
-import { Bold, Code, Heading1, Heading2, Heading3, Heading4, Heading5, Heading6, Italic, Quote, Underline } from 'lucide-react';
+import { Bold, Code, Heading1, Heading2, Heading3, Heading4, Heading5, Heading6, Italic, Quote, SendIcon, Underline } from 'lucide-react';
+import { AIChat } from '../../../core/services/ai';
+import { IoIosCopy } from 'react-icons/io';
+import { BiMailSend } from 'react-icons/bi';
 const { SyncIcon } = icons;
 
 export const PanelCreatePost = () => {
@@ -154,6 +157,7 @@ export const PanelCreatePost = () => {
     }, [postData.title]);
 
     const resetPostData = () => {
+        setHtmlContent('');
         setPostData({
             id: '',
             subjectCode: '',
@@ -233,10 +237,29 @@ export const PanelCreatePost = () => {
         }
     }, []);
 
+    const [isShowAI, setIsShowAI] = React.useState(false);
+    const [chatString, setChatString] = React.useState('');
+    const [chatResult, setChatResult] = React.useState('');
+    const { hasCopied, onCopy } = useClipboard(`${chatResult}`);
+    const [loadingResult, setLoadingResult] = React.useState(false);
+    const handleAIChat = () => {
+        setLoadingResult(true);
+        AIChat({
+            prompt: chatString
+        })
+            .then((res) => {
+                setChatResult(res);
+                setLoadingResult(false);
+            })
+            .catch(() => {
+                setLoadingResult(false);
+            });
+    }
+
     return (
         <>
-            {
-                (subjects && user && subjectsAvailable.length !== 0) ?
+            {/* { */}
+                // (user && subjectsAvailable.length !== 0) ?
                     <>
                         <Card
                             borderWidth={0}
@@ -281,28 +304,6 @@ export const PanelCreatePost = () => {
                                                 <Text cursor='default'>/</Text>
                                                 <Input value={postData.title} onChange={(e) => handleTitle(e.target.value)} padding={1} color={color} _placeholder={{ color: placeholderColor }} height={22} borderWidth={0} _focus={{ borderWidth: 0, boxShadow: 'none' }} outline='none' fontWeight='semibold' textAlign='left' placeholder='Post title' />
                                             </Flex>
-                                            {/* <Text textAlign='left' fontSize='sm' fontWeight='medium'>{postData.subjectName ? postData.subjectName : 'Subject Name'}</Text> */}
-                                            {/* <Menu>
-                                                <MenuButton width='fit-content' iconSpacing={2} as={Button} paddingY={1} paddingX={2} height='fit-content' rightIcon={<FaChevronDown size={12} />}>
-                                                    <Text fontSize='sm'>{postData.department ? postData.department : 'Department'}</Text>
-                                                </MenuButton>
-                                                <MenuList
-                                                    padding={1}
-                                                    borderRadius={12}
-                                                    boxShadow='xl'
-                                                    minWidth='fit-content'
-                                                >
-                                                    {
-                                                        subjectsAvailable.length === 0 &&
-                                                        <MenuItem disabled borderWidth={0} fontSize='sm' borderRadius={8}>-You haven't joined any subject!-</MenuItem>
-                                                    }
-                                                    <MenuItem onClick={() => handleDepartment('Software Engineering')} borderWidth={0} fontSize='sm' borderRadius={8}>Software Engineering</MenuItem>
-                                                    <MenuItem onClick={() => handleDepartment('Artificial Intelligence')} borderWidth={0} fontSize='sm' borderRadius={8}>Artificial Intelligence</MenuItem>
-                                                    <MenuItem onClick={() => handleDepartment('Business')} borderWidth={0} fontSize='sm' borderRadius={8}>Bussiness</MenuItem>
-                                                    <MenuItem onClick={() => handleDepartment('Hospitality')} borderWidth={0} fontSize='sm' borderRadius={8}>Hospitality</MenuItem>
-                                                    <MenuItem onClick={() => handleDepartment('Digital Art')} borderWidth={0} fontSize='sm' borderRadius={8}>Digital Art</MenuItem>
-                                                </MenuList>
-                                            </Menu> */}
                                         </Flex>
                                     </Flex>
                                 </Flex>
@@ -329,6 +330,7 @@ export const PanelCreatePost = () => {
                                 </Box>
                                 <div style={{ textAlign: 'left' }} className='ignore_lib' dangerouslySetInnerHTML={{ __html: htmlContent }} ></div>
 
+
                                 <Flex marginTop={3} flexDirection='row' justifyContent='space-between' alignItems='flex-start'>
                                     <Text textAlign='left' lineHeight='40px' height='40px' width='100px' margin={0} fontWeight='semibold' fontSize='sm'>{'>'} {currentVariant}</Text>
                                     <Flex
@@ -339,6 +341,8 @@ export const PanelCreatePost = () => {
                                         flexWrap='wrap'
                                         rowGap='5px'
                                     >
+                                        <Button onClick={() => resetPostData()} height='40px' borderRadius='10px' iconSpacing={0} backgroundColor='red.500' _hover={{ backgroundColor: 'red.600', color: '#FFF' }} color='#FFF'>Clear</Button>
+                                        <Button onClick={() => setIsShowAI(!isShowAI)} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h1' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'h1' ? '#FFF' : '#000'}>AI</Button>
                                         <Button onClick={() => setCurrentVariant(currentVariant === 'h1' ? 'p' : 'h1')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h1' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'h1' ? '#FFF' : '#000'} leftIcon={<Heading1 size={18} />} />
                                         <Button onClick={() => setCurrentVariant(currentVariant === 'h2' ? 'p' : 'h2')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h2' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'h2' ? '#FFF' : '#000'} leftIcon={<Heading2 size={18} />} />
                                         <Button onClick={() => setCurrentVariant(currentVariant === 'h3' ? 'p' : 'h3')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h3' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'h3' ? '#FFF' : '#000'} leftIcon={<Heading3 size={18} />} />
@@ -350,6 +354,35 @@ export const PanelCreatePost = () => {
                                         <Button onClick={() => setCurrentVariant(currentVariant === 'underline' ? 'p' : 'underline')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'underline' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'underline' ? '#FFF' : '#000'} leftIcon={<Underline size={18} />} />
                                     </Flex>
                                 </Flex>
+
+                                {
+                                    isShowAI &&
+                                    <>
+                                        <Flex
+                                            flexDirection='row'
+                                            columnGap={1}
+                                            alignItems='center'
+                                        >
+                                            <Input
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') {
+                                                        handleAIChat();
+                                                    }
+                                                }} onChange={(e) => setChatString(e.target.value)} value={chatString} marginY={1} borderRadius={15} placeholder='Chat with AI' fontSize='small' fontWeight='semibold' />
+                                            <Stack cursor='pointer' backgroundColor='#CBD5E050' _hover={{
+                                                backgroundColor: '#CBD5E0'
+                                            }} justifyContent='center' alignItems='center' borderRadius={10} width='40px' height='40px' onClick={onCopy}>
+                                                {
+                                                    loadingResult ?
+                                                        <Spinner /> :
+                                                        <BiMailSend onClick={handleAIChat} color={hasCopied ? '#00000050' : '#FF8F46'} />
+                                                }
+                                            </Stack>
+                                        </Flex>
+                                        <Textarea lineHeight='15px' backgroundColor='#00000005' minHeight={240} borderWidth={0} marginBottom={3} fontFamily='monospace' fontSize='small' borderRadius={10} size='sm' value={`${chatResult}`} isReadOnly />
+                                    </>
+                                }
+
                                 <Textarea value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
                                     onKeyDown={handleKeyDown} borderRadius={15} minHeight={120} placeholder='Content of your post here . . .' />
@@ -388,9 +421,10 @@ export const PanelCreatePost = () => {
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>
-                    </> :
-                    <Spinner />
-            }
+                    </> 
+                    {/* // :
+                    // <Spinner /> */}
+             {/* } */}
         </>
     );
 }
