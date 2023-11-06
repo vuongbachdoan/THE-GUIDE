@@ -1,7 +1,6 @@
 import { Accordion, AccordionButton, AccordionItem, Box, Flex, Image, Stack, Text, useColorModeValue } from "@chakra-ui/react"
 import icons from "../../../assets/icons";
 import DecorOrange from '../../../assets/images/decor_role_orange.png';
-import UserAvatar from '../../../assets/images/student1.png';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 const { HomeIcon, PostIcon, ProfileIcon, SubjectIcon, NotificationIcon } = icons;
@@ -49,7 +48,7 @@ export const Sidebar = () => {
                             <AccordionButton color={checkRoute('subject') ? '#FF8F46' : '#A0A0A0'}><SubjectIcon width={40} height={40} color={checkRoute('subject') ? '#FF8F46' : '#A0A0A0'} /> Subject</AccordionButton>
                         </AccordionItem >
                         <AccordionItem onClick={() => handleChangeRoute('/posts')} border='none' borderRadius={15} overflow='hidden'>
-                            <AccordionButton color={checkRoute('posts') ? '#FF8F46' : '#A0A0A0'}><PostIcon width={40} height={40} color={checkRoute('posts') ? '#FF8F46' : '#A0A0A0'} /> Post</AccordionButton>
+                            <AccordionButton color={checkRoute('posts') ? '#FF8F46' : '#A0A0A0'}><PostIcon width={40} height={40} color={checkRoute('posts') ? '#FF8F46' : '#A0A0A0'} />My Post</AccordionButton>
                         </AccordionItem >
                         <AccordionItem onClick={() => handleChangeRoute('/notification')} border='none' borderRadius={15} overflow='hidden'>
                             <AccordionButton color={checkRoute('notification') ? '#FF8F46' : '#A0A0A0'}>

@@ -73,7 +73,7 @@ export const AppHeader = () => {
                                 <Text fontSize='12px' fontWeight='normal' color='#A0A0A0'>Profile</Text>
                             </MenuItem>
                             <MenuItem onClick={() => navigate('/posts')} borderRadius={15} icon={<PostIcon width={26} height={26} color='#A0A0A0' />}>
-                                <Text fontSize='12px' fontWeight='normal' color='#A0A0A0'>Post</Text>
+                                <Text fontSize='12px' fontWeight='normal' color='#A0A0A0'>My Post</Text>
                             </MenuItem>
                             <MenuItem onClick={() => navigate('/subject')} borderRadius={15} icon={<SubjectIcon width={26} height={26} color='#A0A0A0' />}>
                                 <Text fontSize='12px' fontWeight='normal' color='#A0A0A0'>Subject</Text>
