@@ -12,13 +12,14 @@ import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
 import { converTextToHTML } from '../../../helper/converTextToHTML';
 import { Bold, Code, Heading1, Heading2, Heading3, Heading4, Heading5, Heading6, Italic, Quote, SendIcon, Underline } from 'lucide-react';
 import { AIChat } from '../../../core/services/ai';
-import { IoIosCopy } from 'react-icons/io';
+import ClaudeIcon from '../../../assets/images/claude_icon.jpeg';
 import { BiMailSend } from 'react-icons/bi';
 const { SyncIcon } = icons;
 
 export const PanelCreatePost = () => {
     const color = useColorModeValue('#1E1E1E', '#FFF');
     const placeholderColor = useColorModeValue('gray.500', 'gray.400');
+    const claudeText = useColorModeValue('#785A46', '#CA9877');
     const user = useSelector((state) => state.profileData.data);
     const finalRef = React.useRef(null);
     const [alertMessage, setAlertMessage] = React.useState(null);
@@ -228,14 +229,14 @@ export const PanelCreatePost = () => {
 
     const [subjectsAvailable, setSubjectsAvailable] = React.useState([]);
     React.useEffect(() => {
-        if (user) {
-            getSubjectsJoined(user.id)
+        if (user?.id) {
+            getSubjectsJoined(user?.id)
                 .then((res) => {
                     setSubjectsAvailable(res);
                 })
                 .catch((err) => console.error(err));
         }
-    }, []);
+    }, [user?.id]);
 
     const [isShowAI, setIsShowAI] = React.useState(false);
     const [chatString, setChatString] = React.useState('');
@@ -258,8 +259,8 @@ export const PanelCreatePost = () => {
 
     return (
         <>
-            {/* { */}
-                // (user && subjectsAvailable.length !== 0) ?
+            {
+                (user && subjectsAvailable.length !== 0) ?
                     <>
                         <Card
                             borderWidth={0}
@@ -342,7 +343,9 @@ export const PanelCreatePost = () => {
                                         rowGap='5px'
                                     >
                                         <Button onClick={() => resetPostData()} height='40px' borderRadius='10px' iconSpacing={0} backgroundColor='red.500' _hover={{ backgroundColor: 'red.600', color: '#FFF' }} color='#FFF'>Clear</Button>
-                                        <Button onClick={() => setIsShowAI(!isShowAI)} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h1' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'h1' ? '#FFF' : '#000'}>AI</Button>
+                                        <Button padding={0} onClick={() => setIsShowAI(!isShowAI)} width='40px' height='40px' borderRadius='10px' iconSpacing={0} opacity={isShowAI ? 1 : 0.5}>
+                                            <Image src={ClaudeIcon} width='40px' height='40px' borderRadius='10px' />
+                                        </Button>
                                         <Button onClick={() => setCurrentVariant(currentVariant === 'h1' ? 'p' : 'h1')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h1' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'h1' ? '#FFF' : '#000'} leftIcon={<Heading1 size={18} />} />
                                         <Button onClick={() => setCurrentVariant(currentVariant === 'h2' ? 'p' : 'h2')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h2' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'h2' ? '#FFF' : '#000'} leftIcon={<Heading2 size={18} />} />
                                         <Button onClick={() => setCurrentVariant(currentVariant === 'h3' ? 'p' : 'h3')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h3' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'h3' ? '#FFF' : '#000'} leftIcon={<Heading3 size={18} />} />
@@ -364,28 +367,38 @@ export const PanelCreatePost = () => {
                                             alignItems='center'
                                         >
                                             <Input
+                                                _focus={{
+                                                    boxShadow: 'none',
+                                                    borderWidth: 0
+                                                }}
+                                                backgroundColor='#CA987730'
+                                                color={claudeText}
+                                                _placeholder={{
+                                                    color: claudeText
+                                                }}
+                                                borderWidth={0}
                                                 onKeyDown={(e) => {
                                                     if (e.key === 'Enter') {
                                                         handleAIChat();
                                                     }
-                                                }} onChange={(e) => setChatString(e.target.value)} value={chatString} marginY={1} borderRadius={15} placeholder='Chat with AI' fontSize='small' fontWeight='semibold' />
-                                            <Stack cursor='pointer' backgroundColor='#CBD5E050' _hover={{
-                                                backgroundColor: '#CBD5E0'
+                                                }} onChange={(e) => setChatString(e.target.value)} value={chatString} marginY={1} borderRadius={15} placeholder='Chat with AI' fontSize='small' />
+                                            <Stack cursor='pointer' backgroundColor='#CA9877' _hover={{
+                                                backgroundColor: '#CA9877'
                                             }} justifyContent='center' alignItems='center' borderRadius={10} width='40px' height='40px' onClick={onCopy}>
                                                 {
                                                     loadingResult ?
                                                         <Spinner /> :
-                                                        <BiMailSend onClick={handleAIChat} color={hasCopied ? '#00000050' : '#FF8F46'} />
+                                                        <BiMailSend onClick={handleAIChat} color='#000'/>
                                                 }
                                             </Stack>
                                         </Flex>
-                                        <Textarea lineHeight='15px' backgroundColor='#00000005' minHeight={240} borderWidth={0} marginBottom={3} fontFamily='monospace' fontSize='small' borderRadius={10} size='sm' value={`${chatResult}`} isReadOnly />
+                                        <Textarea lineHeight='15px' backgroundColor='#CA987730' minHeight={240} borderWidth={0} marginBottom={3} fontFamily='monospace' fontSize='small' borderRadius={10} size='sm' color={claudeText} value={`${chatResult}`} isReadOnly />
                                     </>
                                 }
 
                                 <Textarea value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
-                                    onKeyDown={handleKeyDown} borderRadius={15} minHeight={120} placeholder='Content of your post here . . .' />
+                                    onKeyDown={handleKeyDown} borderRadius={20} minHeight={120} placeholder='Content of your post here . . .' />
                                 <Text fontSize='x-small' textAlign='right'>*Hit enter to add a new line in document.</Text>
                             </CardBody>
 
@@ -421,10 +434,10 @@ export const PanelCreatePost = () => {
                                 </ModalFooter>
                             </ModalContent>
                         </Modal>
-                    </> 
-                    {/* // :
-                    // <Spinner /> */}
-             {/* } */}
+                    </>
+                    :
+                    <Spinner />
+            }
         </>
     );
 }
