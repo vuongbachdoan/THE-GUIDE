@@ -5,8 +5,7 @@ import { getUser } from '../../../core/services/user';
 import { approvePost, getPost, likePost, updatePost } from '../../../core/services/post';
 import { Comment } from './Comment';
 import { createComment } from '../../../core/services/comment';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCommentData } from '../../../core/store/comments/commentsExpanding';
+import { useSelector } from 'react-redux';
 import { mappingNotification } from '../../../helper/mappingNotification';
 const { HeartIcon, CommentIcon, ShareIcon, EyeIcon, ExpandIcon, HappyIcon, SendIcon, ATIcon } = icons;
 
