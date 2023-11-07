@@ -1,6 +1,6 @@
 import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Image, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Stack, Text, Textarea, useClipboard, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import icons from '../../../assets/icons';
-import { FaChevronDown } from 'react-icons/fa';
+import { FaChevronDown, FaRemoveFormat } from 'react-icons/fa';
 import React from 'react';
 import { createUniqueId } from '../../../helper/createUniqueId';
 import { useSelector } from 'react-redux';
@@ -10,10 +10,10 @@ import { getSubject, getSubjects, getSubjectsJoined } from '../../../core/servic
 import { useNavigate } from 'react-router-dom';
 import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
 import { converTextToHTML } from '../../../helper/converTextToHTML';
-import { Bold, Code, Heading1, Heading2, Heading3, Heading4, Heading5, Heading6, Italic, Quote, SendIcon, Underline } from 'lucide-react';
+import { Bold, Code, Delete, Heading1, Heading2, Heading3, Heading4, Heading5, Heading6, Italic, ListX, Quote, SendIcon, Trash, Underline } from 'lucide-react';
 import { AIChat } from '../../../core/services/ai';
 import ClaudeIcon from '../../../assets/images/claude_icon.jpeg';
-import { BiMailSend } from 'react-icons/bi';
+import { BiMailSend, BiTrash, BiTrashAlt } from 'react-icons/bi';
 const { SyncIcon } = icons;
 
 export const PanelCreatePost = () => {
@@ -329,7 +329,7 @@ export const PanelCreatePost = () => {
                                         <Button display='flex' justifyContent='center' alignItems='center' padding={0} iconSpacing={0} rightIcon={isLoadingImage ? <Spinner /> : <SyncIcon width={18} height={18} color='#1E1E1E' />} borderRadius='full' />
                                     </Stack>
                                 </Box>
-                                <div style={{ textAlign: 'left' }} className='ignore_lib' dangerouslySetInnerHTML={{ __html: htmlContent }} ></div>
+                                <div style={{ textAlign: 'left', fontFamily: 'monospace' }} className='ignore_lib' dangerouslySetInnerHTML={{ __html: htmlContent }} ></div>
 
 
                                 <Flex marginTop={3} flexDirection='row' justifyContent='space-between' alignItems='flex-start'>
@@ -342,19 +342,21 @@ export const PanelCreatePost = () => {
                                         flexWrap='wrap'
                                         rowGap='5px'
                                     >
-                                        <Button onClick={() => resetPostData()} height='40px' borderRadius='10px' iconSpacing={0} backgroundColor='red.500' _hover={{ backgroundColor: 'red.600', color: '#FFF' }} color='#FFF'>Clear</Button>
+                                        <Button onClick={() => resetPostData()} width='40px' padding={0} height='40px' borderRadius='10px' iconSpacing={0} backgroundColor='red.500' _hover={{ backgroundColor: 'red.600', color: '#FFF' }} color='#FFF'>
+                                        <ListX size={20} color='#FFF'/>
+                                        </Button>
                                         <Button padding={0} onClick={() => setIsShowAI(!isShowAI)} width='40px' height='40px' borderRadius='10px' iconSpacing={0} opacity={isShowAI ? 1 : 0.5}>
                                             <Image src={ClaudeIcon} width='40px' height='40px' borderRadius='10px' />
                                         </Button>
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h1' ? 'p' : 'h1')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h1' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'h1' ? '#FFF' : '#000'} leftIcon={<Heading1 size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h2' ? 'p' : 'h2')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h2' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'h2' ? '#FFF' : '#000'} leftIcon={<Heading2 size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h3' ? 'p' : 'h3')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h3' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'h3' ? '#FFF' : '#000'} leftIcon={<Heading3 size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h4' ? 'p' : 'h4')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h4' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'h4' ? '#FFF' : '#000'} leftIcon={<Heading4 size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h5' ? 'p' : 'h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h5' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'h5' ? '#FFF' : '#000'} leftIcon={<Heading5 size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h6' ? 'p' : 'h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h6' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'h6' ? '#FFF' : '#000'} leftIcon={<Heading6 size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'bold' ? 'p' : 'bold')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'bold' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'bold' ? '#FFF' : '#000'} leftIcon={<Bold size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'italic' ? 'p' : 'italic')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'italic' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'italic' ? '#FFF' : '#000'} leftIcon={<Italic size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'underline' ? 'p' : 'underline')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'underline' ? '#0A0A0A' : '#EDF2F7'} _hover={{ backgroundColor: '#000', color: '#FFF' }} color={currentVariant === 'underline' ? '#FFF' : '#000'} leftIcon={<Underline size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h1' ? 'p' : 'h1')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h1' ? 'gray.400' : 'gray.100'} _hover={{ backgroundColor: 'gray.400' }} leftIcon={<Heading1 size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h2' ? 'p' : 'h2')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h2' ? 'gray.400' : 'gray.100'} _hover={{ backgroundColor: 'gray.400' }} leftIcon={<Heading2 size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h3' ? 'p' : 'h3')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h3' ? 'gray.400' : 'gray.100'} _hover={{ backgroundColor: 'gray.400' }} leftIcon={<Heading3 size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h4' ? 'p' : 'h4')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h4' ? 'gray.400' : 'gray.100'} _hover={{ backgroundColor: 'gray.400' }} leftIcon={<Heading4 size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h5' ? 'p' : 'h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h5' ? 'gray.400' : 'gray.100'} _hover={{ backgroundColor: 'gray.400' }} leftIcon={<Heading5 size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h6' ? 'p' : 'h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h6' ? 'gray.400' : 'gray.100'} _hover={{ backgroundColor: 'gray.400' }} leftIcon={<Heading6 size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'bold' ? 'p' : 'bold')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'bold' ? 'gray.400' : 'gray.100'} _hover={{ backgroundColor: 'gray.400' }} leftIcon={<Bold size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'italic' ? 'p' : 'italic')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'italic' ? 'gray.400' : 'gray.100'} _hover={{ backgroundColor: 'gray.400' }} leftIcon={<Italic size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'underline' ? 'p' : 'underline')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'underline' ? 'gray.400' : 'gray.100'} _hover={{ backgroundColor: 'gray.400' }} leftIcon={<Underline size={18} />} />
                                     </Flex>
                                 </Flex>
 
@@ -396,9 +398,9 @@ export const PanelCreatePost = () => {
                                     </>
                                 }
 
-                                <Textarea value={inputValue}
+                                <Textarea fontSize='small' fontWeight='medium' fontFamily='monospace' value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
-                                    onKeyDown={handleKeyDown} borderRadius={20} minHeight={120} placeholder='Content of your post here . . .' />
+                                    onKeyDown={handleKeyDown} borderRadius={20} minHeight={120} placeholder='Content of your post here...' />
                                 <Text fontSize='x-small' textAlign='right'>*Hit enter to add a new line in document.</Text>
                             </CardBody>
 
