@@ -1,10 +1,9 @@
-import { Box, Button, Flex, Input, InputGroup, InputRightElement, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Select, Stack, Text, VStack, useColorModeValue, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Flex, Input, InputGroup, InputRightElement, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Stack, Text, VStack, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import IVSBroadcastClient, { BASIC_LANDSCAPE } from 'amazon-ivs-web-broadcast'
 import React, { useEffect, useState } from 'react';
 import { MdCallEnd, MdVideocamOff, MdVideocam, MdSettings } from 'react-icons/md';
 import { IoMdMicOff, IoMdMic } from 'react-icons/io';
 import { LivestreamChat } from './components/LivestreamChat';
-import { ChevronDownIcon, Menu } from 'lucide-react';
 
 export const Livestream = () => {
     const [client, setClient] = useState(null);
@@ -17,6 +16,9 @@ export const Livestream = () => {
     const [isAllowedVideo, setIsAllowedVideo] = React.useState(false);
     const [currentAudioDevice, setCurrentAudioDevice] = React.useState(null);
     const [currentVideoDevice, setCurrentVideoDevice] = React.useState(null);
+    const [keyJoin, setKeyJoin] = React.useState(null);
+    const { isOpen: isOpenAlert, onOpen: onOpenAlert, onClose: onCloseAlert } = useDisclosure();
+    const [alertMessage, setAlertMessage] = React.useState(null);
 
     React.useEffect(() => {
         handlePermissions(isAllowedVideo, isAllowedAudio)
@@ -112,14 +114,14 @@ export const Livestream = () => {
             } catch (error) {
                 console.warn('Video not registered!');
             }
-    
+
             // Add the new video device.
             client.addVideoInputDevice(window.cameraStream, currentVideoDevice, { index: 0 })
                 .then(() => console.log('Video device added'))
                 .catch(() => console.warn('Video already registered!'))
         })
     }
-    
+
     const [joiningStatus, setJoiningStatus] = useState('NONE');
     React.useEffect(() => {
         if (joiningStatus === 'PENDING') {
@@ -133,12 +135,14 @@ export const Livestream = () => {
     const joinStream = async () => {
         if (client) {
             client
-                .startBroadcast(process.env.REACT_APP_STREAM_KEY)
+                .startBroadcast(keyJoin)
                 .then(() => {
-                    setJoiningStatus('JOINING')
+                    setJoiningStatus('JOINING');
                 })
-                .catch((error) => {
-                    alert('Something drastically failed while broadcasting!', error);
+                .catch(() => {
+                    setAlertMessage('Try with another key!');
+                    onOpenAlert();
+                    setJoiningStatus('NONE');
                 })
         }
     }
@@ -198,8 +202,31 @@ export const Livestream = () => {
         setIsAllowedVideo(true);
     }
 
+    const handleCloseMessageAlert = () => {
+        setAlertMessage(null);
+        onCloseAlert();
+    }
+
     return (
         <>
+            <Modal closeOnOverlayClick={false} isOpen={isOpenAlert} onClose={onCloseAlert}>
+                <ModalOverlay />
+                <ModalContent
+                    borderRadius={20}
+                >
+                    <ModalHeader>Message</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Text fontWeight='semibold' fontSize='sm'>{alertMessage}</Text>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button borderRadius={15} width='100px' colorScheme='red' onClick={handleCloseMessageAlert}>
+                            Close
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+
             {
                 (isAllowedAudio || isAllowedVideo) ?
                     <>
@@ -242,6 +269,8 @@ export const Livestream = () => {
                                                 type='text'
                                                 placeholder='Enter stream key'
                                                 borderRadius={12}
+                                                value={keyJoin}
+                                                onChange={(e) => setKeyJoin(e.target.value)}
                                             />
                                             <InputRightElement width='4.5rem'>
                                                 <Button
@@ -316,14 +345,14 @@ export const Livestream = () => {
                                             justifyContent='flex-start'
                                             rowGap={1}
                                         >
-                                            <Button onClick={() => setCurrentTab('Audio')} width='240px'><Text width='100%' textAlign='left' fontWeight='semibold' fontSize='sm'>Audio</Text></Button>
-                                            <Button onClick={() => setCurrentTab('Video')} width='240px'><Text width='100%' textAlign='left' fontWeight='semibold' fontSize='sm'>Video</Text></Button>
-                                            <Button onClick={() => setCurrentTab('Transcript')} width='240px'><Text width='100%' textAlign='left' fontWeight='semibold' fontSize='sm'>Transcript</Text></Button>
+                                            <Button backgroundColor={currentTab === 'Audio' ? 'gray.300' : 'gray.100'} onClick={() => setCurrentTab('Audio')} width='240px'><Text width='100%' textAlign='left' fontWeight='semibold' fontSize='sm'>Audio</Text></Button>
+                                            <Button backgroundColor={currentTab === 'Video' ? 'gray.300' : 'gray.100'} onClick={() => setCurrentTab('Video')} width='240px'><Text width='100%' textAlign='left' fontWeight='semibold' fontSize='sm'>Video</Text></Button>
+                                            <Button backgroundColor={currentTab === 'Transcript' ? 'gray.300' : 'gray.100'} onClick={() => setCurrentTab('Transcript')} width='240px'><Text width='100%' textAlign='left' fontWeight='semibold' fontSize='sm'>Transcript</Text></Button>
                                         </Flex>
                                         <Flex flex={1} flexDirection='column'>
                                             {
                                                 currentTab === 'Audio' &&
-                                                <Select onChange={(e) => setCurrentAudioDevice(e.target.value)} placeholder={currentAudioDevice?.label}>
+                                                <Select onChange={(e) => setCurrentAudioDevice(e.target.value)}>
                                                     {
                                                         audioDevices?.map((item) => (
                                                             <option
@@ -336,7 +365,7 @@ export const Livestream = () => {
                                             }
                                             {
                                                 currentTab === 'Video' &&
-                                                <Select onChange={(e) => setCurrentVideoDevice(e.target.value)} placeholder={currentVideoDevice?.label}>
+                                                <Select onChange={(e) => setCurrentVideoDevice(e.target.value)}>
                                                     {
                                                         videoDevices?.map((item) => (
                                                             <option
