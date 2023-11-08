@@ -9,6 +9,8 @@ import { updatePostCover } from '../../../core/services/photo';
 import { getSubjects, getSubjectsJoined } from '../../../core/services/subject';
 import { useNavigate, useParams } from 'react-router-dom';
 import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
+import { convertHtmlToObject } from '../../../helper/convertHtmlToObject';
+import { convertObjectToJsx } from '../../../helper/convertObjectToJsx';
 const { SyncIcon } = icons;
 
 export const PanelEditPost = () => {
@@ -125,7 +127,6 @@ export const PanelEditPost = () => {
                 onOpen();
             })
     }
-
 
     const [isLoadingImage, setIsLoadingImage] = React.useState(false);
     const [previewImage, setPreviewImage] = React.useState(null);
@@ -281,7 +282,13 @@ export const PanelEditPost = () => {
                             <Button display='flex' justifyContent='center' alignItems='center' padding={0} iconSpacing={0} rightIcon={isLoadingImage ? <Spinner /> : <SyncIcon width={18} height={18} color='#1E1E1E' />} borderRadius='full' />
                         </Stack>
                     </Box>
-                    <Textarea value={postData.content} onChange={(e) => handleContent(e.target.value)} borderRadius={15} minHeight={240} placeholder='Content of your post here . . .' />
+
+                    <Box textAlign='left' className='ignore_lib' fontFamily='monospace'>
+                        {
+                            convertObjectToJsx(convertHtmlToObject(postData?.content))
+                        }
+                    </Box>
+                    <Textarea onChange={(e) => handleContent(e.target.value)} borderRadius={15} minHeight={240} placeholder='Content of your post here . . .' />
                 </CardBody>
 
                 <CardFooter
