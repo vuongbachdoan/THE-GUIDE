@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Image, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Stack, Text, Textarea, useColorModeValue, useDisclosure } from '@chakra-ui/react'
+import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Image, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Stack, Text, Textarea, useClipboard, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import icons from '../../../assets/icons';
 import { FaChevronDown } from 'react-icons/fa';
 import React from 'react';
@@ -9,13 +9,20 @@ import { getSubjects, getSubjectsJoined } from '../../../core/services/subject';
 import { useNavigate, useParams } from 'react-router-dom';
 import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
 import { convertHtmlToObject } from '../../../helper/convertHtmlToObject';
-import { CheckCheck, Pencil } from 'lucide-react';
+import { Bold, CheckCheck, Heading1, Heading2, Heading3, Heading4, Heading5, Heading6, Italic, Pencil, Underline } from 'lucide-react';
+import { AIChat } from '../../../core/services/ai';
+import ClaudeIcon from '../../../assets/images/claude_icon.jpeg';
+import { BiMailSend } from 'react-icons/bi';
+import { converTextToHTML } from '../../../helper/converTextToHTML';
 const { SyncIcon } = icons;
 
 export const PanelEditPost = () => {
     const { postId } = useParams();
     const color = useColorModeValue('#1E1E1E', '#FFF');
     const placeholderColor = useColorModeValue('gray.500', 'gray.400');
+    const btnEditorBg = useColorModeValue('gray.400', 'gray.800');
+    const btnEditorText = useColorModeValue('gray.100', 'gray.600');
+    const claudeText = useColorModeValue('#785A46', '#CA9877');
     const user = useSelector((state) => state.profileData.data);
     const finalRef = React.useRef(null);
     const [alertMessage, setAlertMessage] = React.useState(null);
@@ -214,8 +221,44 @@ export const PanelEditPost = () => {
             console.error('Index out of range');
         }
     }
-
-
+    const [isShowAI, setIsShowAI] = React.useState(false);
+    const [chatString, setChatString] = React.useState('');
+    const [chatResult, setChatResult] = React.useState('');
+    const { hasCopied, onCopy } = useClipboard(`${chatResult}`);
+    const [loadingResult, setLoadingResult] = React.useState(false);
+    const [currentVariant, setCurrentVariant] = React.useState('p');
+    const handleAIChat = () => {
+        setLoadingResult(true);
+        AIChat({
+            prompt: chatString
+        })
+            .then((res) => {
+                setChatResult(res);
+                setLoadingResult(false);
+            })
+            .catch(() => {
+                setLoadingResult(false);
+            });
+    }
+    const [inputValue, setInputValue] = React.useState('');
+    const [htmlContent, setHtmlContent] = React.useState('');
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevents the addition of a new line in contentEditable on Enter
+            setHtmlContent(prevHtmlContent => prevHtmlContent + converTextToHTML(inputValue, currentVariant));
+            setPostData({
+                ...postData,
+                content: htmlContent + converTextToHTML(inputValue, currentVariant)
+            })
+            setTempHtmlContent(
+                [
+                    ...tempHtmlContent,
+                    convertHtmlToObject(converTextToHTML(inputValue, currentVariant))[0]
+                ]
+            )
+            setInputValue('');
+        }
+    }
 
     return (
         <>
@@ -313,7 +356,9 @@ export const PanelEditPost = () => {
                                                         setSelectedIndex(index)
                                                     }}
                                                     leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
-                                                <Button onClick={() => handleUpdateHtmlContent(index, textareaValue)} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                <Button isDisabled={selectedIndex !== index} onClick={() => {
+                                                    handleUpdateHtmlContent(index, textareaValue);
+                                                }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
                                                 {
                                                     selectedIndex !== index ?
                                                         React.createElement(item.tag, { key: index }, item.content) :
@@ -338,7 +383,9 @@ export const PanelEditPost = () => {
                                                         setSelectedIndex(index)
                                                     }}
                                                     leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
-                                                <Button onClick={() => handleUpdateHtmlContent(index, textareaValue)} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                <Button isDisabled={selectedIndex !== index} onClick={() => {
+                                                    handleUpdateHtmlContent(index, textareaValue);
+                                                }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
                                                 {
                                                     selectedIndex !== index ?
                                                         <p style={{ width: 'fit-content' }} key={index}>{item.content}</p> :
@@ -362,7 +409,9 @@ export const PanelEditPost = () => {
                                                         setSelectedIndex(index)
                                                     }}
                                                     leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
-                                                <Button onClick={() => handleUpdateHtmlContent(index, textareaValue)} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                <Button isDisabled={selectedIndex !== index} onClick={() => {
+                                                    handleUpdateHtmlContent(index, textareaValue);
+                                                }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
                                                 {
                                                     selectedIndex !== index ?
                                                         <i style={{ width: 'fit-content' }} key={index}>{item.content}</i> :
@@ -386,7 +435,9 @@ export const PanelEditPost = () => {
                                                         setSelectedIndex(index)
                                                     }}
                                                     leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
-                                                <Button onClick={() => handleUpdateHtmlContent(index, textareaValue)} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                <Button isDisabled={selectedIndex !== index} onClick={() => {
+                                                    handleUpdateHtmlContent(index, textareaValue);
+                                                }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
                                                 {
                                                     selectedIndex !== index ?
                                                         <u style={{ width: 'fit-content' }} key={index}>{item.content}</u> :
@@ -410,7 +461,9 @@ export const PanelEditPost = () => {
                                                         setSelectedIndex(index)
                                                     }}
                                                     leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
-                                                <Button onClick={() => handleUpdateHtmlContent(index, textareaValue)} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                <Button isDisabled={selectedIndex !== index} onClick={() => {
+                                                    handleUpdateHtmlContent(index, textareaValue);
+                                                }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
                                                 {
                                                     selectedIndex !== index ?
                                                         <b style={{ width: 'fit-content' }} key={index}>{item.content}</b> :
@@ -424,7 +477,75 @@ export const PanelEditPost = () => {
                             })
                         }
                     </Box>
-                    <Textarea fontSize='small' fontWeight='medium' fontFamily='monospace' onChange={(e) => handleContent(e.target.value)} borderRadius={15} minHeight={240} placeholder='Add more content of your post here' />
+
+                    <Flex marginTop={3} flexDirection='row' justifyContent='space-between' alignItems='flex-start'>
+                        <Text textAlign='left' lineHeight='40px' height='40px' width='100px' margin={0} fontWeight='semibold' fontSize='sm'>{'>'} {currentVariant}</Text>
+                        <Flex
+                            flexDirection='row'
+                            justifyContent='flex-end'
+                            columnGap={1}
+                            marginBottom='5px'
+                            flexWrap='wrap'
+                            rowGap='5px'
+                        >
+                            <Button padding={0} onClick={() => setIsShowAI(!isShowAI)} width='40px' height='40px' borderRadius='10px' iconSpacing={0} opacity={isShowAI ? 1 : 0.5}>
+                                <Image src={ClaudeIcon} width='40px' height='40px' borderRadius='10px' />
+                            </Button>
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'h1' ? 'p' : 'h1')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h1' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading1 size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'h2' ? 'p' : 'h2')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h2' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading2 size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'h3' ? 'p' : 'h3')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h3' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading3 size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'h4' ? 'p' : 'h4')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h4' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading4 size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'h5' ? 'p' : 'h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h5' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading5 size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'h6' ? 'p' : 'h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h6' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading6 size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'bold' ? 'p' : 'bold')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'bold' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Bold size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'italic' ? 'p' : 'italic')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'italic' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Italic size={18} />} />
+                            <Button onClick={() => setCurrentVariant(currentVariant === 'underline' ? 'p' : 'underline')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'underline' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Underline size={18} />} />
+                        </Flex>
+                    </Flex>
+
+                    {
+                        isShowAI &&
+                        <>
+                            <Flex
+                                flexDirection='row'
+                                columnGap={1}
+                                alignItems='center'
+                            >
+                                <Input
+                                    _focus={{
+                                        boxShadow: 'none',
+                                        borderWidth: 0
+                                    }}
+                                    backgroundColor='#CA987730'
+                                    color={claudeText}
+                                    _placeholder={{
+                                        color: claudeText
+                                    }}
+                                    borderWidth={0}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            handleAIChat();
+                                        }
+                                    }} onChange={(e) => setChatString(e.target.value)} value={chatString} marginY={1} borderRadius={15} placeholder='Chat with AI' fontSize='small' />
+                                <Stack cursor='pointer' backgroundColor='#CA9877' _hover={{
+                                    backgroundColor: '#CA9877'
+                                }} justifyContent='center' alignItems='center' borderRadius={10} width='40px' height='40px' onClick={onCopy}>
+                                    {
+                                        loadingResult ?
+                                            <Spinner /> :
+                                            <BiMailSend onClick={handleAIChat} color='#000' />
+                                    }
+                                </Stack>
+                            </Flex>
+                            <Textarea lineHeight='15px' backgroundColor='#CA987730' minHeight={240} borderWidth={0} marginBottom={3} fontFamily='monospace' fontSize='small' borderRadius={10} size='sm' color={claudeText} value={`${chatResult}`} isReadOnly />
+                        </>
+                    }
+
+                    <Textarea fontSize='small' fontWeight='medium' fontFamily='monospace' value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={handleKeyDown} borderRadius={20} minHeight={120} placeholder='Content of your post here...' />
+                    <Text fontSize='x-small' textAlign='right'>*Hit enter to add a new line in document.</Text>
+                    {/* <Textarea fontSize='small' fontWeight='medium' fontFamily='monospace' onChange={(e) => handleContent(e.target.value)} borderRadius={15} minHeight={240} placeholder='Add more content of your post here' /> */}
                 </CardBody>
 
                 <CardFooter
