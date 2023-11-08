@@ -68,22 +68,30 @@ export const Livestream = () => {
 
     React.useEffect(() => {
         if (currentAudioDevice) {
-            handleAttachMedia();
+            handleAttachAudio();
         }
     }, [currentAudioDevice]);
 
     React.useEffect(() => {
         if (currentVideoDevice) {
-            handleAttachMedia();
+            handleAttachVideo();
         }
     }, [currentVideoDevice]);
 
-    const handleAttachMedia = async () => {
-        const streamConfig = IVSBroadcastClient.BASIC_LANDSCAPE;
+    const handleAttachAudio = async () => {
         Promise.all([
             window.microphoneStream = await navigator.mediaDevices.getUserMedia({
                 audio: { deviceId: currentAudioDevice },
-            }),
+            })
+        ]).then(() => {
+            client.addAudioInputDevice(window.microphoneStream, currentAudioDevice)
+                .catch(() => console.warn('Audio already registered!'))
+        })
+    }
+
+    const handleAttachVideo = async () => {
+        const streamConfig = IVSBroadcastClient.BASIC_LANDSCAPE;
+        Promise.all([
             window.cameraStream = await navigator.mediaDevices.getUserMedia({
                 video: {
                     deviceId: currentVideoDevice,
@@ -98,13 +106,20 @@ export const Livestream = () => {
                 },
             })
         ]).then(() => {
-            client.addAudioInputDevice(window.microphoneStream, currentAudioDevice)
-                .catch(() => console.warn('Audio already registered!'))
+            // Try to remove the video device.
+            try {
+                client.removeVideoInputDevice(currentVideoDevice);
+            } catch (error) {
+                console.warn('Video not registered!');
+            }
+    
+            // Add the new video device.
             client.addVideoInputDevice(window.cameraStream, currentVideoDevice, { index: 0 })
+                .then(() => console.log('Video device added'))
                 .catch(() => console.warn('Video already registered!'))
         })
     }
-
+    
     const [joiningStatus, setJoiningStatus] = useState('NONE');
     React.useEffect(() => {
         if (joiningStatus === 'PENDING') {
@@ -151,7 +166,7 @@ export const Livestream = () => {
     }, [isMute]);
     const handleMute = () => {
         if (client) {
-            let audioStream = client.getAudioInputDevice(currentAudioDevice.deviceId);
+            let audioStream = client.getAudioInputDevice(currentAudioDevice);
             if (isMute) {
                 audioStream.getAudioTracks()[0].enabled = false;
             } else {
@@ -167,11 +182,13 @@ export const Livestream = () => {
 
     const handleCameraOn = () => {
         if (client) {
-            let videoStream = client.getVideoInputDevice(currentVideoDevice.deviceId).source;
+            let videoStream = client.getVideoInputDevice(currentVideoDevice).source;
             if (isCameraOn) {
                 videoStream.getVideoTracks()[0].enabled = true;
+                console.log('Camera turned on');
             } else {
                 videoStream.getVideoTracks()[0].enabled = false;
+                console.log('Camera turned off');
             }
         }
     }
@@ -337,7 +354,7 @@ export const Livestream = () => {
                         </Modal>
                     </>
                     :
-                    <Button onClick={handleAllowMedia} borderRadius={10}>Allow using Camera & Audio</Button>
+                    <Button backgroundColor='#FF8F46' _hover={{ backgroundColor: '#FF8F46' }} onClick={handleAllowMedia} borderRadius={10}>Allow using Camera & Audio</Button>
             }
         </>
     );
