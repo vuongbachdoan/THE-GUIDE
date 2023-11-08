@@ -14,6 +14,7 @@ import { AIChat } from '../../../core/services/ai';
 import ClaudeIcon from '../../../assets/images/claude_icon.jpeg';
 import { BiMailSend } from 'react-icons/bi';
 import { converTextToHTML } from '../../../helper/converTextToHTML';
+import { convertObjectsToHTML } from '../../../helper/convertObjectsToHTML';
 const { SyncIcon } = icons;
 
 export const PanelEditPost = () => {
@@ -117,9 +118,11 @@ export const PanelEditPost = () => {
      */
     const handleUpdatePost = async (status) => {
         const timeCreate = new Date();
+        let htmlContentUpdated = convertObjectsToHTML(tempHtmlContent);
 
         updatePost({
             ...postData,
+            content: htmlContentUpdated,
             updatedAt: timeCreate,
             status: status
         })
