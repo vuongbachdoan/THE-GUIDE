@@ -4,6 +4,7 @@ import { BiMailSend } from 'react-icons/bi';
 
 export const LivestreamChat = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
+    const hoverChatBg = useColorModeValue('gray.300', 'gray.800');
 
     return (
         <Flex
@@ -47,7 +48,7 @@ export const LivestreamChat = () => {
                                 alignItems='flex-start'
                                 borderRadius={7.5}
                                 _hover={{
-                                    backgroundColor:'#000'
+                                    backgroundColor: hoverChatBg
                                 }}
                                 cursor='pointer'
                                 padding={7.5}
@@ -92,7 +93,7 @@ export const LivestreamChat = () => {
                         }
                     }}
                 />
-                <Button backgroundColor="#FF8F46" _hover={{backgroundColor: "#FF8F46"}} width='40px' height='40px' padding={0}>
+                <Button backgroundColor="#FF8F46" _hover={{ backgroundColor: "#FF8F46" }} width='40px' height='40px' padding={0}>
                     <BiMailSend size={22} />
                 </Button>
             </Flex>
