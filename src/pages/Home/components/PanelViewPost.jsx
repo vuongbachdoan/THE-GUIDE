@@ -1,9 +1,5 @@
-import { Avatar, Box, Button, Card, CardBody, CardHeader, Flex, Heading, IconButton, Image, Link, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, filter, useColorModeValue, useDisclosure } from '@chakra-ui/react'
-import { posts } from '../../../mocks/data';
-import { PostCard } from './PostCard';
+import { Avatar, Box, Button, Card, CardBody, CardHeader, Flex, Heading, IconButton, Image, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom';
-import UserAvatar from '../../../assets/images/student1.png';
-import icons from '../../../assets/icons';
 import { FaChevronDown } from 'react-icons/fa';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import React from 'react';
@@ -11,7 +7,7 @@ import { deletePost, getMyFilteredPosts, getMyPosts } from '../../../core/servic
 import { useSelector } from 'react-redux';
 import { getUser } from '../../../core/services/user';
 import { sortArrayByCreatedAt } from '../../../helper/sortArrayByCreatedAt';
-// const { MailIcon, LinkedinIcon, GithubIcon } = icons;
+import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
 
 export const PanelViewPost = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');
@@ -133,7 +129,6 @@ export const PanelViewPost = () => {
                             borderWidth={0}
                             borderRadius={20}
                             boxShadow='none'
-                            opacity={post?.status === 'pending' ? 0.5 : 1}
                             backgroundColor={post?.status === 'rejected' ? '#FF00002E' : bg}
                         >
                             <CardHeader>
@@ -175,8 +170,9 @@ export const PanelViewPost = () => {
                             >
                                 <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={3} textOverflow='ellipsis'>{post?.description}</Text>
                                 <Image
+                                    opacity={post?.status === 'pending' ? 0.5 : 1}
                                     objectFit='cover'
-                                    src={post?.cover}
+                                    src={post?.cover ? post?.cover : PlaceholderImage}
                                     alt='cover image'
                                     maxHeight={240}
                                     borderRadius={15}

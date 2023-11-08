@@ -135,6 +135,7 @@ export const PanelCreatePost = () => {
             ...postData,
             id: uniqueId,
             createAt: timeCreate,
+            creatorId: user?.id,
             status: status
         })
             .then((res) => {
@@ -262,7 +263,7 @@ export const PanelCreatePost = () => {
     return (
         <>
             {
-                (user && subjectsAvailable.length !== 0) ?
+                (user && user?.id && subjectsAvailable.length !== 0) ?
                     <>
                         <Card
                             borderWidth={0}
@@ -344,7 +345,7 @@ export const PanelCreatePost = () => {
                                         rowGap='5px'
                                     >
                                         <Button onClick={() => resetPostData()} width='40px' padding={0} height='40px' borderRadius='10px' iconSpacing={0} backgroundColor='red.500' _hover={{ backgroundColor: 'red.600', color: '#FFF' }} color='#FFF'>
-                                        <ListX size={20} color='#FFF'/>
+                                            <ListX size={20} color='#FFF' />
                                         </Button>
                                         <Button padding={0} onClick={() => setIsShowAI(!isShowAI)} width='40px' height='40px' borderRadius='10px' iconSpacing={0} opacity={isShowAI ? 1 : 0.5}>
                                             <Image src={ClaudeIcon} width='40px' height='40px' borderRadius='10px' />
@@ -354,7 +355,7 @@ export const PanelCreatePost = () => {
                                         <Button onClick={() => setCurrentVariant(currentVariant === 'h3' ? 'p' : 'h3')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h3' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading3 size={18} />} />
                                         <Button onClick={() => setCurrentVariant(currentVariant === 'h4' ? 'p' : 'h4')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h4' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading4 size={18} />} />
                                         <Button onClick={() => setCurrentVariant(currentVariant === 'h5' ? 'p' : 'h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h5' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading5 size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h6' ? 'p' : 'h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h6' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading6 size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h6' ? 'p' : 'h6')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h6' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading6 size={18} />} />
                                         <Button onClick={() => setCurrentVariant(currentVariant === 'bold' ? 'p' : 'bold')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'bold' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Bold size={18} />} />
                                         <Button onClick={() => setCurrentVariant(currentVariant === 'italic' ? 'p' : 'italic')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'italic' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Italic size={18} />} />
                                         <Button onClick={() => setCurrentVariant(currentVariant === 'underline' ? 'p' : 'underline')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'underline' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Underline size={18} />} />
@@ -391,7 +392,7 @@ export const PanelCreatePost = () => {
                                                 {
                                                     loadingResult ?
                                                         <Spinner /> :
-                                                        <BiMailSend onClick={handleAIChat} color='#000'/>
+                                                        <BiMailSend onClick={handleAIChat} color='#000' />
                                                 }
                                             </Stack>
                                         </Flex>
