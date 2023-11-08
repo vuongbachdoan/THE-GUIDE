@@ -145,13 +145,6 @@ export const PanelPostDetail = () => {
                                 <Text fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>{postData?.department}</Text>
                             </Box>
                         </Flex>
-                        {/* <IconButton
-                            variant='ghost'
-                            colorScheme='gray'
-                            aria-label='See menu'
-                            icon={<ExpandIcon width={20} height={20} />}
-                            onClick={handleViewPost}
-                        /> */}
                     </Flex>
                 </CardHeader>
                 {
@@ -167,8 +160,7 @@ export const PanelPostDetail = () => {
                     paddingTop={3}
                     textAlign='left'
                 >
-                    {/* <Text fontSize='sm' fontWeight='normal' color='gray.500' textAlign='left' noOfLines={isExpand ? 'auto' : 3} textOverflow='ellipsis'>{postData?.content}</Text> */}
-                    <Box className='ignore_lib' dangerouslySetInnerHTML={{ __html: postData?.content}}></Box>
+                    <Box className='ignore_lib' style={{fontFamily: 'monospace'}} dangerouslySetInnerHTML={{ __html: postData?.content}}></Box>
                 </CardBody>
                 <CardFooter
                     justifyContent='space-between'
