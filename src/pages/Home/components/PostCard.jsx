@@ -7,6 +7,7 @@ import { Comment } from './Comment';
 import { createComment } from '../../../core/services/comment';
 import { useSelector } from 'react-redux';
 import { mappingNotification } from '../../../helper/mappingNotification';
+import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
 const { HeartIcon, CommentIcon, ShareIcon, EyeIcon, ExpandIcon, HappyIcon, SendIcon, ATIcon } = icons;
 
 /**
@@ -159,13 +160,13 @@ export const PostCard = ({ postId }) => {
                 <CardHeader>
                     <Flex spacing='4'>
                         <Flex flex='1' gap='4'>
-                            <Avatar opacity={postData?.status === 'pending' ? 0.5 : 1} name={ownerPost?.username} src={ownerPost?.avatar} />
+                            <Avatar name={ownerPost?.username} src={ownerPost?.avatar} />
 
                             <Box
                                 flex={1}
                             >
-                                <Heading opacity={postData?.status === 'pending' ? 0.5 : 1} size='md' fontWeight='semibold' textAlign='left' noOfLines={isExpand ? 'auto' : 1} textOverflow='ellipsis'>{postData?.subjectCode}  /  {postData?.title} </Heading>
-                                <Text opacity={postData?.status === 'pending' ? 0.5 : 1} fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>{postData?.department}</Text>
+                                <Heading size='md' fontWeight='semibold' textAlign='left' noOfLines={isExpand ? 'auto' : 1} textOverflow='ellipsis'>{postData?.subjectCode}  /  {postData?.title} </Heading>
+                                <Text fontSize='sm' fontWeight='semibold' color='gray.500' textAlign='left'>{postData?.department}</Text>
                             </Box>
                         </Flex>
                         <IconButton
@@ -174,26 +175,23 @@ export const PostCard = ({ postId }) => {
                             aria-label='See menu'
                             icon={<ExpandIcon width={20} height={20} />}
                             onClick={handleViewPost}
-                            opacity={postData?.status === 'pending' ? 0.5 : 1}
+                        
                         />
                     </Flex>
                 </CardHeader>
-                {
-                    postData?.cover &&
-                    <Image
-                        objectFit='cover'
-                        src={postData?.cover}
-                        alt='cover image'
-                        maxHeight={240}
-                        opacity={postData?.status === 'pending' ? 0.5 : 1}
-                    />
-                }
+                <Image
+                    objectFit='cover'
+                    src={postData?.cover ? postData?.cover : PlaceholderImage}
+                    alt='cover image'
+                    maxHeight={240}
+                    opacity={postData?.status === 'pending' ? 0.5 : 1}
+                />
                 {
                     isExpand &&
                     <CardBody
                         paddingTop={0}
                     >
-                        <Box opacity={postData?.status === 'pending' ? 0.5 : 1} textAlign='left' className='ignore_lib' dangerouslySetInnerHTML={{ __html: postData?.content }}></Box>
+                        <Box textAlign='left' className='ignore_lib' dangerouslySetInnerHTML={{ __html: postData?.content }}></Box>
                     </CardBody>
                 }
                 <CardFooter
