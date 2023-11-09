@@ -1,6 +1,4 @@
 import React, { useState, useRef } from "react";
-import { registerIVSQualityPlugin, registerIVSTech } from "amazon-ivs-player";
-import videojs from "video.js";
 import { Box, Button, Flex, Input, Spinner } from "@chakra-ui/react";
 
 const DEFAULT_POSITION = "auto";
