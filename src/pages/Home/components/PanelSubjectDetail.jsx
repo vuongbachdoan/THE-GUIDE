@@ -174,7 +174,7 @@ export const PanelSubjectDetail = () => {
                             >
                                 {
                                     lectures?.map((lectureId) => (
-                                        <UserCard userId={lectureId} isLecture={true} handleAlert={(message) => handleUserCardAlert(message)} onClose={onClose} />
+                                        <UserCard loadSubject={loadSubject} userId={lectureId} isLecture={true} handleAlert={(message) => handleUserCardAlert(message)} onClose={onClose} />
                                     ))
                                 }
                             </Grid>
@@ -210,7 +210,7 @@ export const PanelSubjectDetail = () => {
                             >
                                 {
                                     students?.map((studentId) => (
-                                        <UserCard userId={studentId} isLecture={false} handleAlert={(message) => handleUserCardAlert(message)} onClose={onClose} />
+                                        <UserCard loadSubject={loadSubject} userId={studentId} isLecture={false} handleAlert={(message) => handleUserCardAlert(message)} onClose={onClose} />
                                     ))
                                 }
                             </Grid>
@@ -239,18 +239,20 @@ export const PanelSubjectDetail = () => {
     );
 }
 
-const UserCard = ({ userId, isLecture, handleAlert, onClose }) => {
+const UserCard = ({ userId, isLecture, handleAlert, onClose, loadSubject }) => {
     const bg = useColorModeValue('#FFF', 'gray.700');
     const [userData, setUserData] = React.useState(null);
     const user = useSelector((state) => state.profileData.data);
     const { subjectId } = useParams();
 
     React.useEffect(() => {
-        getUser(userId)
-            .then((res) => {
-                setUserData(res);
-            })
-            .catch((err) => console.error(err));
+        if (userId) {
+            getUser(userId)
+                .then((res) => {
+                    setUserData(res);
+                })
+                .catch((err) => console.error(err));
+        }
     }, [userId]);
 
     const handleLeaveSubject = () => {
@@ -259,6 +261,9 @@ const UserCard = ({ userId, isLecture, handleAlert, onClose }) => {
                 leaveUser(userId, subjectId)
                     .then(() => {
                         handleAlert(`User ${userId} leaved ${subjectId}!`);
+                        setTimeout(() => {
+                            loadSubject();
+                        }, [3000]);
                     })
                     .catch((err) => {
                         handleAlert(`Fail to leave ${subjectId}!`);
