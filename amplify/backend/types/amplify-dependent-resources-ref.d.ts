@@ -1,6 +1,6 @@
 export type AmplifyDependentResourcesAttributes = {
   "auth": {
-    "theguidev4": {
+    "THEGUIDE": {
       "AppClientID": "string",
       "AppClientIDWeb": "string",
       "HostedUIDomain": "string",

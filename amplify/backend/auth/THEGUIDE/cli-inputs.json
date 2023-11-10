@@ -3,8 +3,8 @@
   "cognitoConfig": {
     "identityPoolName": "testAuthIdentityPool",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "thegui901566a7",
-    "userPoolName": "theguidev4",
+    "resourceNameTruncated": "theguib5060598",
+    "userPoolName": "THEGUIDE",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -25,19 +25,19 @@
       "Requires Uppercase"
     ],
     "requiredAttributes": [
-      "name",
+      "email",
       "picture",
-      "email"
+      "name"
     ],
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [],
     "userpoolClientReadAttributes": [],
-    "userpoolClientLambdaRole": "thegui901566a7_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "THEGUIb5060598_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "901566a7",
-    "resourceName": "theguidev4",
+    "sharedId": "b5060598",
+    "resourceName": "THEGUIDE",
     "authSelections": "identityPoolAndUserPool",
     "serviceName": "Cognito",
     "usernameAttributes": [
@@ -50,12 +50,12 @@
     "thirdPartyAuth": false,
     "authProviders": [],
     "hostedUI": true,
-    "hostedUIDomainName": "m8thrjejherz",
+    "hostedUIDomainName": "labw6u4gknrr",
     "authProvidersUserPool": [
       "Google"
     ],
-    "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid profile email\",\"AttributeMapping\":{\"name\":\"name\",\"picture\":\"picture\",\"email\":\"email\",\"username\":\"sub\"}}]",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000\"],\"LogoutURLs\":[\"http://localhost:3000/auth/login\"]}",
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"picture\":\"picture\",\"name\":\"name\",\"username\":\"sub\"}}]",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://www.docs.rapify-cloud.com\"],\"LogoutURLs\":[\"https://www.docs.rapify-cloud.com/auth/login\"]}",
     "usernameCaseSensitive": false,
     "useEnabledMfas": true
   }
