@@ -7,7 +7,7 @@ import { deletePost, getMyFilteredPosts, getMyPosts } from '../../../core/servic
 import { useSelector } from 'react-redux';
 import { getUser } from '../../../core/services/user';
 import { sortArrayByCreatedAt } from '../../../helper/sortArrayByCreatedAt';
-import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
+import PlaceholderImage from '../../../assets/images/placeholder.png';
 
 export const PanelViewPost = () => {
     const bg = useColorModeValue('#FFF', 'gray.700');

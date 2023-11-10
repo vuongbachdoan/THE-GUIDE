@@ -7,7 +7,7 @@ import { Comment } from './Comment';
 import { createComment } from '../../../core/services/comment';
 import { useSelector } from 'react-redux';
 import { mappingNotification } from '../../../helper/mappingNotification';
-import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
+import PlaceholderImage from '../../../assets/images/placeholder.png';
 const { HeartIcon, CommentIcon, ShareIcon, EyeIcon, ExpandIcon, HappyIcon, SendIcon, ATIcon } = icons;
 
 /**

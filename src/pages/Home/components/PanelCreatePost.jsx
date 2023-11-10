@@ -8,7 +8,7 @@ import { createPost } from '../../../core/services/post';
 import { updatePostCover } from '../../../core/services/photo';
 import { getSubject, getSubjects, getSubjectsJoined } from '../../../core/services/subject';
 import { useNavigate } from 'react-router-dom';
-import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
+import PlaceholderImage from '../../../assets/images/placeholder.png';
 import { converTextToHTML } from '../../../helper/converTextToHTML';
 import { Bold, Code, Delete, Heading1, Heading2, Heading3, Heading4, Heading5, Heading6, Italic, ListX, Quote, SendIcon, Trash, Underline } from 'lucide-react';
 import { AIChat } from '../../../core/services/ai';

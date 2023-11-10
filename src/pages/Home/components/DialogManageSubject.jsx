@@ -1,6 +1,6 @@
 import { Avatar, AvatarGroup, Box, Button, CheckboxIcon, Flex, FormControl, FormLabel, Image, Input, InputGroup, InputRightElement, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Stack, Switch, Text, useClipboard, useDisclosure } from "@chakra-ui/react";
 import React from "react";
-import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
+import PlaceholderImage from '../../../assets/images/placeholder.png';
 import icons from "../../../assets/icons";
 import { getUser } from "../../../core/services/user";
 import { updateSubjectThumbnail } from "../../../core/services/photo";
