@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchData } from "../../store/search/globalSearchPost";
 import { searchPosts } from "../../services/post";
-const { ProfileIcon,PostIcon, SubjectIcon, NotificationIcon,  CloseIcon } = icons;
+const { ProfileIcon, PostIcon, SubjectIcon, NotificationIcon, CloseIcon } = icons;
 
 export const AppHeader = () => {
     const navigate = useNavigate();
@@ -69,7 +69,11 @@ export const AppHeader = () => {
                                 transform: 'translateY(12px)'
                             }}
                         >
-                            <MenuItem onClick={() => navigate('/profile')} borderRadius={15} icon={<ProfileIcon width={26} height={26} color='#A0A0A0' />}>
+                            <MenuItem onClick={
+                                () => navigate(route, {
+                                    state: user.id
+                                })
+                            } borderRadius={15} icon={<ProfileIcon width={26} height={26} color='#A0A0A0' />}>
                                 <Text fontSize='12px' fontWeight='normal' color='#A0A0A0'>Profile</Text>
                             </MenuItem>
                             <MenuItem onClick={() => navigate('/posts')} borderRadius={15} icon={<PostIcon width={26} height={26} color='#A0A0A0' />}>
@@ -82,7 +86,7 @@ export const AppHeader = () => {
                                 <Text fontSize='12px' fontWeight='normal' color='#A0A0A0'>Notification</Text>
                             </MenuItem>
                             <MenuItem onClick={logOut} borderRadius={15} icon={<CloseIcon width={26} height={26} color='#E53E3E' />}>
-                                <Text color='red.500' _hover={{color: 'red.600'}} fontSize='sm' fontWeight='medium'>Log out</Text>
+                                <Text color='red.500' _hover={{ color: 'red.600' }} fontSize='sm' fontWeight='medium'>Log out</Text>
                             </MenuItem>
                         </MenuList>
                     </Menu>
