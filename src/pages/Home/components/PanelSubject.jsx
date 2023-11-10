@@ -9,7 +9,7 @@ import { updateSubjectThumbnail } from '../../../core/services/photo';
 import { createSubject, getSubjects, getSubjectsJoined, joinSubject } from '../../../core/services/subject';
 import { useSelector } from 'react-redux';
 import { updateUser } from '../../../core/services/user';
-import PlaceholderImage from '../../../assets/images/placeholder-1.webp';
+import PlaceholderImage from '../../../assets/images/placeholder.png';
 import { filterNotJoinedsubjects } from '../../../helper/filterNotJoinedSubjects';
 
 const { LinkIcon, CameraIcon } = icons;
