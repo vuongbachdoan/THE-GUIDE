@@ -247,11 +247,11 @@ export const PanelCreatePost = () => {
         if (user?.id) {
             getSubjectsJoined(user?.id)
                 .then((res) => {
+                    setSubjectsAvailable(res);
                     if(res.length === 0) {
                         setAlertMessage('Please join a subject before create post!');
                         onOpen();
                     }
-                    setSubjectsAvailable(res);
                 })
                 .catch((err) => console.error(err));
         }
