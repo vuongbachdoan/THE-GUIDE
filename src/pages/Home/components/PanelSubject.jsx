@@ -241,7 +241,7 @@ export const PanelSubject = () => {
                 </Card>
             }
 
-            <Card
+            {/* <Card
                 borderWidth={0}
                 borderRadius={20}
                 boxShadow='none'
@@ -317,7 +317,7 @@ export const PanelSubject = () => {
                         </Flex>
                     </Flex>
                 </CardBody>
-            </Card>
+            </Card> */}
 
             {/* Subjects joined */}
             {
