@@ -243,8 +243,7 @@ const UserCard = ({ userId, isLecture, handleAlert, onClose }) => {
     const bg = useColorModeValue('#FFF', 'gray.700');
     const [userData, setUserData] = React.useState(null);
     const user = useSelector((state) => state.profileData.data);
-    const location = useLocation();
-    const subject = location.state;
+    const { subjectId } = useParams();
 
     React.useEffect(() => {
         getUser(userId)
@@ -255,18 +254,18 @@ const UserCard = ({ userId, isLecture, handleAlert, onClose }) => {
     }, [userId]);
 
     const handleLeaveSubject = () => {
-        leaveSubject(subject.subjectCode, userId)
+        leaveSubject(subjectId, userId)
             .then(() => {
-                leaveUser(userId, subject.subjectCode)
+                leaveUser(userId, subjectId)
                     .then(() => {
-                        handleAlert(`User ${userId} leaved ${subject.subjectCode}!`);
+                        handleAlert(`User ${userId} leaved ${subjectId}!`);
                     })
                     .catch((err) => {
-                        handleAlert(`Fail to leave ${subject.subjectCode}!`);
+                        handleAlert(`Fail to leave ${subjectId}!`);
                     });
             })
             .catch(() => {
-                handleAlert(`Fail to leave ${subject.subjectCode}!`);
+                handleAlert(`Fail to leave ${subjectId}!`);
             })
     }
 
