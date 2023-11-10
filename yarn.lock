@@ -5521,6 +5521,13 @@ amazon-cognito-identity-js@6.3.6:
     isomorphic-unfetch "^3.0.0"
     js-cookie "^2.2.1"
 
+amazon-ivs-chat-messaging@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/amazon-ivs-chat-messaging/-/amazon-ivs-chat-messaging-1.1.1.tgz#c212fd10ce8f8cff6f135ef96496a68a810ca92e"
+  integrity sha512-CAuZ2q2ted/aWzV6FCwhcTvBsRz6C188Nh77GXvUqFBrBk2r8Oj8D+S5If9yucj71pMYZW71L1+FLth4LAw8uA==
+  dependencies:
+    uuid "^9.0.0"
+
 amazon-ivs-player@^1.22.0:
   version "1.22.0"
   resolved "https://registry.yarnpkg.com/amazon-ivs-player/-/amazon-ivs-player-1.22.0.tgz#e06ab41e8bda60ba2c65ffd0c9960be54f92f074"
@@ -9604,6 +9611,16 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
+linkify-react@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/linkify-react/-/linkify-react-4.1.2.tgz#5c52de5d53f54ec27f76b3fb8270f8ee269cb4eb"
+  integrity sha512-bgzlg562ZAUKQtOw9qr/3IemqpsDG/UmzOANy1cFavcWo/eD9eF4s1ZnT3cWok0GeOG4GujrOP/Jp7cqiXNODg==
+
+linkifyjs@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/linkifyjs/-/linkifyjs-4.1.2.tgz#48fadb05ddf5a5f7065510a385a500ca1ac4e65e"
+  integrity sha512-1elJrH8MwUgr77Rgmx4JgB/nBgISYVoGossH6pAfCeHG+07TblTn6RWKx0MKozEMJU6NCFYHRih9M8ZtV3YZ+Q==
+
 loader-runner@^4.2.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-4.3.0.tgz#c1b4a163b99f614830353b16755e7149ac2314e1"
@@ -12839,7 +12856,7 @@ uuid@^8.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
-uuid@^9.0.1:
+uuid@^9.0.0, uuid@^9.0.1:
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.1.tgz#e188d4c8853cc722220392c424cd637f32293f30"
   integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
