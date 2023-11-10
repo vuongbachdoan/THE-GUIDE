@@ -41,7 +41,7 @@ const useAuth = () => {
                                 userCode: extractCode(profile.attributes.email),
                                 role: checkMailLecture(profile.attributes.email) ? 'Lecture' : 'Student'
                             })
-                            dispatch(setProfileData(createdUser))
+                            dispatch(setProfileData(createdUser));
                         }
                     })
                 .catch((err) => {
