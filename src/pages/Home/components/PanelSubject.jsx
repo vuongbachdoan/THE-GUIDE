@@ -55,7 +55,7 @@ export const PanelSubject = () => {
         setSubjectsNotJoined(
             filterNotJoinedsubjects(subjects, user?.id)
         )
-    }, [subjects])
+    }, [subjects, subjectsJoined]);
 
     const [isLoadingThumbnail, setIsLoadingThumbnail] = React.useState(false);
     const [previewImage, setPreviewImage] = React.useState(null);
