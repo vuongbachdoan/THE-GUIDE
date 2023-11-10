@@ -65,7 +65,9 @@ export const PanelCreatePost = () => {
 
     React.useEffect(() => {
         getSubjects()
-            .then((res) => setSubjects(res))
+            .then((res) => {
+                setSubjects(res)
+            })
     }, []);
 
     const handleDepartment = (val) => {
@@ -127,6 +129,12 @@ export const PanelCreatePost = () => {
      * @returns 
      */
     const handleCreatePost = async (status) => {
+        let subjectsJoined = await getSubjectsJoined();
+        if(subjectsJoined === 0) {
+            setAlertMessage('Please join a subject before create post!');
+            onOpen();
+            return;
+        }
         handleContent();
         const timeCreate = new Date();
         const uniqueId = await createUniqueId(postData.title);
@@ -148,6 +156,10 @@ export const PanelCreatePost = () => {
                 setAlertMessage('Fail to create post!');
                 onOpen();
             })
+    }
+
+    const getSubjectsJoined = async () => {
+        return await getSubjectsJoined(user?.id);
     }
 
     React.useEffect(() => {
@@ -235,6 +247,10 @@ export const PanelCreatePost = () => {
         if (user?.id) {
             getSubjectsJoined(user?.id)
                 .then((res) => {
+                    if(res.length === 0) {
+                        setAlertMessage('Please join a subject before create post!');
+                        onOpen();
+                    }
                     setSubjectsAvailable(res);
                 })
                 .catch((err) => console.error(err));
