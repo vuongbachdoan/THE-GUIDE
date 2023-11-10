@@ -27,7 +27,6 @@ export const PanelCreatePost = () => {
     const [alertMessage, setAlertMessage] = React.useState(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const previewImageRef = React.useRef();
-    const [subjects, setSubjects] = React.useState([]);
     const navigate = useNavigate();
     const [currentVariant, setCurrentVariant] = React.useState('p');
     const [inputValue, setInputValue] = React.useState('');
@@ -64,18 +63,18 @@ export const PanelCreatePost = () => {
     });
 
     React.useEffect(() => {
-        getSubjects()
-            .then((res) => {
-                setSubjects(res)
-            })
+        if (user?.id) {
+            getSubjectsJoined(user?.id)
+                .then((res) => {
+                    setSubjectsAvailable(res);
+                    if (res.length === 0) {
+                        setAlertMessage('Please join a subject before create post!');
+                        onOpen();
+                    }
+                })
+                .catch((err) => console.error(err));
+        }
     }, []);
-
-    const handleDepartment = (val) => {
-        setPostData({
-            ...postData,
-            department: val
-        })
-    }
 
     const handleTitle = (val) => {
         setPostData({
@@ -130,7 +129,7 @@ export const PanelCreatePost = () => {
      */
     const handleCreatePost = async (status) => {
         let subjectsJoined = await getSubjectsJoined();
-        if(subjectsJoined === 0) {
+        if (subjectsJoined === 0) {
             setAlertMessage('Please join a subject before create post!');
             onOpen();
             return;
@@ -248,7 +247,7 @@ export const PanelCreatePost = () => {
             getSubjectsJoined(user?.id)
                 .then((res) => {
                     setSubjectsAvailable(res);
-                    if(res.length === 0) {
+                    if (res.length === 0) {
                         setAlertMessage('Please join a subject before create post!');
                         onOpen();
                     }
@@ -318,6 +317,12 @@ export const PanelCreatePost = () => {
                                                                     <Text>{subject?.subjectCode}</Text>
                                                                 </MenuItem>
                                                             ))
+                                                        }
+                                                        {
+                                                            subjectsAvailable.length === 0 &&
+                                                            <MenuItem borderWidth={0} fontSize='sm' borderRadius={8}>
+                                                                <Text>You haven't joined any subject.</Text>
+                                                            </MenuItem>
                                                         }
                                                     </MenuList>
                                                 </Menu>
