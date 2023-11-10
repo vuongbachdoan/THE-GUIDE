@@ -279,7 +279,7 @@ export const PanelCreatePost = () => {
     return (
         <>
             {
-                (user && user?.id && subjectsAvailable.length !== 0) ?
+                (user && user?.id) ?
                     <>
                         <Card
                             borderWidth={0}
