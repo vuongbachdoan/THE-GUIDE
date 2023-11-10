@@ -183,6 +183,7 @@ export const PanelSubject = () => {
                     }).then(() => {
                         setAlertMessage(`Successfully join subject ${subject.subjectCode}!`);
                         onOpen();
+                        loadSubject();
                         loadSubjectsJoined();
                     }).catch(() => {
                         setAlertMessage(`Fail to join subject ${subject.subjectCode}!`);
