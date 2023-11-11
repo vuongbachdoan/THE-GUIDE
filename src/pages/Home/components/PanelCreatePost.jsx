@@ -67,6 +67,10 @@ export const PanelCreatePost = () => {
             getSubjectsJoined(user?.id)
                 .then((res) => {
                     setSubjectsAvailable(res);
+                    if (res.length === 0) {
+                        setAlertMessage('Please join a subject before create post!');
+                        onOpen();
+                    }
                 })
                 .catch((err) => console.error(err));
         }
@@ -238,21 +242,6 @@ export const PanelCreatePost = () => {
     }
 
     const [subjectsAvailable, setSubjectsAvailable] = React.useState([]);
-    React.useEffect(() => {
-        if (user?.id) {
-            getSubjectsJoined(user?.id)
-                .then((res) => {
-                    setSubjectsAvailable(res);
-                })
-                .catch((err) => console.error(err));
-        }
-    }, [user?.id]);
-    React.useEffect(() => {
-        if (subjectsAvailable.length === 0) {
-            setAlertMessage('Please join a subject before create post!');
-            onOpen();
-        }
-    }, [subjectsAvailable]);
 
     const [isShowAI, setIsShowAI] = React.useState(false);
     const [chatString, setChatString] = React.useState('');
