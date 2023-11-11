@@ -191,7 +191,7 @@ export const PostCard = ({ postId }) => {
                     <CardBody
                         paddingTop={0}
                     >
-                        <Box textAlign='left' className='ignore_lib' dangerouslySetInnerHTML={{ __html: postData?.content }}></Box>
+                        <Box textAlign='left' className='ignore_lib' style={{fontFamily: 'monospace'}} dangerouslySetInnerHTML={{ __html: postData?.content }}></Box>
                     </CardBody>
                 }
                 <CardFooter
