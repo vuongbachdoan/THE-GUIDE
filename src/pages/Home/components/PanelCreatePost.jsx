@@ -63,14 +63,14 @@ export const PanelCreatePost = () => {
     });
 
     React.useEffect(() => {
-        if (user?.id) {
+        if (user) {
             getSubjectsJoined(user?.id)
                 .then((res) => {
                     setSubjectsAvailable(res);
                 })
                 .catch((err) => console.error(err));
         }
-    }, []);
+    }, [user]);
 
     const handleTitle = (val) => {
         setPostData({
