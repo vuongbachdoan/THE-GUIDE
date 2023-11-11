@@ -70,7 +70,7 @@ export const AppHeader = () => {
                             }}
                         >
                             <MenuItem onClick={
-                                () => navigate(route, {
+                                () => navigate('/profile', {
                                     state: user.id
                                 })
                             } borderRadius={15} icon={<ProfileIcon width={26} height={26} color='#A0A0A0' />}>
