@@ -63,7 +63,22 @@ export const PanelCreatePost = () => {
     });
 
     React.useEffect(() => {
-        if (user?.id) {
+        if (user) {
+            if(user.subjects === 0) {
+                setAlertMessage('Please join a subject before create post!');
+                onOpen();
+            } else {
+                getSubjectsJoined(user?.id)
+                .then((res) => {
+                    setSubjectsAvailable(res);
+                })
+                .catch((err) => console.error(err));
+            }
+        }
+    }, []);
+
+    React.useEffect(() => {
+        if (user) {
             if(user.subjects === 0) {
                 setAlertMessage('Please join a subject before create post!');
                 onOpen();
