@@ -68,7 +68,7 @@ export const PanelCreatePost = () => {
                 setAlertMessage('Please join a subject before create post!');
                 onOpen();
             } else {
-                getSubjectsJoined(user?.id)
+                handleGetSubjectsJoined(user?.id)
                 .then((res) => {
                     setSubjectsAvailable(res);
                 })
@@ -83,7 +83,7 @@ export const PanelCreatePost = () => {
                 setAlertMessage('Please join a subject before create post!');
                 onOpen();
             } else {
-                getSubjectsJoined(user?.id)
+                handleGetSubjectsJoined(user?.id)
                 .then((res) => {
                     setSubjectsAvailable(res);
                 })
@@ -173,7 +173,7 @@ export const PanelCreatePost = () => {
             })
     }
 
-    const getSubjectsJoined = async () => {
+    const handleGetSubjectsJoined = async () => {
         return await getSubjectsJoined(user?.id);
     }
 
