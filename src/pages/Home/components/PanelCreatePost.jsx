@@ -158,7 +158,6 @@ export const PanelCreatePost = () => {
             });
             if (errors.length !== 0) {
                 let errorsString = errors.join("\n");
-                console.log(string);
                 setAlertMessage(
                     errorsString
                 );
