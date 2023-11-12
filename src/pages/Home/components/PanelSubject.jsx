@@ -185,6 +185,9 @@ export const PanelSubject = () => {
                         onOpen();
                         loadSubject();
                         loadSubjectsJoined();
+                        setTimeout(() => {
+                            navigate(`/subject/detail/${subject.subjectCode}`);
+                        }, 3000)
                     }).catch(() => {
                         setAlertMessage(`Fail to join subject ${subject.subjectCode}!`);
                         onOpen();
