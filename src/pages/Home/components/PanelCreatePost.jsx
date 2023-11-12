@@ -14,6 +14,7 @@ import { Bold, Code, Delete, Heading1, Heading2, Heading3, Heading4, Heading5, H
 import { AIChat } from '../../../core/services/ai';
 import ClaudeIcon from '../../../assets/images/claude_icon.jpeg';
 import { BiMailSend, BiTrash, BiTrashAlt } from 'react-icons/bi';
+import { validatePostContent } from '../../../helper/validatePostContent';
 const { SyncIcon } = icons;
 
 export const PanelCreatePost = () => {
@@ -152,23 +153,35 @@ export const PanelCreatePost = () => {
             const timeCreate = new Date();
             const uniqueId = await createUniqueId(postData.title);
 
-            createPost({
-                ...postData,
-                id: uniqueId,
-                createAt: timeCreate,
-                creatorId: user?.id,
-                status: status
-            })
-                .then((res) => {
-                    setAlertMessage('Successfully create post!');
-                    onOpen();
-                    resetPostData();
-                    navigate('/posts')
+            const errors = validatePostContent({
+                ...postData
+            });
+            if (errors.length !== 0) {
+                let errorsString = errors.join("\n");
+                console.log(string);
+                setAlertMessage(
+                    errorsString
+                );
+                onOpen();
+            } else {
+                createPost({
+                    ...postData,
+                    id: uniqueId,
+                    createAt: timeCreate,
+                    creatorId: user?.id,
+                    status: status
                 })
-                .catch((err) => {
-                    setAlertMessage('Fail to create post!');
-                    onOpen();
-                })
+                    .then((res) => {
+                        setAlertMessage('Successfully create post!');
+                        onOpen();
+                        resetPostData();
+                        navigate('/posts');
+                    })
+                    .catch((err) => {
+                        setAlertMessage('Fail to create post!');
+                        onOpen();
+                    })
+            }
         }
     }
 
