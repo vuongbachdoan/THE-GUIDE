@@ -64,30 +64,30 @@ export const PanelCreatePost = () => {
 
     React.useEffect(() => {
         if (user) {
-            if(user.subjects === 0) {
+            if (user.subjects === 0) {
                 setAlertMessage('Please join a subject before create post!');
                 onOpen();
             } else {
                 handleGetSubjectsJoined(user?.id)
-                .then((res) => {
-                    setSubjectsAvailable(res);
-                })
-                .catch((err) => console.error(err));
+                    .then((res) => {
+                        setSubjectsAvailable(res);
+                    })
+                    .catch((err) => console.error(err));
             }
         }
     }, []);
 
     React.useEffect(() => {
         if (user) {
-            if(user.subjects === 0) {
+            if (user.subjects === 0) {
                 setAlertMessage('Please join a subject before create post!');
                 onOpen();
             } else {
                 handleGetSubjectsJoined(user?.id)
-                .then((res) => {
-                    setSubjectsAvailable(res);
-                })
-                .catch((err) => console.error(err));
+                    .then((res) => {
+                        setSubjectsAvailable(res);
+                    })
+                    .catch((err) => console.error(err));
             }
         }
     }, [user?.id]);
@@ -144,33 +144,32 @@ export const PanelCreatePost = () => {
      * @returns 
      */
     const handleCreatePost = async (status) => {
-        let subjectsJoined = await getSubjectsJoined();
-        if (subjectsJoined === 0) {
+        if (subjectsAvailable.length === 0) {
             setAlertMessage('Please join a subject before create post!');
             onOpen();
-            return;
-        }
-        handleContent();
-        const timeCreate = new Date();
-        const uniqueId = await createUniqueId(postData.title);
+        } else {
+            handleContent();
+            const timeCreate = new Date();
+            const uniqueId = await createUniqueId(postData.title);
 
-        createPost({
-            ...postData,
-            id: uniqueId,
-            createAt: timeCreate,
-            creatorId: user?.id,
-            status: status
-        })
-            .then((res) => {
-                setAlertMessage('Successfully create post!');
-                onOpen();
-                resetPostData();
-                navigate('/posts')
+            createPost({
+                ...postData,
+                id: uniqueId,
+                createAt: timeCreate,
+                creatorId: user?.id,
+                status: status
             })
-            .catch((err) => {
-                setAlertMessage('Fail to create post!');
-                onOpen();
-            })
+                .then((res) => {
+                    setAlertMessage('Successfully create post!');
+                    onOpen();
+                    resetPostData();
+                    navigate('/posts')
+                })
+                .catch((err) => {
+                    setAlertMessage('Fail to create post!');
+                    onOpen();
+                })
+        }
     }
 
     const handleGetSubjectsJoined = async () => {
