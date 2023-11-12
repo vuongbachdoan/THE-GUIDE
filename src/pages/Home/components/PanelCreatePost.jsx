@@ -438,8 +438,8 @@ export const PanelCreatePost = () => {
 
                                 <Textarea fontSize='small' fontWeight='medium' fontFamily='monospace' value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
-                                    onKeyDown={handleKeyDown} borderRadius={20} minHeight={120} placeholder='Content of your post here...' />
-                                <Text fontSize='x-small' textAlign='right'>*Hit enter to add a new line in document.</Text>
+                                    onKeyDown={handleKeyDown} noOfLines={2} overflowY='scroll' placeholder='Content of your post here...' />
+                                <Text fontSize='small' textAlign='right'>*Hit enter to add this content to document.</Text>
                             </CardBody>
 
                             <CardFooter
