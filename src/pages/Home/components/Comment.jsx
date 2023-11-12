@@ -70,19 +70,6 @@ export const Comment = ({ data }) => {
                         <Text color='gray.500' marginX={3} textAlign='left' fontSize='x-small'>{convertTimestamp(commentDetail?.createAt) ? convertTimestamp(commentDetail?.createAt) : ''}</Text>
                     </Flex>
                     <Text marginX={3} textAlign='left' fontSize='small'>{commentDetail?.content ? commentDetail?.content : ''}</Text>
-
-                    <Flex
-                        flexDirection='row'
-                        justifyContent='space-between'
-                    >
-                        <Flex
-                            flexDirection='row'
-                            columnGap={1}
-                        >
-                            <Button backgroundColor='transparent' _hover={{ backgroundColor: 'transparent' }} width='40px' padding={0} height='40px' leftIcon={<HappyIcon width={20} height={20} />} iconSpacing={0}></Button>
-                        </Flex>
-                        {/* <Button backgroundColor='transparent' _hover={{ backgroundColor: 'transparent' }} width='40px' padding={0} height='40px' leftIcon={<SendIcon width={20} height={20} />} iconSpacing={0}></Button> */}
-                    </Flex>
                 </Flex>
             </Flex>
 

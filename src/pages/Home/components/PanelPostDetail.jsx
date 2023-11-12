@@ -80,27 +80,29 @@ export const PanelPostDetail = () => {
     }
 
     const handleSendComment = () => {
-        const createTime = new Date();
-        const uniqueId = `${createTime.getTime().toString()}${createTime.getFullYear()}`.toString();
-
-        createComment({
-            id: uniqueId,
-            postId: postData.id,
-            creatorId: user.id,
-            content: commentValue,
-            liked: 0,
-            disliked: 0,
-            replyTo: '',
-            createAt: `${createTime.toISOString()}`,
-            updatedAt: '',
-        })
-            .then(() => {
-                loadPostData();
-                setCommentValue('');
+        if(commentValue) {
+            const createTime = new Date();
+            const uniqueId = `${createTime.getTime().toString()}${createTime.getFullYear()}`.toString();
+    
+            createComment({
+                id: uniqueId,
+                postId: postData.id,
+                creatorId: user.id,
+                content: commentValue,
+                liked: 0,
+                disliked: 0,
+                replyTo: '',
+                createAt: `${createTime.toISOString()}`,
+                updatedAt: '',
             })
-            .catch((err) => {
-                console.error(err)
-            })
+                .then(() => {
+                    loadPostData();
+                    setCommentValue('');
+                })
+                .catch((err) => {
+                    console.error(err)
+                })
+        }
     }
 
     const [isExpandComment, setIsExpandComment] = React.useState(false);
@@ -241,7 +243,6 @@ export const PanelPostDetail = () => {
                                             columnGap={1}
                                         >
                                             <Button my={2} variant='ghost' borderRadius={10} width='40px' padding={0} height='40px' leftIcon={<ATIcon width={20} height={20} />} iconSpacing={0}></Button>
-                                            <Button my={2} variant='ghost' borderRadius={10} width='40px' padding={0} height='40px' leftIcon={<HappyIcon width={20} height={20} />} iconSpacing={0}></Button>
                                         </Flex>
                                         <Button my={2} onClick={handleSendComment} variant='ghost' borderRadius={10} width='40px' padding={0} height='40px' leftIcon={<SendIcon width={20} height={20} />} iconSpacing={0}></Button>
                                     </Flex>
