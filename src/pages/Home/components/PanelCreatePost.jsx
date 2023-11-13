@@ -12,6 +12,7 @@ import PlaceholderImage from '../../../assets/images/placeholder.png';
 import { converTextToHTML } from '../../../helper/converTextToHTML';
 import { Bold, Code, Delete, Heading1, Heading2, Heading3, Heading4, Heading5, Heading6, Italic, ListX, Quote, SendIcon, Trash, Underline } from 'lucide-react';
 import { AIChat } from '../../../core/services/ai';
+import { driver } from "driver.js";
 import ClaudeIcon from '../../../assets/images/claude_icon.jpeg';
 import { BiMailSend, BiTrash, BiTrashAlt } from 'react-icons/bi';
 import { validatePostContent } from '../../../helper/validatePostContent';
@@ -76,6 +77,14 @@ export const PanelCreatePost = () => {
                     .catch((err) => console.error(err));
             }
         }
+        const driverObj = new driver();
+        driverObj.highlight({
+            element: "#text-editor",
+            popover: {
+                title: "Text editor tool",
+                description: "Enter your content and hit enter to add content to your document."
+            }
+        });
     }, []);
 
     React.useEffect(() => {
@@ -369,7 +378,7 @@ export const PanelCreatePost = () => {
                                 </Box>
                                 <div style={{ textAlign: 'left', fontFamily: 'monospace' }} className='ignore_lib' dangerouslySetInnerHTML={{ __html: htmlContent }} ></div>
 
-                                <Flex marginTop={3} flexDirection='row' justifyContent='space-between' alignItems='flex-start'>
+                                <Flex id='text-editor' marginTop={3} flexDirection='row' justifyContent='space-between' alignItems='flex-start'>
                                     <Text textAlign='left' lineHeight='40px' height='40px' width='100px' margin={0} fontWeight='semibold' fontSize='sm'>{'>'} {currentVariant}</Text>
                                     <Flex
                                         flexDirection='row'
