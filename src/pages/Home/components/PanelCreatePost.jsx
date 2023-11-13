@@ -17,7 +17,6 @@ import { driver } from 'driver.js';
 import ClaudeIcon from '../../../assets/images/claude_icon.jpeg';
 import { BiMailSend, BiTrash, BiTrashAlt } from 'react-icons/bi';
 import { validatePostContent } from '../../../helper/validatePostContent';
-import { trackOrSetValue } from '@testing-library/user-event/dist/types/document/trackValue';
 const { SyncIcon } = icons;
 
 export const PanelCreatePost = () => {
