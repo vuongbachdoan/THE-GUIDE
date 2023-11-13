@@ -1,6 +1,7 @@
-import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Image, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Stack, Text, Textarea, useClipboard, useColorModeValue, useDisclosure } from '@chakra-ui/react'
+import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, IconButton, Image, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Stack, Text, Textarea, useClipboard, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import icons from '../../../assets/icons';
 import { FaChevronDown, FaRemoveFormat } from 'react-icons/fa';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
 import React from 'react';
 import { createUniqueId } from '../../../helper/createUniqueId';
 import { useSelector } from 'react-redux';
@@ -12,10 +13,11 @@ import PlaceholderImage from '../../../assets/images/placeholder.png';
 import { converTextToHTML } from '../../../helper/converTextToHTML';
 import { Bold, Code, Delete, Heading1, Heading2, Heading3, Heading4, Heading5, Heading6, Italic, ListX, Quote, SendIcon, Trash, Underline } from 'lucide-react';
 import { AIChat } from '../../../core/services/ai';
-import { driver } from "driver.js";
+import { driver } from 'driver.js';
 import ClaudeIcon from '../../../assets/images/claude_icon.jpeg';
 import { BiMailSend, BiTrash, BiTrashAlt } from 'react-icons/bi';
 import { validatePostContent } from '../../../helper/validatePostContent';
+import { trackOrSetValue } from '@testing-library/user-event/dist/types/document/trackValue';
 const { SyncIcon } = icons;
 
 export const PanelCreatePost = () => {
@@ -77,15 +79,41 @@ export const PanelCreatePost = () => {
                     .catch((err) => console.error(err));
             }
         }
-        const driverObj = new driver();
-        driverObj.highlight({
-            element: "#text-editor",
-            popover: {
-                title: "Text editor tool",
-                description: "Enter your content and hit enter to add content to your document."
-            }
-        });
     }, []);
+
+    const [isShowGuider, setIsShowGuider] = React.useState(false);
+    React.useEffect(() => {
+        if (isShowGuider) {
+            const driverObj = new driver({
+                popoverClass: "driverjs-theme",
+                stagePadding: 4,
+            });
+            driver.defineSteps([
+                {
+                    element: '#text-field__content',
+                    popover: {
+                        title: 'Content field',
+                        description: 'Enter new content, then hit enter to add it in document.',
+                    },
+                },
+                {
+                    element: '#text-field__tool-bar',
+                    popover: {
+                        title: 'Tool bar',
+                        description: 'Style your text with this tool bar.',
+                    },
+                },
+                {
+                    element: '#text-field__ai',
+                    popover: {
+                        title: 'AI tool',
+                        description: 'Claude AI help you easier create content.',
+                    },
+                },
+            ]);
+            driver.start();
+        }
+    }, [isShowGuider])
 
     React.useEffect(() => {
         if (user) {
@@ -166,7 +194,7 @@ export const PanelCreatePost = () => {
                 ...postData
             });
             if (errors.length !== 0) {
-                let errorsString = errors.join("\n");
+                let errorsString = errors.join('\n');
                 setAlertMessage(
                     errorsString
                 );
@@ -354,9 +382,15 @@ export const PanelCreatePost = () => {
                                             </Flex>
                                         </Flex>
                                     </Flex>
+                                    <Button
+                                        variant='ghost'
+                                        colorScheme='gray'
+                                        rightIcon={<AiOutlineInfoCircle size={20}/>}
+                                        onClick={() => setIsShowGuider(true)}
+                                    >Quick tour</Button>
                                 </Flex>
                             </CardHeader>
-                            <CardBody>
+                            <CardBody >
                                 <Box
                                     height={240}
                                     borderRadius={15}
@@ -378,76 +412,78 @@ export const PanelCreatePost = () => {
                                 </Box>
                                 <div style={{ textAlign: 'left', fontFamily: 'monospace' }} className='ignore_lib' dangerouslySetInnerHTML={{ __html: htmlContent }} ></div>
 
-                                <Flex id='text-editor' marginTop={3} flexDirection='row' justifyContent='space-between' alignItems='flex-start'>
-                                    <Text textAlign='left' lineHeight='40px' height='40px' width='100px' margin={0} fontWeight='semibold' fontSize='sm'>{'>'} {currentVariant}</Text>
-                                    <Flex
-                                        flexDirection='row'
-                                        justifyContent='flex-end'
-                                        columnGap={1}
-                                        marginBottom='5px'
-                                        flexWrap='wrap'
-                                        rowGap='5px'
-                                    >
-                                        <Button onClick={() => resetPostData()} width='40px' padding={0} height='40px' borderRadius='10px' iconSpacing={0} backgroundColor='red.500' _hover={{ backgroundColor: 'red.600', color: '#FFF' }} color='#FFF'>
-                                            <ListX size={20} color='#FFF' />
-                                        </Button>
-                                        <Button padding={0} onClick={() => setIsShowAI(!isShowAI)} width='40px' height='40px' borderRadius='10px' iconSpacing={0} opacity={isShowAI ? 1 : 0.5}>
-                                            <Image src={ClaudeIcon} width='40px' height='40px' borderRadius='10px' />
-                                        </Button>
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h1' ? 'p' : 'h1')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h1' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading1 size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h2' ? 'p' : 'h2')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h2' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading2 size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h3' ? 'p' : 'h3')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h3' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading3 size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h4' ? 'p' : 'h4')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h4' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading4 size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h5' ? 'p' : 'h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h5' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading5 size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h6' ? 'p' : 'h6')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h6' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading6 size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'bold' ? 'p' : 'bold')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'bold' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Bold size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'italic' ? 'p' : 'italic')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'italic' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Italic size={18} />} />
-                                        <Button onClick={() => setCurrentVariant(currentVariant === 'underline' ? 'p' : 'underline')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'underline' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Underline size={18} />} />
-                                    </Flex>
-                                </Flex>
-
-                                {
-                                    isShowAI &&
-                                    <>
+                                <Box id='text-editor'>
+                                    <Flex id='text-field__tool-bar' marginTop={3} flexDirection='row' justifyContent='space-between' alignItems='flex-start'>
+                                        <Text textAlign='left' lineHeight='40px' height='40px' width='100px' margin={0} fontWeight='semibold' fontSize='sm'>{'>'} {currentVariant}</Text>
                                         <Flex
                                             flexDirection='row'
+                                            justifyContent='flex-end'
                                             columnGap={1}
-                                            alignItems='center'
+                                            marginBottom='5px'
+                                            flexWrap='wrap'
+                                            rowGap='5px'
                                         >
-                                            <Input
-                                                _focus={{
-                                                    boxShadow: 'none',
-                                                    borderWidth: 0
-                                                }}
-                                                backgroundColor='#CA987730'
-                                                color={claudeText}
-                                                _placeholder={{
-                                                    color: claudeText
-                                                }}
-                                                borderWidth={0}
-                                                onKeyDown={(e) => {
-                                                    if (e.key === 'Enter') {
-                                                        handleAIChat();
-                                                    }
-                                                }} onChange={(e) => setChatString(e.target.value)} value={chatString} marginY={1} borderRadius={15} placeholder='Chat with AI' fontSize='small' />
-                                            <Stack cursor='pointer' backgroundColor='#CA9877' _hover={{
-                                                backgroundColor: '#CA9877'
-                                            }} justifyContent='center' alignItems='center' borderRadius={10} width='40px' height='40px' onClick={onCopy}>
-                                                {
-                                                    loadingResult ?
-                                                        <Spinner /> :
-                                                        <BiMailSend onClick={handleAIChat} color='#000' />
-                                                }
-                                            </Stack>
+                                            <Button onClick={() => resetPostData()} width='40px' padding={0} height='40px' borderRadius='10px' iconSpacing={0} backgroundColor='red.500' _hover={{ backgroundColor: 'red.600', color: '#FFF' }} color='#FFF'>
+                                                <ListX size={20} color='#FFF' />
+                                            </Button>
+                                            <Button id='text-field__ai' padding={0} onClick={() => setIsShowAI(!isShowAI)} width='40px' height='40px' borderRadius='10px' iconSpacing={0} opacity={isShowAI ? 1 : 0.5}>
+                                                <Image src={ClaudeIcon} width='40px' height='40px' borderRadius='10px' />
+                                            </Button>
+                                            <Button onClick={() => setCurrentVariant(currentVariant === 'h1' ? 'p' : 'h1')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h1' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading1 size={18} />} />
+                                            <Button onClick={() => setCurrentVariant(currentVariant === 'h2' ? 'p' : 'h2')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h2' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading2 size={18} />} />
+                                            <Button onClick={() => setCurrentVariant(currentVariant === 'h3' ? 'p' : 'h3')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h3' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading3 size={18} />} />
+                                            <Button onClick={() => setCurrentVariant(currentVariant === 'h4' ? 'p' : 'h4')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h4' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading4 size={18} />} />
+                                            <Button onClick={() => setCurrentVariant(currentVariant === 'h5' ? 'p' : 'h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h5' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading5 size={18} />} />
+                                            <Button onClick={() => setCurrentVariant(currentVariant === 'h6' ? 'p' : 'h6')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h6' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading6 size={18} />} />
+                                            <Button onClick={() => setCurrentVariant(currentVariant === 'bold' ? 'p' : 'bold')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'bold' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Bold size={18} />} />
+                                            <Button onClick={() => setCurrentVariant(currentVariant === 'italic' ? 'p' : 'italic')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'italic' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Italic size={18} />} />
+                                            <Button onClick={() => setCurrentVariant(currentVariant === 'underline' ? 'p' : 'underline')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'underline' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Underline size={18} />} />
                                         </Flex>
-                                        <Textarea lineHeight='15px' backgroundColor='#CA987730' minHeight={240} borderWidth={0} marginBottom={3} fontFamily='monospace' fontSize='small' borderRadius={10} size='sm' color={claudeText} value={`${chatResult}`} isReadOnly />
-                                    </>
-                                }
+                                    </Flex>
 
-                                <Textarea fontSize='small' fontWeight='medium' fontFamily='monospace' value={inputValue}
-                                    onChange={(e) => setInputValue(e.target.value)}
-                                    onKeyDown={handleKeyDown} noOfLines={2} overflowY='scroll' placeholder='Content of your post here...' />
-                                <Text fontSize='small' textAlign='right'>*Hit enter to add this content to document.</Text>
+                                    {
+                                        isShowAI &&
+                                        <>
+                                            <Flex
+                                                flexDirection='row'
+                                                columnGap={1}
+                                                alignItems='center'
+                                            >
+                                                <Input
+                                                    _focus={{
+                                                        boxShadow: 'none',
+                                                        borderWidth: 0
+                                                    }}
+                                                    backgroundColor='#CA987730'
+                                                    color={claudeText}
+                                                    _placeholder={{
+                                                        color: claudeText
+                                                    }}
+                                                    borderWidth={0}
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === 'Enter') {
+                                                            handleAIChat();
+                                                        }
+                                                    }} onChange={(e) => setChatString(e.target.value)} value={chatString} marginY={1} borderRadius={15} placeholder='Chat with AI' fontSize='small' />
+                                                <Stack cursor='pointer' backgroundColor='#CA9877' _hover={{
+                                                    backgroundColor: '#CA9877'
+                                                }} justifyContent='center' alignItems='center' borderRadius={10} width='40px' height='40px' onClick={onCopy}>
+                                                    {
+                                                        loadingResult ?
+                                                            <Spinner /> :
+                                                            <BiMailSend onClick={handleAIChat} color='#000' />
+                                                    }
+                                                </Stack>
+                                            </Flex>
+                                            <Textarea lineHeight='15px' backgroundColor='#CA987730' minHeight={240} borderWidth={0} marginBottom={3} fontFamily='monospace' fontSize='small' borderRadius={10} size='sm' color={claudeText} value={`${chatResult}`} isReadOnly />
+                                        </>
+                                    }
+
+                                    <Textarea id='text-field__content' fontSize='small' fontWeight='medium' fontFamily='monospace' value={inputValue}
+                                        onChange={(e) => setInputValue(e.target.value)}
+                                        onKeyDown={handleKeyDown} noOfLines={2} overflowY='scroll' placeholder='Content of your post here...' />
+                                    <Text fontSize='small' textAlign='right'>*Hit enter to add this content to document.</Text>
+                                </Box>
                             </CardBody>
 
                             <CardFooter
