@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Input, InputGroup, InputRightElement, Menu, MenuButton, MenuItem, MenuList, Text, useColorModeValue } from "@chakra-ui/react"
+import { Avatar, Box, Button, Flex, Input, InputGroup, InputRightElement, Menu, MenuButton, MenuItem, MenuList, Stack, Text, useColorModeValue } from "@chakra-ui/react"
 import { FaChevronDown, FaSearch } from "react-icons/fa";
 import icons from "../../../assets/icons";
 import { AnimatedLogo } from "../../../assets/icons/AnimatedLogo";
@@ -92,7 +92,9 @@ export const AppHeader = () => {
                     </Menu>
                 </Flex>
 
-                <AnimatedLogo height={40} color={logoColor} />
+                <Stack onClick={() => navigate('/')}>
+                    <AnimatedLogo height={40} color={logoColor} />
+                </Stack>
 
                 <InputGroup display={{ base: 'none', md: 'flex' }} maxWidth={{ base: 175, lg: 305 }} height='44px' borderRadius={12}>
                     <Input onKeyDown={(e) => {
