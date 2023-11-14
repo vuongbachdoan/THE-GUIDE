@@ -82,42 +82,42 @@ export const PanelCreatePost = () => {
 
     const [isShowGuider, setIsShowGuider] = React.useState(false);
     React.useEffect(() => {
-        if (isShowGuider) {
-            const guider = new driver({
-                popoverClass: "driverjs-theme",
-                stagePadding: 4,
-                prevBtnText: 'Previous', 
-                nextBtnText: 'Next',
-                doneBtnText: 'Finish',
-                overlayColor: 'maroon',
-                showProgress: true,
-                progressText: 'Step {{current}} of {{total}}',
-                steps: [
-                    {
-                        element: '#text-field__content',
-                        popover: {
-                            title: 'Content field',
-                            description: 'Enter new content, then hit enter to add it in document.',
-                        },
-                    },
-                    {
-                        element: '#text-field__tool-bar',
-                        popover: {
-                            title: 'Tool bar',
-                            description: 'Style your text with this tool bar.',
-                        },
-                    },
-                    {
-                        element: '#text-field__ai',
-                        popover: {
-                            title: 'AI tool',
-                            description: 'Claude AI help you easier create content.',
-                        },
-                    },
-                ]
-            });
-            guider.drive();
-        }
+        // if (isShowGuider) {
+        //     const guider = new driver({
+        //         popoverClass: "driverjs-theme",
+        //         stagePadding: 4,
+        //         prevBtnText: 'Previous', 
+        //         nextBtnText: 'Next',
+        //         doneBtnText: 'Finish',
+        //         overlayColor: 'maroon',
+        //         showProgress: true,
+        //         progressText: 'Step {{current}} of {{total}}',
+        //         steps: [
+        //             {
+        //                 element: '#text-field__content',
+        //                 popover: {
+        //                     title: 'Content field',
+        //                     description: 'Enter new content, then hit enter to add it in document.',
+        //                 },
+        //             },
+        //             {
+        //                 element: '#text-field__tool-bar',
+        //                 popover: {
+        //                     title: 'Tool bar',
+        //                     description: 'Style your text with this tool bar.',
+        //                 },
+        //             },
+        //             {
+        //                 element: '#text-field__ai',
+        //                 popover: {
+        //                     title: 'AI tool',
+        //                     description: 'Claude AI help you easier create content.',
+        //                 },
+        //             },
+        //         ]
+        //     });
+        //     guider.drive();
+        // }
     }, [isShowGuider])
 
     React.useEffect(() => {
