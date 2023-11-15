@@ -252,7 +252,13 @@ export const Livestream = () => {
                                     flex={1}
                                     flexDirection='column'
                                 >
-                                    <canvas id='preview'></canvas>
+                                    <Flex
+                                        justifyContent='center'
+                                        alignItems='center'
+                                        width='100%'
+                                    >
+                                        <canvas id='preview'></canvas>
+                                    </Flex>
 
                                     <Flex
                                         flexDirection='column'
