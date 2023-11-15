@@ -239,8 +239,7 @@ export const Livestream = () => {
                                 flexDirection='row'
                                 width='100%'
                                 columnGap={15}
-                                padding={3}
-                                paddingBottom={3}
+                                height='100%'
                             >
                                 <Flex
                                     flex={1}
@@ -314,13 +313,7 @@ export const Livestream = () => {
                                     }
                                 </Flex>
 
-                                <Stack
-                                    width={320}
-                                    backgroundColor={bg}
-                                    borderRadius={15}
-                                >
-                                    <LivestreamChat />
-                                </Stack>
+                                <LivestreamChat />
                             </Flex>
                         </Box>
 
