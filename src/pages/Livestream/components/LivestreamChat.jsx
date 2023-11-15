@@ -116,10 +116,10 @@ const ChatMessage = ({ data }) => {
             <Avatar size='sm' src={data?.sender?.attributes?.avatar} />
             <Flex flex={1} paddingX={2} paddingY={1} backgroundColor={chatBg} borderRadius={10} flexDirection='column' alignItems='flex-start'>
                 <Flex flexDirection='row' justifyContent='space-between' columnGap={3}>
-                    <Text color={chatText} fontSize='small' fontWeight='semibold'>{data?.sender?.attributes?.username}</Text>
+                    <Text color={chatText} fontSize='x-small' fontWeight='semibold'>{data?.sender?.attributes?.username}</Text>
                     <Text color={chatText} textAlign='left' fontSize='x-small' fontWeight='normal'>{convertTimestamp(data?.sendTime)}</Text>
                 </Flex>
-                <Text color={chatText} textAlign='left' fontSize='small' fontWeight='medium'>{data?.content}</Text>
+                <Text color={chatText} textAlign='left' fontSize='x-small' fontWeight='medium'>{data?.content}</Text>
             </Flex>
         </Flex>
     );
