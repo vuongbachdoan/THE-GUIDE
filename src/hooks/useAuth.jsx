@@ -1,12 +1,11 @@
-import { Auth, Hub } from "aws-amplify";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { createUser, getUser, getUsers } from "../core/services/user";
-import { useDispatch } from "react-redux";
-import { setProfileData } from "../core/store/user/profileData";
-import { checkMailLecture } from "../helper/checkMail";
-import { extractCode } from "../helper/extractCode";
-
+import { Auth, Hub } from 'aws-amplify';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createUser, getUsers } from '../core/services/user';
+import { useDispatch } from 'react-redux';
+import { setProfileData } from '../core/store/user/profileData';
+import { checkMailLecture } from '../helper/checkMail';
+import { extractCode } from '../helper/extractCode';
 
 const useAuth = () => {
     const navigate = useNavigate();
@@ -46,12 +45,12 @@ const useAuth = () => {
                     })
                 .catch((err) => {
                     console.error(err)
-                    navigate('/auth/login')
+                    navigate('/livestream')
                 })
             setLoading(false);
         } catch (err) {
             setLoading(false);
-            navigate('/auth/login')
+            navigate('/livestream')
         }
     }
 
@@ -68,7 +67,7 @@ const useAuth = () => {
             });
             getUserData();
         } catch (err) {
-            navigate('/auth/login')
+            navigate('/livestream')
         }
     }, []);
 }
