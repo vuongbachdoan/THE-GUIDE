@@ -71,11 +71,12 @@ export const LivestreamChat = () => {
     return (
         <Flex
             flexDirection='column'
-            margin={3}
             height='100%'
         >
-            <Heading fontSize='medium'>Chat room</Heading>
-            <Flex marginTop={3} flex={1} flexDirection='column' alignItems='flex-start' rowGap={2}>
+            <Flex height='100px' alignItems='center'>
+                <Heading fontSize='medium'>Chat room</Heading>
+            </Flex>
+            <Flex height='calc(100vh - 200px)' overflowY='scroll' marginTop={3} flex={1} flexDirection='column' alignItems='flex-start' rowGap={2}>
                 {
                     messages.map((message) => (
                         <ChatMessage data={message} />
@@ -84,7 +85,7 @@ export const LivestreamChat = () => {
             </Flex>
             {
                 user &&
-                <Flex flexDirection='row' columnGap={3}>
+                <Flex flexDirection='row' columnGap={3} height='100px' alignItems='center'>
                     <Input
                         onKeyDown={(e) => {
                             if (e.key === 'Enter') {
