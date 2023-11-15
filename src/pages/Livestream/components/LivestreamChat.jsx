@@ -76,7 +76,7 @@ export const LivestreamChat = () => {
             <Flex height='50px' alignItems='center' width='100%' margin={3}>
                 <Heading fontSize='medium' textAlign='center'>Chat room</Heading>
             </Flex>
-            <Flex  margin={3} height='calc(100vh - 150px)' overflowY='scroll' flex={1} flexDirection='column' alignItems='flex-start' rowGap={2}>
+            <Flex margin={3} height='calc(100vh - 150px)' overflowY='scroll' flex={1} flexDirection='column' alignItems='flex-start' rowGap={2} className='scrollbar-hide'>
                 {
                     messages.map((message) => (
                         <ChatMessage data={message} />
@@ -108,16 +108,18 @@ export const LivestreamChat = () => {
 };
 
 const ChatMessage = ({ data }) => {
-    const chatBg = useColorModeValue('gray.100', 'gray.800');
+    const chatBg = useColorModeValue('gray.100', 'gray.900');
     const chatText = useColorModeValue('#000', '#FFF');
 
     return (
         <Flex columnGap={3} flexDirection='row' alignItems='flex-end' width='100%'>
             <Avatar size='sm' src={data?.sender?.attributes?.avatar} />
             <Flex flex={1} paddingX={2} paddingY={1} backgroundColor={chatBg} borderRadius={10} flexDirection='column' alignItems='flex-start'>
-                <Text color={chatText} fontSize='small' fontWeight='semibold'>{data?.sender?.attributes?.username}</Text>
-                <Text color={chatText} textAlign='left' fontSize='x-small' fontWeight='normal'>{convertTimestamp(data?.sendTime)}</Text>
-                <Text color={chatText} textAlign='left' fontSize='small' fontWeight='normal'>{data?.content}</Text>
+                <Flex flexDirection='row' justifyContent='space-between' columnGap={3}>
+                    <Text color={chatText} fontSize='small' fontWeight='semibold'>{data?.sender?.attributes?.username}</Text>
+                    <Text color={chatText} textAlign='left' fontSize='x-small' fontWeight='normal'>{convertTimestamp(data?.sendTime)}</Text>
+                </Flex>
+                <Text color={chatText} textAlign='left' fontSize='small' fontWeight='medium'>{data?.content}</Text>
             </Flex>
         </Flex>
     );
