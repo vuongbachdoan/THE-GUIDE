@@ -5,6 +5,7 @@ import { Avatar, Button, Flex, Heading, Input, Text } from '@chakra-ui/react';
 import { BiMailSend } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import { convertTimestamp } from '../../../helper/convertTimestamp';
+import { generateChatKey } from '../../../core/services/chat';
 
 export const LivestreamChat = () => {
     const [room, setRoom] = React.useState(null);
@@ -24,18 +25,18 @@ export const LivestreamChat = () => {
                     "DELETE_MESSAGE",
                     "DISCONNECT_USER"
                 ],
-                "roomIdentifier": "arn:aws:ivschat:us-east-1:955228589631:room/yUc5M1gI0BxC",
+                "roomIdentifier": process.env.REACT_APP_CHAT_ROOM_ID,
                 "userId": user?.id
             }
         };
 
         var token;
         try {
-            const response = await axios.post('https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/livestream/key', data);
+            const response = await generateChatKey(data);
             token = {
-                token: response.data.token,
-                sessionExpirationTime: new Date(response.data.sessionExpirationTime),
-                tokenExpirationTime: new Date(response.data.tokenExpirationTime),
+                token: response.token,
+                sessionExpirationTime: new Date(response.sessionExpirationTime),
+                tokenExpirationTime: new Date(response.tokenExpirationTime),
             };
         } catch (error) {
             console.error('Error:', error);
@@ -63,11 +64,7 @@ export const LivestreamChat = () => {
         const payload = {
             "action": "SEND_MESSAGE",
             "requestId": user?.id,
-            "content": message,
-            // "attributes": {
-            //     "username": user?.username,
-            //     "avatar": user?.avatar
-            // }
+            "content": message
         }
         room.sendMessage(payload);
     }
