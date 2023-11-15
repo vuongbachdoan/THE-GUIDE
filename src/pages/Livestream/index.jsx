@@ -45,7 +45,7 @@ export const Livestream = () => {
         if (client) {
             const aspectRatio = 852 / 480;
             const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-            const newHeight = viewportHeight - 200;
+            const newHeight = viewportHeight - 110;
             const newWidth = newHeight * aspectRatio;
             const previewEl = document.getElementById('preview');
             previewEl.style.height = `${newHeight}px`;
@@ -252,17 +252,19 @@ export const Livestream = () => {
                                     flex={1}
                                     flexDirection='column'
                                 >
-                                    <canvas id='preview' height={'calc(100vh - 200px)'}></canvas>
+                                    <canvas id='preview'></canvas>
 
                                     <Flex
                                         flexDirection='column'
-                                        height='200px'
+                                        height='110px'
                                         justifyContent='space-between'
                                     >
                                         {
                                             joiningStatus === 'NONE' &&
                                             <InputGroup
                                                 size='md'
+                                                marginTop='10px'
+                                                marginBottom='10px'
                                             >
                                                 <Input
                                                     pr='4.5rem'
@@ -295,7 +297,7 @@ export const Livestream = () => {
                                                 borderRadius={20}
                                                 justifyContent='center'
                                                 columnGap={15}
-                                                marginBottom='5px'
+                                                marginBottom='10px'
                                             >
                                                 <Button borderRadius={15} colorScheme='red' onClick={() => setJoiningStatus('END')}><MdCallEnd size={22} /></Button>
                                                 <Button borderRadius={15} onClick={() => {
