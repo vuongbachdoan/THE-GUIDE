@@ -1,6 +1,6 @@
 import { ChatRoom } from 'amazon-ivs-chat-messaging';
 import React from 'react';
-import { Avatar, Button, Flex, Heading, Input, Text } from '@chakra-ui/react';
+import { Avatar, Button, Flex, Heading, Input, Text, useColorModeValue } from '@chakra-ui/react';
 import { BiMailSend } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import { convertTimestamp } from '../../../helper/convertTimestamp';
@@ -75,10 +75,10 @@ export const LivestreamChat = () => {
             height='100%'
         >
             <Heading fontSize='medium'>Chat room</Heading>
-            <Flex marginTop={3} flex={1} flexDirection='column' alignItems='flex-start' rowGap={1}>
+            <Flex marginTop={3} flex={1} flexDirection='column' alignItems='flex-start' rowGap={2}>
                 {
                     messages.map((message) => (
-                        <ChatMessage data={message}/>
+                        <ChatMessage data={message} />
                     ))
                 }
             </Flex>
@@ -87,6 +87,11 @@ export const LivestreamChat = () => {
                 <Flex flexDirection='row' columnGap={3}>
                     <Input value={message} borderRadius='10px' onChange={(e) => setMessage(e.target.value)} />
                     <Button
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleSendMessage()
+                            }
+                        }}
                         backgroundColor='#FF8F46'
                         _hover={{ backgroundColor: '#FF8F46' }}
                         borderRadius={10}
@@ -102,12 +107,15 @@ export const LivestreamChat = () => {
 };
 
 const ChatMessage = ({ data }) => {
+    const chatBg = useColorModeValue('gray.100', 'gray.800');
+    const chatText = useColorModeValue('#000', '#FFF');
+
     return (
         <Flex columnGap={3} flexDirection='row' alignItems='flex-end'>
-            <Avatar size='sm' src={data?.sender?.attributes?.avatar}/>
-            <Flex paddingX={2} paddingY={1} backgroundColor='gray.100' borderRadius={10} flexDirection='column' alignItems='flex-start'>
-                <Text fontSize='small' fontWeight='semibold'>{data?.sender?.attributes?.username} - {convertTimestamp(data?.sendTime)}</Text>
-                <Text textAlign='left' fontSize='x-small' fontWeight='medium'>{data?.content}</Text>
+            <Avatar size='sm' src={data?.sender?.attributes?.avatar} />
+            <Flex paddingX={2} paddingY={1} backgroundColor={chatBg} borderRadius={10} flexDirection='column' alignItems='flex-start'>
+                <Text color={chatText} fontSize='small' fontWeight='semibold'>{data?.sender?.attributes?.username} - <Text fontSize='x-small' fontWeight='normal'>{convertTimestamp(data?.sendTime)}</Text></Text>
+                <Text color={chatText} textAlign='left' fontSize='x-small' fontWeight='normal'>{data?.content}</Text>
             </Flex>
         </Flex>
     );
