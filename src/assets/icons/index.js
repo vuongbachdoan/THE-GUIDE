@@ -23,6 +23,7 @@ import { SendIcon } from './SendIcon';
 import { ATIcon } from './ATIcon';
 import { CloseIcon } from './CloseIcon'; 
 import { PersonIcon } from './PersonIcon';
+import { NotFoundIcon } from './NotFoundIcon';
 
 export default {
     HomeIcon,
@@ -49,5 +50,6 @@ export default {
     SendIcon,
     ATIcon,
     CloseIcon,
-    PersonIcon
+    PersonIcon,
+    NotFoundIcon
 }
