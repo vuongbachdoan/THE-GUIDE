@@ -44,6 +44,9 @@ export const Livestream = () => {
     const attachMediaDevice = async () => {
         if (client) {
             const previewEl = document.getElementById('preview');
+            const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+            previewEl.style.height = `${viewportHeight - 200}px`;
+
             client.attachPreview(previewEl);
             const devices = await navigator.mediaDevices.enumerateDevices();
 
