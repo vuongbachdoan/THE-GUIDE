@@ -1,6 +1,5 @@
 import { ChatRoom } from 'amazon-ivs-chat-messaging';
 import React from 'react';
-import axios from 'axios';
 import { Avatar, Button, Flex, Heading, Input, Text } from '@chakra-ui/react';
 import { BiMailSend } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
