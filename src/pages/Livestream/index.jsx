@@ -8,6 +8,7 @@ import { LivestreamChat } from './components/LivestreamChat';
 export const Livestream = () => {
     const [client, setClient] = useState(null);
     const bg = useColorModeValue('#FFF', 'gray.700');
+    const bgPlayer = useColorModeValue('gray.100', 'gray.900');
     const [currentTab, setCurrentTab] = React.useState('Audio');
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
@@ -251,6 +252,7 @@ export const Livestream = () => {
                                 <Flex
                                     flex={1}
                                     flexDirection='column'
+                                    backgroundColor={bgPlayer}
                                 >
                                     <Flex
                                         justifyContent='center'

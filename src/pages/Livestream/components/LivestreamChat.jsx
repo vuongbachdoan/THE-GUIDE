@@ -73,7 +73,7 @@ export const LivestreamChat = () => {
             flexDirection='column'
             height='100%'
         >
-            <Flex height='50px' alignItems='center' width='100%' margin={3}>
+            <Flex height='50px' justifyContent='center' width='100%'>
                 <Heading fontSize='medium' textAlign='center'>Chat room</Heading>
             </Flex>
             <Flex margin={3} height='calc(100vh - 150px)' overflowY='scroll' flex={1} flexDirection='column' alignItems='flex-start' rowGap={2} className='scrollbar-hide'>
