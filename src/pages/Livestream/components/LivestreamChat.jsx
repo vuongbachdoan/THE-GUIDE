@@ -73,10 +73,10 @@ export const LivestreamChat = () => {
             flexDirection='column'
             height='100%'
         >
-            <Flex height='100px' alignItems='center'>
-                <Heading fontSize='medium'>Chat room</Heading>
+            <Flex height='50px' alignItems='center'>
+                <Heading fontSize='medium' textAlign='center'>Chat room</Heading>
             </Flex>
-            <Flex height='calc(100vh - 200px)' overflowY='scroll' marginTop={3} flex={1} flexDirection='column' alignItems='flex-start' rowGap={2}>
+            <Flex height='calc(100vh - 150px)' overflowY='scroll' marginTop={3} flex={1} flexDirection='column' alignItems='flex-start' rowGap={2}>
                 {
                     messages.map((message) => (
                         <ChatMessage data={message} />
