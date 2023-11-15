@@ -43,7 +43,7 @@ export const Livestream = () => {
 
     const attachMediaDevice = async () => {
         if (client) {
-            const aspectRatio = 480 / 852;
+            const aspectRatio = 852 / 480;
             const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
             const newHeight = viewportHeight - 200;
             const newWidth = newHeight * aspectRatio;
