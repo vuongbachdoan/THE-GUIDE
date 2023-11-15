@@ -245,18 +245,7 @@ export const Livestream = () => {
                                     flex={1}
                                     flexDirection='column'
                                 >
-                                    <Flex
-                                        width='100%'
-                                        height='calc(100vh - 200px)'
-                                        backgroundColor='#000'
-                                        borderRadius={20}
-                                        overflow='hidden'
-                                        flex={1}
-                                        justifyContent='center'
-                                        alignItems='center'
-                                    >
-                                        <canvas id='preview' height={'calc(100vh - 200px)'}></canvas>
-                                    </Flex>
+                                    <canvas id='preview' height={'calc(100vh - 200px)'}></canvas>
 
                                     <Flex
                                         flexDirection='column'
