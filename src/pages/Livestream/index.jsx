@@ -255,7 +255,7 @@ export const Livestream = () => {
                                         justifyContent='center'
                                         alignItems='center'
                                     >
-                                        <canvas id='preview' style={{ height: 'calc(100vh - 200px)' }}></canvas>
+                                        <canvas id='preview' height={'calc(100vh - 200px)'}></canvas>
                                     </Flex>
 
                                     <Flex
