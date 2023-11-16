@@ -1,10 +1,12 @@
 import React, { useState, useRef } from "react";
 import { Box, Button, Flex, Input, Spinner, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const DEFAULT_POSITION = "auto";
 const TRANSITION = "100ms ease-in-out";
 
 export const LivestreamViewerJoin = () => {
+    const navigate = useNavigate();
     const divEl = React.useRef(null);
     const videoEl = React.useRef(null);
     const [isJoin, setIsJoin] = React.useState(false);
@@ -44,8 +46,8 @@ export const LivestreamViewerJoin = () => {
         <>
             {
                 isJoin ?
-                    <Flex flexDirection='column' width='100%' justifyContent='center' rowGap={30}>
-                        <div ref={divEl}>
+                    <Flex flexDirection='column' width='100%' justifyContent='center' alignItems='center' rowGap={30}>
+                        <div ref={divEl} style={{width: 'fit-content'}}>
                             <video
                                 id="video-player"
                                 ref={videoEl}
@@ -55,7 +57,7 @@ export const LivestreamViewerJoin = () => {
                             />
                         </div>
                         <Text textAlign='center' width='100%' fontSize='x-small'>If you don't see anything, please wait a while before host start the room.</Text>
-                        <Button borderRadius={10} colorScheme='red' fontSize='small' fontWeight='semibold'>Leave this room</Button>
+                        <Button onClick={() => navigate('/')} borderRadius={10} colorScheme='red' fontSize='small' fontWeight='semibold'>Leave this room</Button>
                     </Flex>
                     :
                     <Flex
