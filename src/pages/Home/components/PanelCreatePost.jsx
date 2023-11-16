@@ -274,7 +274,6 @@ export const PanelCreatePost = () => {
     }, [postData.title]);
 
     const resetPostData = () => {
-        setHtmlContent('');
         setPostData({
             id: '',
             subjectCode: '',
