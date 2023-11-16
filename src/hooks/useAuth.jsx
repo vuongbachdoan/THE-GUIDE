@@ -45,12 +45,12 @@ const useAuth = () => {
                     })
                 .catch((err) => {
                     console.error(err)
-                    navigate('/create-post')
+                    navigate('/auth/login')
                 })
             setLoading(false);
         } catch (err) {
             setLoading(false);
-            navigate('/create-post')
+            navigate('/auth/login')
         }
     }
 
@@ -67,7 +67,7 @@ const useAuth = () => {
             });
             getUserData();
         } catch (err) {
-            navigate('/create-post')
+            navigate('/auth/login')
         }
     }, []);
 }
