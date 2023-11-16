@@ -419,7 +419,7 @@ export const PanelCreatePost = () => {
                                 </Flex>
                                 <Button
                                     variant='ghost'
-                                    backgroundColor={btnEditorBg}
+                                    backgroundColor={btnEditorText}
                                     rightIcon={<AiOutlineInfoCircle size={20} />}
                                     onClick={() => setIsShowGuider(true)}
                                 >Quick tour</Button>
