@@ -61,8 +61,7 @@ export const Sidebar = () => {
                         <AccordionButton color={checkRoute('profile') ? '#FF8F46' : '#A0A0A0'}><ProfileIcon width={40} height={40} color={checkRoute('profile') ? '#FF8F46' : '#A0A0A0'} /> Profile</AccordionButton>
                     </AccordionItem >
                     {
-                        // user?.role === 'Admin' &&
-                        true &&
+                        user?.role === 'Admin' &&
                         <AccordionItem onClick={() => handleChangeRoute('/event/create')} border='none' borderRadius={15} overflow='hidden'>
                             <AccordionButton color={checkRoute('event/create') ? '#FF8F46' : '#A0A0A0'}><Flex width='40px' height='40px' justifyContent='center' alignItems='center'><CalendarDays width={20} height={20} color={checkRoute('event/create') ? '#FF8F46' : '#A0A0A0'} /></Flex> Event</AccordionButton>
                         </AccordionItem >
