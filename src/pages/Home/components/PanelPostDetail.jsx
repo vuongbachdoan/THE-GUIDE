@@ -180,9 +180,9 @@ export const PanelPostDetail = () => {
                         <Button onClick={() => setIsExpandComment(!isExpandComment)} width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<CommentIcon width={20} height={20} />}>
                             <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.commentIds?.length !== 0 ? postData?.commentIds?.length : '_'}</Text>
                         </Button>
-                        <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<ShareIcon width={20} height={20} />}>
-                            <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.shared !== 0 ? postData?.shared : '_'}</Text>
-                        </Button>
+                        <FacebookShareButton url={`https://www.docs.rapify-cloud.com/posts/detail/${postData?.subjectCode}`}>
+                            <ShareIcon width={20} height={20} />
+                        </FacebookShareButton>
                     </Flex>
                     <Flex flexDirection='row' alignItems='center' padding={1} columnGap={2}>
                         <EyeIcon width={20} height={20} />
