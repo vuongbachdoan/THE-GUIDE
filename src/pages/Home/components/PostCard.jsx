@@ -8,6 +8,7 @@ import { createComment } from '../../../core/services/comment';
 import { useSelector } from 'react-redux';
 import { mappingNotification } from '../../../helper/mappingNotification';
 import PlaceholderImage from '../../../assets/images/placeholder.png';
+import { FacebookShareCount } from 'react-share';
 const { HeartIcon, CommentIcon, ShareIcon, EyeIcon, ExpandIcon, HappyIcon, SendIcon, ATIcon } = icons;
 
 /**
@@ -215,9 +216,11 @@ export const PostCard = ({ postId }) => {
                                 <Button onClick={() => setIsExpandComment(!isExpandComment)} width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<CommentIcon width={20} height={20} />}>
                                     <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.commentIds?.length !== 0 ? postData?.commentIds?.length : '_'}</Text>
                                 </Button>
-                                <Button width='72px' flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<ShareIcon width={20} height={20} />}>
-                                    <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.shared !== 0 ? postData?.shared : '_'}</Text>
-                                </Button>
+                                <FacebookShareCount url={`https://www.docs.rapify-cloud.com/posts/detail/${postData?.subjectCode}`}>
+                                    {shareCount => (
+                                        <Button width='72px' iconSpacing={0} flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<ShareIcon width={20} height={20} />}>{shareCount}</Button>
+                                    )}
+                                </FacebookShareCount>
                             </Flex>
                             <Flex flexDirection='row' alignItems='center' padding={1} columnGap={2}>
                                 <EyeIcon width={20} height={20} />
