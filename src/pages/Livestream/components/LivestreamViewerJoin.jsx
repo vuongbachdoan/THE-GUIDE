@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Box, Button, Flex, Input, Spinner } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Spinner, Text } from "@chakra-ui/react";
 
 const DEFAULT_POSITION = "auto";
 const TRANSITION = "100ms ease-in-out";
@@ -51,10 +51,11 @@ export const LivestreamViewerJoin = () => {
                                 ref={videoEl}
                                 playsInline
                                 autoPlay
-                                height={300}
+                                height='calc(100vh - 110px)'
                                 muted
                             />
                         </div>
+                        <Text textAlign='center' width='100%' fontSize='x-small'>If you don't see anything, please wait a while before host start the room.</Text>
                         <Button borderRadius={10} colorScheme='red' fontSize='small' fontWeight='semibold'>Leave this room</Button>
                     </Flex>
                     :
