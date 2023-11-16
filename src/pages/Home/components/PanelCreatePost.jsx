@@ -35,7 +35,6 @@ export const PanelCreatePost = () => {
     const navigate = useNavigate();
     const [currentVariant, setCurrentVariant] = React.useState('p');
     const [inputValue, setInputValue] = React.useState('');
-    const [htmlContent, setHtmlContent] = React.useState('');
     const [selectedIndex, setSelectedIndex] = React.useState(null);
     const [textareaValue, setTextAreaValue] = React.useState('');
     const textareaRef = React.useRef(null);
@@ -60,7 +59,7 @@ export const PanelCreatePost = () => {
                 updatedContent[index].content = val;
             }
             // Update the state
-            setTempHtmlContent(updatedContent);
+            setTempHtmlContent([...updatedContent]);
         } else {
             console.error('Index out of range');
         }
@@ -68,19 +67,15 @@ export const PanelCreatePost = () => {
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-            event.preventDefault(); // Prevents the addition of a new line in contentEditable on Enter
-            setHtmlContent(prevHtmlContent => prevHtmlContent + converTextToHTML(inputValue, currentVariant));
-            setPostData({
-                ...postData,
-                content: htmlContent + converTextToHTML(inputValue, currentVariant)
-            })
-            setTempHtmlContent(
-                [
-                    ...tempHtmlContent,
-                    convertHtmlToObject(converTextToHTML(inputValue, currentVariant))[0]
-                ]
-            )
-            setInputValue('');
+            if(inputValue !== '') {
+                setTempHtmlContent(
+                    [
+                        ...tempHtmlContent,
+                        convertHtmlToObject(converTextToHTML(inputValue, currentVariant))[0]
+                    ]
+                )
+                setInputValue('');
+            }
         }
     }
 
