@@ -1,10 +1,12 @@
 import React, { useState, useRef } from "react";
 import { Box, Button, Flex, Input, Spinner, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const DEFAULT_POSITION = "auto";
 const TRANSITION = "100ms ease-in-out";
 
 export const LivestreamViewerJoin = () => {
+    const navigate = useNavigate();
     const divEl = React.useRef(null);
     const videoEl = React.useRef(null);
     const [isJoin, setIsJoin] = React.useState(false);
