@@ -11,12 +11,14 @@ import { getSubject, getSubjects, getSubjectsJoined } from '../../../core/servic
 import { useNavigate } from 'react-router-dom';
 import PlaceholderImage from '../../../assets/images/placeholder.png';
 import { converTextToHTML } from '../../../helper/converTextToHTML';
-import { Bold, Code, Delete, Heading1, Heading2, Heading3, Heading4, Heading5, Heading6, Italic, ListX, Quote, SendIcon, Trash, Underline } from 'lucide-react';
+import { Bold, CheckCheck, Code, Delete, Heading1, Heading2, Heading3, Heading4, Heading5, Heading6, Italic, ListX, Pencil, Quote, SendIcon, Trash, Underline } from 'lucide-react';
 import { AIChat } from '../../../core/services/ai';
 import { driver } from 'driver.js';
 import ClaudeIcon from '../../../assets/images/claude_icon.jpeg';
 import { BiMailSend, BiTrash, BiTrashAlt } from 'react-icons/bi';
 import { validatePostContent } from '../../../helper/validatePostContent';
+import { convertHtmlToObject } from '../../../helper/convertHtmlToObject';
+import { convertObjectsToHTML } from '../../../helper/convertObjectsToHTML';
 const { SyncIcon } = icons;
 
 export const PanelCreatePost = () => {
@@ -34,6 +36,33 @@ export const PanelCreatePost = () => {
     const [currentVariant, setCurrentVariant] = React.useState('p');
     const [inputValue, setInputValue] = React.useState('');
     const [htmlContent, setHtmlContent] = React.useState('');
+    const [selectedIndex, setSelectedIndex] = React.useState(null);
+    const [textareaValue, setTextAreaValue] = React.useState('');
+    const textareaRef = React.useRef(null);
+    const [tempHtmlContent, setTempHtmlContent] = React.useState([]);
+
+    React.useEffect(() => {
+        if (textareaRef.current) {
+            textareaRef.current.style.height = 'revert-layer';
+            textareaRef.current.style.minHeight = 'auto';
+            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+        }
+    }, [textareaValue]);
+    const handleUpdateHtmlContent = (index, val) => {
+        // Check if the index is within the range of the array
+        if (index >= 0 && index < tempHtmlContent.length) {
+            // Create a copy of the tempHtmlContent array
+            let updatedContent = [...tempHtmlContent];
+
+            // Update the content attribute of the object at the specified index
+            updatedContent[index].content = val;
+
+            // Update the state
+            setTempHtmlContent(updatedContent);
+        } else {
+            console.error('Index out of range');
+        }
+    }
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
@@ -43,6 +72,12 @@ export const PanelCreatePost = () => {
                 ...postData,
                 content: htmlContent + converTextToHTML(inputValue, currentVariant)
             })
+            setTempHtmlContent(
+                [
+                    ...tempHtmlContent,
+                    convertHtmlToObject(converTextToHTML(inputValue, currentVariant))[0]
+                ]
+            )
             setInputValue('');
         }
     }
@@ -143,9 +178,10 @@ export const PanelCreatePost = () => {
     }
 
     const handleContent = () => {
+        let htmlContentUpdated = convertObjectsToHTML(tempHtmlContent);
         setPostData({
             ...postData,
-            content: `${htmlContent}`
+            content: `${htmlContentUpdated}`
         })
     }
 
@@ -390,7 +426,7 @@ export const PanelCreatePost = () => {
                                     <Button
                                         variant='ghost'
                                         colorScheme='gray'
-                                        rightIcon={<AiOutlineInfoCircle size={20}/>}
+                                        rightIcon={<AiOutlineInfoCircle size={20} />}
                                         onClick={() => setIsShowGuider(true)}
                                     >Quick tour</Button>
                                 </Flex>
@@ -415,7 +451,153 @@ export const PanelCreatePost = () => {
                                         <Button display='flex' justifyContent='center' alignItems='center' padding={0} iconSpacing={0} rightIcon={isLoadingImage ? <Spinner /> : <SyncIcon width={18} height={18} color='#1E1E1E' />} borderRadius='full' />
                                     </Stack>
                                 </Box>
-                                <div style={{ textAlign: 'left', fontFamily: 'monospace' }} className='ignore_lib' dangerouslySetInnerHTML={{ __html: htmlContent }} ></div>
+
+                                <Box marginBottom={3} textAlign='left' className='ignore_lib' fontFamily='monospace'>
+                                    {
+                                        tempHtmlContent.map((item, index) => {
+                                            switch (item.tag) {
+                                                case 'h1':
+                                                case 'h2':
+                                                case 'h3':
+                                                case 'h4':
+                                                case 'h5':
+                                                case 'h6':
+                                                    return (
+                                                        <Flex
+                                                            flexDirection='row'
+                                                            columnGap={1}
+                                                            marginBottom={1}
+                                                            justifyContent='flex-start'
+                                                            alignItems='center'
+                                                            cursor='pointer'
+                                                        >
+                                                            <Button
+                                                                onClick={() => {
+                                                                    setTextAreaValue(item.content)
+                                                                    setSelectedIndex(index)
+                                                                }}
+                                                                leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                            <Button isDisabled={selectedIndex !== index} onClick={() => {
+                                                                handleUpdateHtmlContent(index, textareaValue);
+                                                            }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                            {
+                                                                selectedIndex !== index ?
+                                                                    React.createElement(item.tag, { key: index }, item.content) :
+                                                                    // put style to item in object to map style
+                                                                    <Textarea flex={1} padding={2} borderWidth={0} outline='none' boxShadow='none' _hover={{ outline: 'none', boxShadow: 'none', borderWidth: 0 }} backgroundColor={selectedIndex === index ? '#00000010' : 'transparent'} ref={textareaRef} onChange={(e) => setTextAreaValue(e.target.value)} marginY={0} style={item.style} fontFamily='monospace' overflowY='auto' value={textareaValue} />
+                                                            }
+                                                        </Flex>
+                                                    );
+                                                case 'p':
+                                                    return (
+                                                        <Flex
+                                                            flexDirection='row'
+                                                            columnGap={1}
+                                                            marginBottom={1}
+                                                            justifyContent='flex-start'
+                                                            alignItems='flex-start'
+                                                            cursor='pointer'
+                                                        >
+                                                            <Button
+                                                                onClick={() => {
+                                                                    setTextAreaValue(item.content)
+                                                                    setSelectedIndex(index)
+                                                                }}
+                                                                leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                            <Button isDisabled={selectedIndex !== index} onClick={() => {
+                                                                handleUpdateHtmlContent(index, textareaValue);
+                                                            }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                            {
+                                                                selectedIndex !== index ?
+                                                                    <p style={{ width: 'fit-content' }} key={index}>{item.content}</p> :
+                                                                    <Textarea flex={1} padding={2} borderWidth={0} outline='none' boxShadow='none' _hover={{ outline: 'none', boxShadow: 'none', borderWidth: 0 }} backgroundColor={selectedIndex === index ? '#00000010' : 'transparent'} ref={textareaRef} onChange={(e) => setTextAreaValue(e.target.value)} marginY={0} style={item.style} fontFamily='monospace' overflowY='auto' value={textareaValue} />
+                                                            }
+                                                        </Flex>
+                                                    );
+                                                case 'i':
+                                                    return (
+                                                        <Flex
+                                                            flexDirection='row'
+                                                            columnGap={1}
+                                                            marginBottom={1}
+                                                            justifyContent='flex-start'
+                                                            alignItems='flex-start'
+                                                            cursor='pointer'
+                                                        >
+                                                            <Button
+                                                                onClick={() => {
+                                                                    setTextAreaValue(item.content)
+                                                                    setSelectedIndex(index)
+                                                                }}
+                                                                leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                            <Button isDisabled={selectedIndex !== index} onClick={() => {
+                                                                handleUpdateHtmlContent(index, textareaValue);
+                                                            }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                            {
+                                                                selectedIndex !== index ?
+                                                                    <i style={{ width: 'fit-content' }} key={index}>{item.content}</i> :
+                                                                    <Textarea flex={1} padding={2} borderWidth={0} outline='none' boxShadow='none' _hover={{ outline: 'none', boxShadow: 'none', borderWidth: 0 }} backgroundColor={selectedIndex === index ? '#00000010' : 'transparent'} marginY={0} style={item.style} fontFamily='monospace' overflowY='auto' value={textareaValue} />
+                                                            }
+                                                        </Flex>
+                                                    );
+                                                case 'u':
+                                                    return (
+                                                        <Flex
+                                                            flexDirection='row'
+                                                            columnGap={1}
+                                                            marginBottom={1}
+                                                            justifyContent='flex-start'
+                                                            alignItems='flex-start'
+                                                            cursor='pointer'
+                                                        >
+                                                            <Button
+                                                                onClick={() => {
+                                                                    setTextAreaValue(item.content)
+                                                                    setSelectedIndex(index)
+                                                                }}
+                                                                leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                            <Button isDisabled={selectedIndex !== index} onClick={() => {
+                                                                handleUpdateHtmlContent(index, textareaValue);
+                                                            }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                            {
+                                                                selectedIndex !== index ?
+                                                                    <u style={{ width: 'fit-content' }} key={index}>{item.content}</u> :
+                                                                    <Textarea flex={1} padding={2} borderWidth={0} outline='none' boxShadow='none' _hover={{ outline: 'none', boxShadow: 'none', borderWidth: 0 }} backgroundColor={selectedIndex === index ? '#00000010' : 'transparent'} marginY={0} style={item.style} fontFamily='monospace' overflowY='auto' value={textareaValue} />
+                                                            }
+                                                        </Flex>
+                                                    );
+                                                case 'b':
+                                                    return (
+                                                        <Flex
+                                                            flexDirection='row'
+                                                            columnGap={1}
+                                                            marginBottom={1}
+                                                            justifyContent='flex-start'
+                                                            alignItems='flex-start'
+                                                            cursor='pointer'
+                                                        >
+                                                            <Button
+                                                                onClick={() => {
+                                                                    setTextAreaValue(item.content)
+                                                                    setSelectedIndex(index)
+                                                                }}
+                                                                leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                            <Button isDisabled={selectedIndex !== index} onClick={() => {
+                                                                handleUpdateHtmlContent(index, textareaValue);
+                                                            }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                            {
+                                                                selectedIndex !== index ?
+                                                                    <b style={{ width: 'fit-content' }} key={index}>{item.content}</b> :
+                                                                    <Textarea flex={1} padding={2} borderWidth={0} outline='none' boxShadow='none' _hover={{ outline: 'none', boxShadow: 'none', borderWidth: 0 }} backgroundColor={selectedIndex === index ? '#00000010' : 'transparent'} marginY={0} style={item.style} fontFamily='monospace' overflowY='auto' value={textareaValue} />
+                                                            }
+                                                        </Flex>
+                                                    );
+                                                default:
+                                                    return null;
+                                            }
+                                        })
+                                    }
+                                </Box>
 
                                 <Box id='text-editor'>
                                     <Flex id='text-field__tool-bar' marginTop={3} flexDirection='row' justifyContent='space-between' alignItems='flex-start'>
