@@ -23,6 +23,9 @@ import { PanelEditPost } from '../../pages/Home/components/PanelEditPost';
 import { Livestream } from '../../pages/Livestream';
 import { LivestreamViewerJoin } from '../../pages/Livestream/components/LivestreamViewerJoin';
 import { HostPlayer } from '../../pages/Livestream/components/HostPlayer';
+import { Event } from '../../pages/Event';
+import { EventView } from '../../pages/Event/components/EventView';
+import { EventCreate } from '../../pages/Event/components/EventCreate';
 
 export const AppRouting = () => {
     return (
@@ -52,6 +55,10 @@ export const AppRouting = () => {
             <Route path='/livestream' element={< Livestream />} >
                 <Route path='view' element={< LivestreamViewerJoin />} />
                 <Route path='host' element={< HostPlayer />} />
+            </Route>
+            <Route path='/event' element={<Event />}>
+                <Route path='' element={<EventView />} />
+                <Route path='create' element={<EventCreate />} />
             </Route>
             <Route path='*' element={<Error />} />
         </Routes>
