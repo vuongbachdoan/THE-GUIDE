@@ -44,16 +44,19 @@ export const LivestreamViewerJoin = () => {
         <>
             {
                 isJoin ?
-                    <div ref={divEl}>
-                        <video
-                            id="video-player"
-                            ref={videoEl}
-                            playsInline
-                            autoPlay
-                            height={300}
-                            muted
-                        />
-                    </div>
+                    <Flex width='100%' justifyContent='center' rowGap={30}>
+                        <div ref={divEl}>
+                            <video
+                                id="video-player"
+                                ref={videoEl}
+                                playsInline
+                                autoPlay
+                                height={300}
+                                muted
+                            />
+                        </div>
+                        <Button borderRadius={10} colorScheme='red' fontSize='small' fontWeight='semibold'>Leave this room</Button>
+                    </Flex>
                     :
                     <Flex
                         flexDirection='row'
@@ -63,7 +66,7 @@ export const LivestreamViewerJoin = () => {
                         maxWidth={1024}
                     >
                         <Input value={linkUrl} onChange={(e) => setLinkUrl(e.target.value)} borderRadius={10} placeholder="Room URL" />
-                        <Button borderRadius={10} backgroundColor='#FF8F46' _hover={{backgroundColor: '#FF8F46'}} onClick={() => setIsJoin(true)}>{isLoading ? <Spinner/> : 'Join room'}</Button>
+                        <Button borderRadius={10} backgroundColor='#FF8F46' _hover={{ backgroundColor: '#FF8F46' }} onClick={() => setIsJoin(true)}>{isLoading ? <Spinner /> : 'Join room'}</Button>
                     </Flex>
             }
         </>
