@@ -214,10 +214,12 @@ export const PanelEditPost = () => {
         if (index >= 0 && index < tempHtmlContent.length) {
             // Create a copy of the tempHtmlContent array
             let updatedContent = [...tempHtmlContent];
-
-            // Update the content attribute of the object at the specified index
-            updatedContent[index].content = val;
-
+            if (val === '') {
+                updatedContent.splice(index, 1);
+            } else {
+                // Update the content attribute of the object at the specified index
+                updatedContent[index].content = val;
+            }
             // Update the state
             setTempHtmlContent(updatedContent);
         } else {
