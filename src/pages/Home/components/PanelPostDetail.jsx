@@ -80,10 +80,10 @@ export const PanelPostDetail = () => {
     }
 
     const handleSendComment = () => {
-        if(commentValue) {
+        if (commentValue) {
             const createTime = new Date();
             const uniqueId = `${createTime.getTime().toString()}${createTime.getFullYear()}`.toString();
-    
+
             createComment({
                 id: uniqueId,
                 postId: postData.id,
@@ -162,7 +162,7 @@ export const PanelPostDetail = () => {
                     paddingTop={3}
                     textAlign='left'
                 >
-                    <Box className='ignore_lib' style={{fontFamily: 'monospace'}} dangerouslySetInnerHTML={{ __html: postData?.content}}></Box>
+                    <Box className='ignore_lib' style={{ fontFamily: 'monospace' }} dangerouslySetInnerHTML={{ __html: postData?.content }}></Box>
                 </CardBody>
                 <CardFooter
                     justifyContent='space-between'
@@ -219,34 +219,18 @@ export const PanelPostDetail = () => {
                                 paddingX={5}
                                 paddingTop={5}
                                 paddingBottom={3}
+                                alignItems='flex-start'
                             >
                                 <Avatar src={user?.avatar} />
-                                <Flex
-                                    flexDirection='column'
-                                    flex={1}
-                                >
-                                    <Textarea
-                                        value={commentValue}
-                                        placeholder="Write a comment..."
-                                        fontSize='sm'
-                                        borderRadius={15}
-                                        onChange={(e) => handleComment(e.target.value)}
-                                        onKeyDown={(e) => handleEnterCommemt(e.key)}
-                                    />
-
-                                    <Flex
-                                        flexDirection='row'
-                                        justifyContent='space-between'
-                                    >
-                                        <Flex
-                                            flexDirection='row'
-                                            columnGap={1}
-                                        >
-                                            <Button my={2} variant='ghost' borderRadius={10} width='40px' padding={0} height='40px' leftIcon={<ATIcon width={20} height={20} />} iconSpacing={0}></Button>
-                                        </Flex>
-                                        <Button my={2} onClick={handleSendComment} variant='ghost' borderRadius={10} width='40px' padding={0} height='40px' leftIcon={<SendIcon width={20} height={20} />} iconSpacing={0}></Button>
-                                    </Flex>
-                                </Flex>
+                                <Textarea
+                                    value={commentValue}
+                                    placeholder="Write a comment..."
+                                    fontSize='sm'
+                                    borderRadius={15}
+                                    onChange={(e) => handleComment(e.target.value)}
+                                    onKeyDown={(e) => handleEnterCommemt(e.key)}
+                                />
+                                <Button onClick={handleSendComment} variant='ghost' borderRadius={10} width='40px' padding={0} height='40px' leftIcon={<SendIcon width={20} height={20} />} iconSpacing={0}></Button>
                             </Flex>
                         </Card>
                     </ModalBody>
