@@ -7,6 +7,7 @@ import { convertTimestamp } from '../../../helper/convertTimestamp';
 import { generateChatKey } from '../../../core/services/chat';
 
 export const LivestreamChat = () => {
+    const bg = useColorModeValue('gray.200', 'gray.800')
     const [room, setRoom] = React.useState(null);
     const [message, setMessage] = React.useState('');
     const user = useSelector((state) => state.profileData.data);
@@ -73,43 +74,47 @@ export const LivestreamChat = () => {
     }
 
     return (
-        <Flex
-            flexDirection='column'
-            height='100%'
-        >
-            <Flex height='50px' justifyContent='center' alignItems='center' width='100%'>
-                <Heading fontSize='medium' textAlign='center'>Chat room</Heading>
-            </Flex>
-            <Flex margin={3} height='calc(100vh - 150px)' overflowY='scroll' flex={1} flexDirection='column' alignItems='flex-start' rowGap={2} className='scrollbar-hide'>
+        <>
+            <Flex
+                flexDirection='column'
+                height='100%'
+                width='320px'
+                backgroundColor={bg}
+            >
+                <Flex height='50px' justifyContent='center' alignItems='center' width='100%'>
+                    <Heading fontSize='medium' textAlign='center'>Chat room</Heading>
+                </Flex>
+                <Flex margin={3} height='calc(100vh - 150px)' overflowY='scroll' flex={1} flexDirection='column' alignItems='flex-start' rowGap={2} className='scrollbar-hide'>
+                    {
+                        messages.map((message) => (
+                            <ChatMessage data={message} />
+                        ))
+                    }
+                </Flex>
                 {
-                    messages.map((message) => (
-                        <ChatMessage data={message} />
-                    ))
+                    user &&
+                    <Flex flexDirection='row' columnGap={3} height='100px' alignItems='center' margin={3}>
+                        <Input
+                            fontSize='small'
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleSendMessage()
+                                }
+                            }} value={message} borderRadius='10px' onChange={(e) => setMessage(e.target.value)} />
+                        <Button
+                            backgroundColor='#FF8F46'
+                            _hover={{ backgroundColor: '#FF8F46' }}
+                            borderRadius={10}
+                            leftIcon={isSending ? <Spinner size={16} /> : <BiMailSend size={16} />}
+                            iconSpacing={0}
+                            onClick={handleSendMessage}
+                            cursor='pointer'
+                            disabled={isSending}
+                        />
+                    </Flex>
                 }
             </Flex>
-            {
-                user &&
-                <Flex flexDirection='row' columnGap={3} height='100px' alignItems='center' margin={3}>
-                    <Input
-                        fontSize='small'
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                handleSendMessage()
-                            }
-                        }} value={message} borderRadius='10px' onChange={(e) => setMessage(e.target.value)} />
-                    <Button
-                        backgroundColor='#FF8F46'
-                        _hover={{ backgroundColor: '#FF8F46' }}
-                        borderRadius={10}
-                        leftIcon={isSending ? <Spinner size={16}/> : <BiMailSend size={16}/>}
-                        iconSpacing={0}
-                        onClick={handleSendMessage}
-                        cursor='pointer'
-                        disabled={isSending}
-                    />
-                </Flex>
-            }
-        </Flex>
+        </>
     );
 };
 
