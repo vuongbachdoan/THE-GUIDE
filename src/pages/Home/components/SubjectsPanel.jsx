@@ -113,8 +113,8 @@ export const SubjectsPanel = () => {
                             rowGap={3}
                         >
                             <Image objectFit='cover' src={EventPoster} width={100} height={100} borderRadius={8} />
-                            <Text fontWeight='semibold' fontSize='md' color='gray.500' marginBlock={3} textAlign='center'>The Guide event : My Architecture</Text>
-                            <Text fontWeight='semibold' fontSize='xl'>{mostJoinedSubject?.subjectCode}</Text>
+                            <Text fontWeight='semibold' fontSize='md' color='gray.500' marginBlock={3} textAlign='center'>The Guide event</Text>
+                            <Text fontWeight='semibold' fontSize='xl'>My Architecture</Text>
                             <Stack cursor='pointer' onClick={() => navigate('/event')}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Register now</Text></Stack>
                         </Flex>
                     </Box>
