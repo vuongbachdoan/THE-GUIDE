@@ -44,8 +44,8 @@ export const LivestreamViewerJoin = () => {
         <>
             {
                 isJoin ?
-                    <Flex flexDirection='column' width='100%' justifyContent='center' rowGap={30}>
-                        <div ref={divEl}>
+                    <Flex flexDirection='column' width='100%' justifyContent='center' alignItems='center' rowGap={30}>
+                        <div ref={divEl} style={{width: 'fit-content'}}>
                             <video
                                 id="video-player"
                                 ref={videoEl}
@@ -55,7 +55,7 @@ export const LivestreamViewerJoin = () => {
                             />
                         </div>
                         <Text textAlign='center' width='100%' fontSize='x-small'>If you don't see anything, please wait a while before host start the room.</Text>
-                        <Button borderRadius={10} colorScheme='red' fontSize='small' fontWeight='semibold'>Leave this room</Button>
+                        <Button onClick={() => navigate('/')} borderRadius={10} colorScheme='red' fontSize='small' fontWeight='semibold'>Leave this room</Button>
                     </Flex>
                     :
                     <Flex
