@@ -3,6 +3,7 @@ import icons from "../../../assets/icons";
 import DecorOrange from '../../../assets/images/decor_role_orange.png';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { CalendarDays } from "lucide-react";
 const { HomeIcon, PostIcon, ProfileIcon, SubjectIcon, NotificationIcon } = icons;
 
 export const Sidebar = () => {
@@ -12,7 +13,7 @@ export const Sidebar = () => {
     const pathname = useLocation().pathname;
 
     const handleChangeRoute = (route) => {
-        if(user) {
+        if (user) {
             navigate(route, {
                 state: user.id
             });
@@ -32,61 +33,68 @@ export const Sidebar = () => {
             flexDirection='column'
             height='100%'
             rowGap={3}
-            display={{base: 'none', lg: 'flex'}}
+            display={{ base: 'none', lg: 'flex' }}
         >
             <Box
-                    width={285}
-                    bg={bg}
-                    borderRadius={20}
-                    padding={30}
-                >
-                    <Accordion defaultIndex={[0]} allowMultiple border='none'>
-                        <AccordionItem onClick={() => handleChangeRoute('/')} border='none' borderRadius={15} overflow='hidden'>
-                            <AccordionButton color={checkHome('') ? '#FF8F46' : '#A0A0A0'}><HomeIcon width={40} height={40} color={checkHome('') ? '#FF8F46' : '#A0A0A0'} /> Home</AccordionButton>
+                width={285}
+                bg={bg}
+                borderRadius={20}
+                padding={30}
+            >
+                <Accordion defaultIndex={[0]} allowMultiple border='none'>
+                    <AccordionItem onClick={() => handleChangeRoute('/')} border='none' borderRadius={15} overflow='hidden'>
+                        <AccordionButton color={checkHome('') ? '#FF8F46' : '#A0A0A0'}><HomeIcon width={40} height={40} color={checkHome('') ? '#FF8F46' : '#A0A0A0'} /> Home</AccordionButton>
+                    </AccordionItem >
+                    <AccordionItem onClick={() => handleChangeRoute('/subject')} border='none' borderRadius={15} overflow='hidden'>
+                        <AccordionButton color={checkRoute('subject') ? '#FF8F46' : '#A0A0A0'}><SubjectIcon width={40} height={40} color={checkRoute('subject') ? '#FF8F46' : '#A0A0A0'} /> Subject</AccordionButton>
+                    </AccordionItem >
+                    <AccordionItem onClick={() => handleChangeRoute('/posts')} border='none' borderRadius={15} overflow='hidden'>
+                        <AccordionButton color={checkRoute('posts') ? '#FF8F46' : '#A0A0A0'}><PostIcon width={40} height={40} color={checkRoute('posts') ? '#FF8F46' : '#A0A0A0'} />My Post</AccordionButton>
+                    </AccordionItem >
+                    <AccordionItem onClick={() => handleChangeRoute('/notification')} border='none' borderRadius={15} overflow='hidden'>
+                        <AccordionButton color={checkRoute('notification') ? '#FF8F46' : '#A0A0A0'}>
+                            <NotificationIcon width={40} height={40} color={checkRoute('notification') ? '#FF8F46' : '#A0A0A0'} stroke={bg} />
+                            Notification
+                        </AccordionButton>
+                    </AccordionItem >
+                    <AccordionItem onClick={() => handleChangeRoute('/profile')} border='none' borderRadius={15} overflow='hidden'>
+                        <AccordionButton color={checkRoute('profile') ? '#FF8F46' : '#A0A0A0'}><ProfileIcon width={40} height={40} color={checkRoute('profile') ? '#FF8F46' : '#A0A0A0'} /> Profile</AccordionButton>
+                    </AccordionItem >
+                    {
+                        // user?.role === 'Admin' &&
+                        true &&
+                        <AccordionItem onClick={() => handleChangeRoute('/event/create')} border='none' borderRadius={15} overflow='hidden'>
+                            <AccordionButton color={checkRoute('event/create') ? '#FF8F46' : '#A0A0A0'}><Flex width='40px' height='40px' justifyContent='center' alignItems='center'><CalendarDays width={20} height={20} color={checkRoute('event/create') ? '#FF8F46' : '#A0A0A0'} /></Flex> Event</AccordionButton>
                         </AccordionItem >
-                        <AccordionItem onClick={() => handleChangeRoute('/subject')} border='none' borderRadius={15} overflow='hidden'>
-                            <AccordionButton color={checkRoute('subject') ? '#FF8F46' : '#A0A0A0'}><SubjectIcon width={40} height={40} color={checkRoute('subject') ? '#FF8F46' : '#A0A0A0'} /> Subject</AccordionButton>
-                        </AccordionItem >
-                        <AccordionItem onClick={() => handleChangeRoute('/posts')} border='none' borderRadius={15} overflow='hidden'>
-                            <AccordionButton color={checkRoute('posts') ? '#FF8F46' : '#A0A0A0'}><PostIcon width={40} height={40} color={checkRoute('posts') ? '#FF8F46' : '#A0A0A0'} />My Post</AccordionButton>
-                        </AccordionItem >
-                        <AccordionItem onClick={() => handleChangeRoute('/notification')} border='none' borderRadius={15} overflow='hidden'>
-                            <AccordionButton color={checkRoute('notification') ? '#FF8F46' : '#A0A0A0'}>
-                                <NotificationIcon width={40} height={40} color={checkRoute('notification') ? '#FF8F46' : '#A0A0A0'} stroke={bg}/>
-                                Notification
-                            </AccordionButton>
-                        </AccordionItem >
-                        <AccordionItem onClick={() => handleChangeRoute('/profile')} border='none' borderRadius={15} overflow='hidden'>
-                            <AccordionButton color={checkRoute('profile') ? '#FF8F46' : '#A0A0A0'}><ProfileIcon width={40} height={40} color={checkRoute('profile') ? '#FF8F46' : '#A0A0A0'} /> Profile</AccordionButton>
-                        </AccordionItem >
-                    </Accordion>
-                </Box>
+                    }
+                </Accordion>
+            </Box>
 
-                <Box
-                    width={285}
-                    bg={bg}
-                    borderRadius={20}
-                    padding={30}
+            <Box
+                width={285}
+                bg={bg}
+                borderRadius={20}
+                padding={30}
+            >
+                <Flex
+                    justifyContent='center'
+                    alignItems='center'
+                    position='relative'
+                    margin='20px'
+                    flexDirection='column'
                 >
-                    <Flex
-                        justifyContent='center'
-                        alignItems='center'
-                        position='relative'
-                        margin='20px'
-                        flexDirection='column'
-                    >
-                        <Image src={DecorOrange}
-                            position='absolute'
-                            top={0}
-                            left={0}
-                            width='100%'
-                        />
-                        <Image objectFit='cover' marginTop={30}  backgroundColor='#FAFAFA' borderWidth={0} src={user?.avatar} width={100} height={100} borderRadius={14} zIndex={10} />
-                        <Text marginTop={3} fontWeight='semibold' fontSize='xl'>{user?.username ? user?.username : 'username'}</Text>
-                        <Link to='/profile' state={user?.id}><Text fontSize='md' color='#FF8F46' _hover={{textDecoration: 'underline'}}>Detail</Text></Link>
-                        <Text fontWeight='semibold' fontSize='md' color='gray.500' textTransform='uppercase'>{user?.userCode ? user?.userCode : 'USER CODE'}</Text>
-                    </Flex>
-                </Box>
+                    <Image src={DecorOrange}
+                        position='absolute'
+                        top={0}
+                        left={0}
+                        width='100%'
+                    />
+                    <Image objectFit='cover' marginTop={30} backgroundColor='#FAFAFA' borderWidth={0} src={user?.avatar} width={100} height={100} borderRadius={14} zIndex={10} />
+                    <Text marginTop={3} fontWeight='semibold' fontSize='xl'>{user?.username ? user?.username : 'username'}</Text>
+                    <Link to='/profile' state={user?.id}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Detail</Text></Link>
+                    <Text fontWeight='semibold' fontSize='md' color='gray.500' textTransform='uppercase'>{user?.userCode ? user?.userCode : 'USER CODE'}</Text>
+                </Flex>
+            </Box>
         </Flex>
     );
 }
