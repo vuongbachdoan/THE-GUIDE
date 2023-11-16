@@ -77,7 +77,7 @@ export const LivestreamChat = () => {
             flexDirection='column'
             height='100%'
         >
-            <Flex height='50px' justifyContent='center' width='100%'>
+            <Flex height='50px' justifyContent='center' alignItems='center' width='100%'>
                 <Heading fontSize='medium' textAlign='center'>Chat room</Heading>
             </Flex>
             <Flex margin={3} height='calc(100vh - 150px)' overflowY='scroll' flex={1} flexDirection='column' alignItems='flex-start' rowGap={2} className='scrollbar-hide'>
@@ -101,10 +101,11 @@ export const LivestreamChat = () => {
                         backgroundColor='#FF8F46'
                         _hover={{ backgroundColor: '#FF8F46' }}
                         borderRadius={10}
-                        leftIcon={isSending ? <Spinner /> : <BiMailSend />}
+                        leftIcon={isSending ? <Spinner size={16}/> : <BiMailSend size={16}/>}
                         iconSpacing={0}
                         onClick={handleSendMessage}
                         cursor='pointer'
+                        disabled={isSending}
                     />
                 </Flex>
             }
@@ -120,7 +121,7 @@ const ChatMessage = ({ data }) => {
         <Flex columnGap={3} flexDirection='row' alignItems='flex-end' width='100%'>
             <Avatar size='sm' src={data?.sender?.attributes?.avatar} />
             <Flex flex={1} paddingX={2} paddingY={1} backgroundColor={chatBg} borderRadius={10} flexDirection='column' alignItems='flex-start'>
-                <Flex flexDirection='row' justifyContent='space-between' columnGap={3}>
+                <Flex flexDirection='row' justifyContent='space-between' columnGap={3} width='100%'>
                     <Text color={chatText} fontSize='x-small' fontWeight='semibold'>{data?.sender?.attributes?.username}</Text>
                     <Text color={chatText} textAlign='left' fontSize='x-small' fontWeight='normal' textColor='gray.500'>{convertTimestamp(data?.sendTime)}</Text>
                 </Flex>

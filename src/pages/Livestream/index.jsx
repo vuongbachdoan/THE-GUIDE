@@ -44,31 +44,32 @@ export const Livestream = () => {
 
     const attachMediaDevice = async () => {
         if (client) {
+            const previewEl = document.getElementById('preview');
+            
             const resizeCanvas = () => {
                 const aspectRatio = 852 / 480;
                 const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
                 const newHeight = viewportHeight - 110;
                 const newWidth = newHeight * aspectRatio;
-                const previewEl = document.getElementById('preview');
                 previewEl.style.height = `${newHeight}px`;
                 previewEl.style.width = `${newWidth}px`;
             }
-    
+        
             window.addEventListener('resize', resizeCanvas);
             resizeCanvas();
-    
+        
             client.attachPreview(previewEl);
             const devices = await navigator.mediaDevices.enumerateDevices();
-    
+        
             let videoDevices = devices.filter((d) => d.kind === 'videoinput');
             window.videoDevices = videoDevices;
             setVideoDevices(videoDevices);
-    
+        
             let audioDevices = devices.filter((d) => d.kind === 'audioinput');
             window.audioDevices = audioDevices;
             setAudioDevices(audioDevices);
         }
-    }
+    }    
 
     React.useEffect(() => {
         if (videoDevices.length !== 0) {
