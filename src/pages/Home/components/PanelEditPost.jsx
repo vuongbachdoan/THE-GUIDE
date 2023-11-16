@@ -211,23 +211,19 @@ export const PanelEditPost = () => {
         }
     }, [textareaValue]);
     React.useEffect(() => {
-        if(tempHtmlContent.length > selectedIndex && selectedIndex >= 0) {
+        if (tempHtmlContent.length > selectedIndex && selectedIndex >= 0) {
             setTextAreaValue(tempHtmlContent[selectedIndex].content);
         }
     }, [selectedIndex])
     const handleUpdateHtmlContent = (index, val) => {
-        if (index >= 0 && index < tempHtmlContent.length) {
-            let updatedContent = [...tempHtmlContent];
-            if (val === '') {
-                updatedContent.splice(index, 1);
-            } else {
-                updatedContent[index].content = val;
-            }
-            setTempHtmlContent([...updatedContent]);
-            setSelectedIndex(-1);
+        let updatedContent = [...tempHtmlContent];
+        if (val === '') {
+            updatedContent.splice(index, 1);
         } else {
-            console.error('Index out of range');
+            updatedContent[index].content = val;
         }
+        setTempHtmlContent([...updatedContent]);
+        setSelectedIndex(-1);
     }
     const [isShowAI, setIsShowAI] = React.useState(false);
     const [chatString, setChatString] = React.useState('');
@@ -252,7 +248,7 @@ export const PanelEditPost = () => {
     const [htmlContent, setHtmlContent] = React.useState('');
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-            if(inputValue !== '') {
+            if (inputValue !== '') {
                 console.log(converTextToHTML(inputValue.replace(/\n/g, ''), currentVariant))
                 setTempHtmlContent(
                     [

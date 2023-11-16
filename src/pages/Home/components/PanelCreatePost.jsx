@@ -48,28 +48,24 @@ export const PanelCreatePost = () => {
         }
     }, [textareaValue]);
     React.useEffect(() => {
-        if(tempHtmlContent.length > selectedIndex && selectedIndex >= 0) {
+        if (tempHtmlContent.length > selectedIndex && selectedIndex >= 0) {
             setTextAreaValue(tempHtmlContent[selectedIndex].content);
         }
     }, [selectedIndex])
     const handleUpdateHtmlContent = (index, val) => {
-        if (index >= 0 && index < tempHtmlContent.length) {
-            let updatedContent = [...tempHtmlContent];
-            if (val === '') {
-                updatedContent.splice(index, 1);
-            } else {
-                updatedContent[index].content = val;
-            }
-            setTempHtmlContent([...updatedContent]);
-            setSelectedIndex(-1);
+        let updatedContent = [...tempHtmlContent];
+        if (val === '') {
+            updatedContent.splice(index, 1);
         } else {
-            console.error('Index out of range');
+            updatedContent[index].content = val;
         }
+        setTempHtmlContent([...updatedContent]);
+        setSelectedIndex(-1);
     }
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-            if(inputValue !== '') {
+            if (inputValue !== '') {
                 console.log(converTextToHTML(inputValue.replace(/\n/g, ''), currentVariant))
                 setTempHtmlContent(
                     [
@@ -369,342 +365,342 @@ export const PanelCreatePost = () => {
         <>
             {
                 // (user && user?.id) ?
-                    <>
-                        <Card
-                            borderWidth={0}
-                            borderRadius={20}
-                            boxShadow='none'
-                            width='100%'
-                            ref={finalRef}
-                        >
-                            <Box marginTop={6} marginX={6}>
-                                <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Create Post</Text>
-                            </Box>
-                            <CardHeader>
-                                <Flex spacing='4'>
-                                    <Flex flex='1' columnGap={3}>
-                                        <Avatar name={user?.username ? user?.username : 'username'} src={user?.avatar ? user?.avatar : ''} />
+                <>
+                    <Card
+                        borderWidth={0}
+                        borderRadius={20}
+                        boxShadow='none'
+                        width='100%'
+                        ref={finalRef}
+                    >
+                        <Box marginTop={6} marginX={6}>
+                            <Text textAlign='left' fontSize='xl' fontWeight='semibold'>Create Post</Text>
+                        </Box>
+                        <CardHeader>
+                            <Flex spacing='4'>
+                                <Flex flex='1' columnGap={3}>
+                                    <Avatar name={user?.username ? user?.username : 'username'} src={user?.avatar ? user?.avatar : ''} />
 
-                                        <Flex
-                                            flex={1}
-                                            flexDirection='column'
-                                            rowGap={1}
-                                        >
-                                            <Flex columnGap={3} width='100%' flexDirection='row' alignItems='center'>
-                                                <Menu>
-                                                    <MenuButton width='180px' iconSpacing={2} as={Button} paddingY={1} paddingX={2} height='fit-content' rightIcon={<FaChevronDown size={12} />}>
-                                                        <Text textAlign='left' fontSize='sm'>{postData?.subjectCode ? postData?.subjectCode : 'Subject'}</Text>
-                                                    </MenuButton>
-                                                    <MenuList
-                                                        padding={1}
-                                                        borderRadius={12}
-                                                        boxShadow='xl'
-                                                        minWidth='fit-content'
-                                                    >
-                                                        {
-                                                            subjectsAvailable.map((subject) => (
-                                                                <MenuItem onClick={() => handleSubjectCode(subject?.subjectCode)} borderWidth={0} fontSize='sm' borderRadius={8}>
-                                                                    <Text>{subject?.subjectCode}</Text>
-                                                                </MenuItem>
-                                                            ))
-                                                        }
-                                                        {
-                                                            subjectsAvailable.length === 0 &&
-                                                            <MenuItem borderWidth={0} fontSize='sm' borderRadius={8}>
-                                                                <Text>You haven't joined any subject.</Text>
+                                    <Flex
+                                        flex={1}
+                                        flexDirection='column'
+                                        rowGap={1}
+                                    >
+                                        <Flex columnGap={3} width='100%' flexDirection='row' alignItems='center'>
+                                            <Menu>
+                                                <MenuButton width='180px' iconSpacing={2} as={Button} paddingY={1} paddingX={2} height='fit-content' rightIcon={<FaChevronDown size={12} />}>
+                                                    <Text textAlign='left' fontSize='sm'>{postData?.subjectCode ? postData?.subjectCode : 'Subject'}</Text>
+                                                </MenuButton>
+                                                <MenuList
+                                                    padding={1}
+                                                    borderRadius={12}
+                                                    boxShadow='xl'
+                                                    minWidth='fit-content'
+                                                >
+                                                    {
+                                                        subjectsAvailable.map((subject) => (
+                                                            <MenuItem onClick={() => handleSubjectCode(subject?.subjectCode)} borderWidth={0} fontSize='sm' borderRadius={8}>
+                                                                <Text>{subject?.subjectCode}</Text>
                                                             </MenuItem>
-                                                        }
-                                                    </MenuList>
-                                                </Menu>
-                                                <Text cursor='default'>/</Text>
-                                                <Input value={postData.title} onChange={(e) => handleTitle(e.target.value)} padding={1} color={color} _placeholder={{ color: placeholderColor }} height={22} borderWidth={0} _focus={{ borderWidth: 0, boxShadow: 'none' }} outline='none' fontWeight='semibold' textAlign='left' placeholder='Post title' />
-                                            </Flex>
+                                                        ))
+                                                    }
+                                                    {
+                                                        subjectsAvailable.length === 0 &&
+                                                        <MenuItem borderWidth={0} fontSize='sm' borderRadius={8}>
+                                                            <Text>You haven't joined any subject.</Text>
+                                                        </MenuItem>
+                                                    }
+                                                </MenuList>
+                                            </Menu>
+                                            <Text cursor='default'>/</Text>
+                                            <Input value={postData.title} onChange={(e) => handleTitle(e.target.value)} padding={1} color={color} _placeholder={{ color: placeholderColor }} height={22} borderWidth={0} _focus={{ borderWidth: 0, boxShadow: 'none' }} outline='none' fontWeight='semibold' textAlign='left' placeholder='Post title' />
                                         </Flex>
                                     </Flex>
-                                    <Button
-                                        variant='ghost'
-                                        colorScheme='gray'
-                                        rightIcon={<AiOutlineInfoCircle size={20} />}
-                                        onClick={() => setIsShowGuider(true)}
-                                    >Quick tour</Button>
                                 </Flex>
-                            </CardHeader>
-                            <CardBody >
-                                <Box
-                                    height={240}
-                                    borderRadius={15}
-                                    backgroundColor='#CCCCCC30'
-                                    marginBottom={3}
-                                    position='relative'
+                                <Button
+                                    variant='ghost'
+                                    backgroundColor={btnEditorBg}
+                                    rightIcon={<AiOutlineInfoCircle size={20} />}
+                                    onClick={() => setIsShowGuider(true)}
+                                >Quick tour</Button>
+                            </Flex>
+                        </CardHeader>
+                        <CardBody >
+                            <Box
+                                height={240}
+                                borderRadius={15}
+                                backgroundColor='#CCCCCC30'
+                                marginBottom={3}
+                                position='relative'
+                            >
+                                <input ref={previewImageRef} onChange={handlePickerImage} type='file' accept='image/*' name='avatar' id='avatar_picker' style={{ display: 'none' }} />
+
+                                <Image borderRadius={15} className='after-hide' width='100%' height='100%' objectFit='cover' src={previewImage ? previewImage : PlaceholderImage} />
+                                <Stack
+                                    position='absolute'
+                                    bottom={3}
+                                    right={3}
+                                    onClick={() => previewImageRef.current.click()}
                                 >
-                                    <input ref={previewImageRef} onChange={handlePickerImage} type='file' accept='image/*' name='avatar' id='avatar_picker' style={{ display: 'none' }} />
+                                    <Button display='flex' justifyContent='center' alignItems='center' padding={0} iconSpacing={0} rightIcon={isLoadingImage ? <Spinner /> : <SyncIcon width={18} height={18} color='#1E1E1E' />} borderRadius='full' />
+                                </Stack>
+                            </Box>
 
-                                    <Image borderRadius={15} className='after-hide' width='100%' height='100%' objectFit='cover' src={previewImage ? previewImage : PlaceholderImage} />
-                                    <Stack
-                                        position='absolute'
-                                        bottom={3}
-                                        right={3}
-                                        onClick={() => previewImageRef.current.click()}
+                            <Box marginBottom={3} textAlign='left' className='ignore_lib' fontFamily='monospace'>
+                                {
+                                    tempHtmlContent.map((item, index) => {
+                                        switch (item.tag) {
+                                            case 'h1':
+                                            case 'h2':
+                                            case 'h3':
+                                            case 'h4':
+                                            case 'h5':
+                                            case 'h6':
+                                                return (
+                                                    <Flex
+                                                        flexDirection='row'
+                                                        columnGap={1}
+                                                        marginBottom={1}
+                                                        justifyContent='flex-start'
+                                                        alignItems='center'
+                                                        cursor='pointer'
+                                                    >
+                                                        <Button
+                                                            onClick={() => {
+                                                                setSelectedIndex(index)
+                                                            }}
+                                                            leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                        <Button isDisabled={selectedIndex !== index} onClick={() => {
+                                                            handleUpdateHtmlContent(index, textareaValue);
+                                                        }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                        {
+                                                            selectedIndex !== index ?
+                                                                React.createElement(item.tag, { key: index }, item.content) :
+                                                                // put style to item in object to map style
+                                                                <Textarea flex={1} padding={2} borderWidth={0} outline='none' boxShadow='none' _hover={{ outline: 'none', boxShadow: 'none', borderWidth: 0 }} backgroundColor={selectedIndex === index ? '#00000010' : 'transparent'} ref={textareaRef} onChange={(e) => setTextAreaValue(e.target.value)} marginY={0} style={item.style} fontFamily='monospace' overflowY='auto' value={textareaValue} />
+                                                        }
+                                                    </Flex>
+                                                );
+                                            case 'p':
+                                                return (
+                                                    <Flex
+                                                        flexDirection='row'
+                                                        columnGap={1}
+                                                        marginBottom={1}
+                                                        justifyContent='flex-start'
+                                                        alignItems='flex-start'
+                                                        cursor='pointer'
+                                                    >
+                                                        <Button
+                                                            onClick={() => {
+                                                                setTextAreaValue(item.content)
+                                                                setSelectedIndex(index)
+                                                            }}
+                                                            leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                        <Button isDisabled={selectedIndex !== index} onClick={() => {
+                                                            handleUpdateHtmlContent(index, textareaValue);
+                                                        }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                        {
+                                                            selectedIndex !== index ?
+                                                                <p style={{ width: 'fit-content' }} key={index}>{item.content}</p> :
+                                                                <Textarea flex={1} padding={2} borderWidth={0} outline='none' boxShadow='none' _hover={{ outline: 'none', boxShadow: 'none', borderWidth: 0 }} backgroundColor={selectedIndex === index ? '#00000010' : 'transparent'} ref={textareaRef} onChange={(e) => setTextAreaValue(e.target.value)} marginY={0} style={item.style} fontFamily='monospace' overflowY='auto' value={textareaValue} />
+                                                        }
+                                                    </Flex>
+                                                );
+                                            case 'i':
+                                                return (
+                                                    <Flex
+                                                        flexDirection='row'
+                                                        columnGap={1}
+                                                        marginBottom={1}
+                                                        justifyContent='flex-start'
+                                                        alignItems='flex-start'
+                                                        cursor='pointer'
+                                                    >
+                                                        <Button
+                                                            onClick={() => {
+                                                                setTextAreaValue(item.content)
+                                                                setSelectedIndex(index)
+                                                            }}
+                                                            leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                        <Button isDisabled={selectedIndex !== index} onClick={() => {
+                                                            handleUpdateHtmlContent(index, textareaValue);
+                                                        }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                        {
+                                                            selectedIndex !== index ?
+                                                                <i style={{ width: 'fit-content' }} key={index}>{item.content}</i> :
+                                                                <Textarea flex={1} padding={2} borderWidth={0} outline='none' boxShadow='none' _hover={{ outline: 'none', boxShadow: 'none', borderWidth: 0 }} backgroundColor={selectedIndex === index ? '#00000010' : 'transparent'} marginY={0} style={item.style} fontFamily='monospace' overflowY='auto' value={textareaValue} />
+                                                        }
+                                                    </Flex>
+                                                );
+                                            case 'u':
+                                                return (
+                                                    <Flex
+                                                        flexDirection='row'
+                                                        columnGap={1}
+                                                        marginBottom={1}
+                                                        justifyContent='flex-start'
+                                                        alignItems='flex-start'
+                                                        cursor='pointer'
+                                                    >
+                                                        <Button
+                                                            onClick={() => {
+                                                                setTextAreaValue(item.content)
+                                                                setSelectedIndex(index)
+                                                            }}
+                                                            leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                        <Button isDisabled={selectedIndex !== index} onClick={() => {
+                                                            handleUpdateHtmlContent(index, textareaValue);
+                                                        }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                        {
+                                                            selectedIndex !== index ?
+                                                                <u style={{ width: 'fit-content' }} key={index}>{item.content}</u> :
+                                                                <Textarea flex={1} padding={2} borderWidth={0} outline='none' boxShadow='none' _hover={{ outline: 'none', boxShadow: 'none', borderWidth: 0 }} backgroundColor={selectedIndex === index ? '#00000010' : 'transparent'} marginY={0} style={item.style} fontFamily='monospace' overflowY='auto' value={textareaValue} />
+                                                        }
+                                                    </Flex>
+                                                );
+                                            case 'b':
+                                                return (
+                                                    <Flex
+                                                        flexDirection='row'
+                                                        columnGap={1}
+                                                        marginBottom={1}
+                                                        justifyContent='flex-start'
+                                                        alignItems='flex-start'
+                                                        cursor='pointer'
+                                                    >
+                                                        <Button
+                                                            onClick={() => {
+                                                                setTextAreaValue(item.content)
+                                                                setSelectedIndex(index)
+                                                            }}
+                                                            leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                        <Button isDisabled={selectedIndex !== index} onClick={() => {
+                                                            handleUpdateHtmlContent(index, textareaValue);
+                                                        }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
+                                                        {
+                                                            selectedIndex !== index ?
+                                                                <b style={{ width: 'fit-content' }} key={index}>{item.content}</b> :
+                                                                <Textarea flex={1} padding={2} borderWidth={0} outline='none' boxShadow='none' _hover={{ outline: 'none', boxShadow: 'none', borderWidth: 0 }} backgroundColor={selectedIndex === index ? '#00000010' : 'transparent'} marginY={0} style={item.style} fontFamily='monospace' overflowY='auto' value={textareaValue} />
+                                                        }
+                                                    </Flex>
+                                                );
+                                            default:
+                                                return null;
+                                        }
+                                    })
+                                }
+                            </Box>
+
+                            <Box id='text-editor'>
+                                <Flex id='text-field__tool-bar' marginTop={3} flexDirection='row' justifyContent='space-between' alignItems='flex-start'>
+                                    <Text textAlign='left' lineHeight='40px' height='40px' width='100px' margin={0} fontWeight='semibold' fontSize='sm'>{'>'} {currentVariant}</Text>
+                                    <Flex
+                                        flexDirection='row'
+                                        justifyContent='flex-end'
+                                        columnGap={1}
+                                        marginBottom='5px'
+                                        flexWrap='wrap'
+                                        rowGap='5px'
                                     >
-                                        <Button display='flex' justifyContent='center' alignItems='center' padding={0} iconSpacing={0} rightIcon={isLoadingImage ? <Spinner /> : <SyncIcon width={18} height={18} color='#1E1E1E' />} borderRadius='full' />
-                                    </Stack>
-                                </Box>
+                                        <Button onClick={() => resetPostData()} width='40px' padding={0} height='40px' borderRadius='10px' iconSpacing={0} backgroundColor='red.500' _hover={{ backgroundColor: 'red.600', color: '#FFF' }} color='#FFF'>
+                                            <ListX size={20} color='#FFF' />
+                                        </Button>
+                                        <Button id='text-field__ai' padding={0} onClick={() => setIsShowAI(!isShowAI)} width='40px' height='40px' borderRadius='10px' iconSpacing={0} opacity={isShowAI ? 1 : 0.5}>
+                                            <Image src={ClaudeIcon} width='40px' height='40px' borderRadius='10px' />
+                                        </Button>
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h1' ? 'p' : 'h1')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h1' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading1 size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h2' ? 'p' : 'h2')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h2' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading2 size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h3' ? 'p' : 'h3')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h3' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading3 size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h4' ? 'p' : 'h4')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h4' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading4 size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h5' ? 'p' : 'h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h5' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading5 size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'h6' ? 'p' : 'h6')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h6' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading6 size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'bold' ? 'p' : 'bold')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'bold' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Bold size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'italic' ? 'p' : 'italic')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'italic' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Italic size={18} />} />
+                                        <Button onClick={() => setCurrentVariant(currentVariant === 'underline' ? 'p' : 'underline')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'underline' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Underline size={18} />} />
+                                    </Flex>
+                                </Flex>
 
-                                <Box marginBottom={3} textAlign='left' className='ignore_lib' fontFamily='monospace'>
-                                    {
-                                        tempHtmlContent.map((item, index) => {
-                                            switch (item.tag) {
-                                                case 'h1':
-                                                case 'h2':
-                                                case 'h3':
-                                                case 'h4':
-                                                case 'h5':
-                                                case 'h6':
-                                                    return (
-                                                        <Flex
-                                                            flexDirection='row'
-                                                            columnGap={1}
-                                                            marginBottom={1}
-                                                            justifyContent='flex-start'
-                                                            alignItems='center'
-                                                            cursor='pointer'
-                                                        >
-                                                            <Button
-                                                                onClick={() => {
-                                                                    setSelectedIndex(index)
-                                                                }}
-                                                                leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
-                                                            <Button isDisabled={selectedIndex !== index} onClick={() => {
-                                                                handleUpdateHtmlContent(index, textareaValue);
-                                                            }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
-                                                            {
-                                                                selectedIndex !== index ?
-                                                                    React.createElement(item.tag, { key: index }, item.content) :
-                                                                    // put style to item in object to map style
-                                                                    <Textarea flex={1} padding={2} borderWidth={0} outline='none' boxShadow='none' _hover={{ outline: 'none', boxShadow: 'none', borderWidth: 0 }} backgroundColor={selectedIndex === index ? '#00000010' : 'transparent'} ref={textareaRef} onChange={(e) => setTextAreaValue(e.target.value)} marginY={0} style={item.style} fontFamily='monospace' overflowY='auto' value={textareaValue} />
-                                                            }
-                                                        </Flex>
-                                                    );
-                                                case 'p':
-                                                    return (
-                                                        <Flex
-                                                            flexDirection='row'
-                                                            columnGap={1}
-                                                            marginBottom={1}
-                                                            justifyContent='flex-start'
-                                                            alignItems='flex-start'
-                                                            cursor='pointer'
-                                                        >
-                                                            <Button
-                                                                onClick={() => {
-                                                                    setTextAreaValue(item.content)
-                                                                    setSelectedIndex(index)
-                                                                }}
-                                                                leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
-                                                            <Button isDisabled={selectedIndex !== index} onClick={() => {
-                                                                handleUpdateHtmlContent(index, textareaValue);
-                                                            }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
-                                                            {
-                                                                selectedIndex !== index ?
-                                                                    <p style={{ width: 'fit-content' }} key={index}>{item.content}</p> :
-                                                                    <Textarea flex={1} padding={2} borderWidth={0} outline='none' boxShadow='none' _hover={{ outline: 'none', boxShadow: 'none', borderWidth: 0 }} backgroundColor={selectedIndex === index ? '#00000010' : 'transparent'} ref={textareaRef} onChange={(e) => setTextAreaValue(e.target.value)} marginY={0} style={item.style} fontFamily='monospace' overflowY='auto' value={textareaValue} />
-                                                            }
-                                                        </Flex>
-                                                    );
-                                                case 'i':
-                                                    return (
-                                                        <Flex
-                                                            flexDirection='row'
-                                                            columnGap={1}
-                                                            marginBottom={1}
-                                                            justifyContent='flex-start'
-                                                            alignItems='flex-start'
-                                                            cursor='pointer'
-                                                        >
-                                                            <Button
-                                                                onClick={() => {
-                                                                    setTextAreaValue(item.content)
-                                                                    setSelectedIndex(index)
-                                                                }}
-                                                                leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
-                                                            <Button isDisabled={selectedIndex !== index} onClick={() => {
-                                                                handleUpdateHtmlContent(index, textareaValue);
-                                                            }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
-                                                            {
-                                                                selectedIndex !== index ?
-                                                                    <i style={{ width: 'fit-content' }} key={index}>{item.content}</i> :
-                                                                    <Textarea flex={1} padding={2} borderWidth={0} outline='none' boxShadow='none' _hover={{ outline: 'none', boxShadow: 'none', borderWidth: 0 }} backgroundColor={selectedIndex === index ? '#00000010' : 'transparent'} marginY={0} style={item.style} fontFamily='monospace' overflowY='auto' value={textareaValue} />
-                                                            }
-                                                        </Flex>
-                                                    );
-                                                case 'u':
-                                                    return (
-                                                        <Flex
-                                                            flexDirection='row'
-                                                            columnGap={1}
-                                                            marginBottom={1}
-                                                            justifyContent='flex-start'
-                                                            alignItems='flex-start'
-                                                            cursor='pointer'
-                                                        >
-                                                            <Button
-                                                                onClick={() => {
-                                                                    setTextAreaValue(item.content)
-                                                                    setSelectedIndex(index)
-                                                                }}
-                                                                leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
-                                                            <Button isDisabled={selectedIndex !== index} onClick={() => {
-                                                                handleUpdateHtmlContent(index, textareaValue);
-                                                            }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
-                                                            {
-                                                                selectedIndex !== index ?
-                                                                    <u style={{ width: 'fit-content' }} key={index}>{item.content}</u> :
-                                                                    <Textarea flex={1} padding={2} borderWidth={0} outline='none' boxShadow='none' _hover={{ outline: 'none', boxShadow: 'none', borderWidth: 0 }} backgroundColor={selectedIndex === index ? '#00000010' : 'transparent'} marginY={0} style={item.style} fontFamily='monospace' overflowY='auto' value={textareaValue} />
-                                                            }
-                                                        </Flex>
-                                                    );
-                                                case 'b':
-                                                    return (
-                                                        <Flex
-                                                            flexDirection='row'
-                                                            columnGap={1}
-                                                            marginBottom={1}
-                                                            justifyContent='flex-start'
-                                                            alignItems='flex-start'
-                                                            cursor='pointer'
-                                                        >
-                                                            <Button
-                                                                onClick={() => {
-                                                                    setTextAreaValue(item.content)
-                                                                    setSelectedIndex(index)
-                                                                }}
-                                                                leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
-                                                            <Button isDisabled={selectedIndex !== index} onClick={() => {
-                                                                handleUpdateHtmlContent(index, textareaValue);
-                                                            }} leftIcon={<CheckCheck size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
-                                                            {
-                                                                selectedIndex !== index ?
-                                                                    <b style={{ width: 'fit-content' }} key={index}>{item.content}</b> :
-                                                                    <Textarea flex={1} padding={2} borderWidth={0} outline='none' boxShadow='none' _hover={{ outline: 'none', boxShadow: 'none', borderWidth: 0 }} backgroundColor={selectedIndex === index ? '#00000010' : 'transparent'} marginY={0} style={item.style} fontFamily='monospace' overflowY='auto' value={textareaValue} />
-                                                            }
-                                                        </Flex>
-                                                    );
-                                                default:
-                                                    return null;
-                                            }
-                                        })
-                                    }
-                                </Box>
-
-                                <Box id='text-editor'>
-                                    <Flex id='text-field__tool-bar' marginTop={3} flexDirection='row' justifyContent='space-between' alignItems='flex-start'>
-                                        <Text textAlign='left' lineHeight='40px' height='40px' width='100px' margin={0} fontWeight='semibold' fontSize='sm'>{'>'} {currentVariant}</Text>
+                                {
+                                    isShowAI &&
+                                    <>
                                         <Flex
                                             flexDirection='row'
-                                            justifyContent='flex-end'
                                             columnGap={1}
-                                            marginBottom='5px'
-                                            flexWrap='wrap'
-                                            rowGap='5px'
+                                            alignItems='center'
                                         >
-                                            <Button onClick={() => resetPostData()} width='40px' padding={0} height='40px' borderRadius='10px' iconSpacing={0} backgroundColor='red.500' _hover={{ backgroundColor: 'red.600', color: '#FFF' }} color='#FFF'>
-                                                <ListX size={20} color='#FFF' />
-                                            </Button>
-                                            <Button id='text-field__ai' padding={0} onClick={() => setIsShowAI(!isShowAI)} width='40px' height='40px' borderRadius='10px' iconSpacing={0} opacity={isShowAI ? 1 : 0.5}>
-                                                <Image src={ClaudeIcon} width='40px' height='40px' borderRadius='10px' />
-                                            </Button>
-                                            <Button onClick={() => setCurrentVariant(currentVariant === 'h1' ? 'p' : 'h1')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h1' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading1 size={18} />} />
-                                            <Button onClick={() => setCurrentVariant(currentVariant === 'h2' ? 'p' : 'h2')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h2' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading2 size={18} />} />
-                                            <Button onClick={() => setCurrentVariant(currentVariant === 'h3' ? 'p' : 'h3')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h3' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading3 size={18} />} />
-                                            <Button onClick={() => setCurrentVariant(currentVariant === 'h4' ? 'p' : 'h4')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h4' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading4 size={18} />} />
-                                            <Button onClick={() => setCurrentVariant(currentVariant === 'h5' ? 'p' : 'h5')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h5' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading5 size={18} />} />
-                                            <Button onClick={() => setCurrentVariant(currentVariant === 'h6' ? 'p' : 'h6')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'h6' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Heading6 size={18} />} />
-                                            <Button onClick={() => setCurrentVariant(currentVariant === 'bold' ? 'p' : 'bold')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'bold' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Bold size={18} />} />
-                                            <Button onClick={() => setCurrentVariant(currentVariant === 'italic' ? 'p' : 'italic')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'italic' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Italic size={18} />} />
-                                            <Button onClick={() => setCurrentVariant(currentVariant === 'underline' ? 'p' : 'underline')} width='40px' height='40px' borderRadius='10px' iconSpacing={0} backgroundColor={currentVariant === 'underline' ? btnEditorBg : btnEditorText} _hover={{ backgroundColor: btnEditorBg }} leftIcon={<Underline size={18} />} />
-                                        </Flex>
-                                    </Flex>
-
-                                    {
-                                        isShowAI &&
-                                        <>
-                                            <Flex
-                                                flexDirection='row'
-                                                columnGap={1}
-                                                alignItems='center'
-                                            >
-                                                <Input
-                                                    _focus={{
-                                                        boxShadow: 'none',
-                                                        borderWidth: 0
-                                                    }}
-                                                    backgroundColor='#CA987730'
-                                                    color={claudeText}
-                                                    _placeholder={{
-                                                        color: claudeText
-                                                    }}
-                                                    borderWidth={0}
-                                                    onKeyDown={(e) => {
-                                                        if (e.key === 'Enter') {
-                                                            handleAIChat();
-                                                        }
-                                                    }} onChange={(e) => setChatString(e.target.value)} value={chatString} marginY={1} borderRadius={15} placeholder='Chat with AI' fontSize='small' />
-                                                <Stack cursor='pointer' backgroundColor='#CA9877' _hover={{
-                                                    backgroundColor: '#CA9877'
-                                                }} justifyContent='center' alignItems='center' borderRadius={10} width='40px' height='40px' onClick={onCopy}>
-                                                    {
-                                                        loadingResult ?
-                                                            <Spinner /> :
-                                                            <BiMailSend onClick={handleAIChat} color='#000' />
+                                            <Input
+                                                _focus={{
+                                                    boxShadow: 'none',
+                                                    borderWidth: 0
+                                                }}
+                                                backgroundColor='#CA987730'
+                                                color={claudeText}
+                                                _placeholder={{
+                                                    color: claudeText
+                                                }}
+                                                borderWidth={0}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') {
+                                                        handleAIChat();
                                                     }
-                                                </Stack>
-                                            </Flex>
-                                            <Textarea lineHeight='15px' backgroundColor='#CA987730' minHeight={240} borderWidth={0} marginBottom={3} fontFamily='monospace' fontSize='small' borderRadius={10} size='sm' color={claudeText} value={`${chatResult}`} isReadOnly />
-                                        </>
-                                    }
+                                                }} onChange={(e) => setChatString(e.target.value)} value={chatString} marginY={1} borderRadius={15} placeholder='Chat with AI' fontSize='small' />
+                                            <Stack cursor='pointer' backgroundColor='#CA9877' _hover={{
+                                                backgroundColor: '#CA9877'
+                                            }} justifyContent='center' alignItems='center' borderRadius={10} width='40px' height='40px' onClick={onCopy}>
+                                                {
+                                                    loadingResult ?
+                                                        <Spinner /> :
+                                                        <BiMailSend onClick={handleAIChat} color='#000' />
+                                                }
+                                            </Stack>
+                                        </Flex>
+                                        <Textarea lineHeight='15px' backgroundColor='#CA987730' minHeight={240} borderWidth={0} marginBottom={3} fontFamily='monospace' fontSize='small' borderRadius={10} size='sm' color={claudeText} value={`${chatResult}`} isReadOnly />
+                                    </>
+                                }
 
-                                    <Textarea id='text-field__content' fontSize='small' fontWeight='medium' fontFamily='monospace' value={inputValue}
-                                        onChange={(e) => setInputValue(e.target.value)}
-                                        onKeyDown={handleKeyDown} noOfLines={2} overflowY='scroll' placeholder='Content of your post here...' />
-                                    <Text fontSize='small' textAlign='right'>*Hit enter to add this content to document.</Text>
-                                </Box>
-                            </CardBody>
+                                <Textarea id='text-field__content' fontSize='small' fontWeight='medium' fontFamily='monospace' value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    onKeyDown={handleKeyDown} noOfLines={2} overflowY='scroll' placeholder='Content of your post here...' />
+                                <Text fontSize='small' textAlign='right'>*Hit enter to add this content to document.</Text>
+                            </Box>
+                        </CardBody>
 
-                            <CardFooter
-                                justifyContent='flex-end'
-                                flexWrap='wrap'
-                                columnGap={3}
-                                sx={{
-                                    '& > button': {
-                                        minW: '72px',
-                                    },
-                                }}
-                            >
-                                <Button onClick={() => handleCreatePost('draft')} borderRadius={15}>Draft</Button>
-                                <Button onClick={() => handleCreatePost('pending')} borderRadius={15} backgroundColor='#FF8F46' _hover={{ backgroundColor: '#E86C1C' }} color='white'>Publish</Button>
-                            </CardFooter>
-                        </Card>
+                        <CardFooter
+                            justifyContent='flex-end'
+                            flexWrap='wrap'
+                            columnGap={3}
+                            sx={{
+                                '& > button': {
+                                    minW: '72px',
+                                },
+                            }}
+                        >
+                            <Button onClick={() => handleCreatePost('draft')} borderRadius={15}>Draft</Button>
+                            <Button onClick={() => handleCreatePost(user?.role === 'Lecture' ? 'published' : 'pending')} borderRadius={15} backgroundColor='#FF8F46' _hover={{ backgroundColor: '#E86C1C' }} color='white'>Publish</Button>
+                        </CardFooter>
+                    </Card>
 
-                        <Modal closeOnOverlayClick={false} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
-                            <ModalOverlay />
-                            <ModalContent
-                                borderRadius={20}
-                            >
-                                <ModalHeader>Message</ModalHeader>
-                                <ModalCloseButton />
-                                <ModalBody>
-                                    <Text fontWeight='semibold' fontSize='sm'>{alertMessage}</Text>
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button borderRadius={15} width='100px' colorScheme='red' onClick={handleCloseMessage}>
-                                        Close
-                                    </Button>
-                                </ModalFooter>
-                            </ModalContent>
-                        </Modal>
-                    </>
-                    // :
-                    // <Spinner />
+                    <Modal closeOnOverlayClick={false} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
+                        <ModalOverlay />
+                        <ModalContent
+                            borderRadius={20}
+                        >
+                            <ModalHeader>Message</ModalHeader>
+                            <ModalCloseButton />
+                            <ModalBody>
+                                <Text fontWeight='semibold' fontSize='sm'>{alertMessage}</Text>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button borderRadius={15} width='100px' colorScheme='red' onClick={handleCloseMessage}>
+                                    Close
+                                </Button>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
+                </>
+                // :
+                // <Spinner />
             }
         </>
     );
