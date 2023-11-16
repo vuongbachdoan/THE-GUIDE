@@ -8,6 +8,7 @@ import { generateChatKey } from '../../../core/services/chat';
 
 export const LivestreamChat = () => {
     const bg = useColorModeValue('gray.100', 'gray.800')
+    const chatboxBg = useColorModeValue('#FFF', 'gray.900')
     const [room, setRoom] = React.useState(null);
     const [message, setMessage] = React.useState('');
     const user = useSelector((state) => state.profileData.data);
@@ -96,6 +97,7 @@ export const LivestreamChat = () => {
                     <Flex flexDirection='row' columnGap={3} height='100px' alignItems='center' margin={3}>
                         <Input
                             fontSize='small'
+                            backgroundColor={chatboxBg}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
                                     handleSendMessage()
