@@ -44,7 +44,7 @@ export const LivestreamViewerJoin = () => {
         <>
             {
                 isJoin ?
-                    <Flex width='100%' justifyContent='center' rowGap={30}>
+                    <Flex flexDirection='column' width='100%' justifyContent='center' rowGap={30}>
                         <div ref={divEl}>
                             <video
                                 id="video-player"

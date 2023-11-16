@@ -7,7 +7,7 @@ import { convertTimestamp } from '../../../helper/convertTimestamp';
 import { generateChatKey } from '../../../core/services/chat';
 
 export const LivestreamChat = () => {
-    const bg = useColorModeValue('gray.200', 'gray.800')
+    const bg = useColorModeValue('gray.100', 'gray.800')
     const [room, setRoom] = React.useState(null);
     const [message, setMessage] = React.useState('');
     const user = useSelector((state) => state.profileData.data);
