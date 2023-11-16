@@ -246,7 +246,6 @@ export const Livestream = () => {
                             <Flex
                                 flexDirection='row'
                                 width='100%'
-                                columnGap={15}
                                 height='100vh'
                             >
                                 <Flex
@@ -266,6 +265,7 @@ export const Livestream = () => {
                                         flexDirection='column'
                                         height='110px'
                                         justifyContent='space-between'
+                                        marginX={3}
                                     >
                                         {
                                             joiningStatus === 'NONE' &&
