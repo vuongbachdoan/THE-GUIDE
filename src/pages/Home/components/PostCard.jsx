@@ -217,9 +217,10 @@ export const PostCard = ({ postId }) => {
                                     <Text fontSize='small' marginRight={3} fontWeight='normal' color='gray.500'>{postData?.commentIds?.length !== 0 ? postData?.commentIds?.length : '_'}</Text>
                                 </Button>
                                 <FacebookShareButton url={`https://www.docs.rapify-cloud.com/posts/detail/${postData?.subjectCode}`}>
-                                    {shareCount => (
+                                    {/* {shareCount => (
                                         <Button width='72px' iconSpacing={0} flex='1' variant='ghost' borderRadius={10} padding={1} columnGap={0} leftIcon={<ShareIcon width={20} height={20} />}>{shareCount}</Button>
-                                    )}
+                                    )} */}
+                                    <ShareIcon width={20} height={20} />
                                 </FacebookShareButton>
                             </Flex>
                             <Flex flexDirection='row' alignItems='center' padding={1} columnGap={2}>
