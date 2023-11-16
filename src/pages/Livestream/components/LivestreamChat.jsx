@@ -1,6 +1,6 @@
 import { ChatRoom } from 'amazon-ivs-chat-messaging';
 import React from 'react';
-import { Avatar, Button, Flex, Heading, Input, Text, useColorModeValue } from '@chakra-ui/react';
+import { Avatar, Button, Flex, Heading, Input, Spinner, Text, useColorModeValue } from '@chakra-ui/react';
 import { BiMailSend } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import { convertTimestamp } from '../../../helper/convertTimestamp';
@@ -11,6 +11,7 @@ export const LivestreamChat = () => {
     const [message, setMessage] = React.useState('');
     const user = useSelector((state) => state.profileData.data);
     const [messages, setMessages] = React.useState([]);
+    const [isSending, setIsSending] = React.useState(false);
 
     const tokenProvider = async () => {
         const data = {
@@ -55,17 +56,20 @@ export const LivestreamChat = () => {
 
             room.addListener('message', (message) => {
                 setMessages(prev => [...prev, message]);
+                setIsSending(false);
             });
         }
     }, [user]);
 
     const handleSendMessage = () => {
+        setIsSending(true);
         const payload = {
             "action": "SEND_MESSAGE",
             "requestId": user?.id,
             "content": message
         }
         room.sendMessage(payload);
+        setMessage('');
     }
 
     return (
@@ -87,6 +91,7 @@ export const LivestreamChat = () => {
                 user &&
                 <Flex flexDirection='row' columnGap={3} height='100px' alignItems='center' margin={3}>
                     <Input
+                        fontSize='small'
                         onKeyDown={(e) => {
                             if (e.key === 'Enter') {
                                 handleSendMessage()
@@ -96,7 +101,7 @@ export const LivestreamChat = () => {
                         backgroundColor='#FF8F46'
                         _hover={{ backgroundColor: '#FF8F46' }}
                         borderRadius={10}
-                        leftIcon={<BiMailSend />}
+                        leftIcon={isSending ? <Spinner /> : <BiMailSend />}
                         iconSpacing={0}
                         onClick={handleSendMessage}
                         cursor='pointer'
@@ -117,9 +122,9 @@ const ChatMessage = ({ data }) => {
             <Flex flex={1} paddingX={2} paddingY={1} backgroundColor={chatBg} borderRadius={10} flexDirection='column' alignItems='flex-start'>
                 <Flex flexDirection='row' justifyContent='space-between' columnGap={3}>
                     <Text color={chatText} fontSize='x-small' fontWeight='semibold'>{data?.sender?.attributes?.username}</Text>
-                    <Text color={chatText} textAlign='left' fontSize='x-small' fontWeight='normal'>{convertTimestamp(data?.sendTime)}</Text>
+                    <Text color={chatText} textAlign='left' fontSize='x-small' fontWeight='normal' textColor='gray.500'>{convertTimestamp(data?.sendTime)}</Text>
                 </Flex>
-                <Text color={chatText} textAlign='left' fontSize='x-small' fontWeight='medium'>{data?.content}</Text>
+                <Text color={chatText} textAlign='left' fontSize='x-small' fontWeight='normal'>Chat: {data?.content}</Text>
             </Flex>
         </Flex>
     );
