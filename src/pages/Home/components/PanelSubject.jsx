@@ -278,7 +278,7 @@ export const PanelSubject = () => {
                                         alignItems='center'
                                     >
                                         <LinkIcon width={18} height={18} />
-                                        <Text fontSize='x-small' color='gray.500'>Nguyen Thi Thuy Dung and 500 others</Text>
+                                        <Text fontSize='x-small' color='gray.500'>Nguyen Thi Thuy {subject?.studentIds?.length} other student joined</Text>
                                     </Flex>
                                 </Box>
                             </Flex>
@@ -308,7 +308,7 @@ export const PanelSubject = () => {
                                         alignItems='center'
                                     >
                                         <LinkIcon width={18} height={18} />
-                                        <Text fontSize='x-small' color='gray.500'>Nguyen Thi Thuy Dung and 500 others</Text>
+                                        <Text fontSize='x-small' color='gray.500'>Nguyen Thi Thuy {subject?.studentIds?.length} other student joined</Text>
                                     </Flex>
                                 </Box>
                             </Flex>
@@ -369,7 +369,7 @@ export const PanelSubject = () => {
                                                 alignItems='center'
                                             >
                                                 <LinkIcon width={18} height={18} />
-                                                <Text textAlign='center' fontSize='x-small' color='gray.500'>Dung and 500 others</Text>
+                                                <Text textAlign='center' fontSize='x-small' color='gray.500'>{subject?.studentIds?.length} other student joined</Text>
                                             </Flex>
                                             <Link to={`detail/${subject?.subjectCode}`}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Go to subject</Text></Link>
                                         </Flex>
@@ -427,7 +427,7 @@ export const PanelSubject = () => {
                                                 alignItems='center'
                                             >
                                                 <LinkIcon width={18} height={18} />
-                                                <Text textAlign='center' fontSize='x-small' color='gray.500'>Dung and 500 others</Text>
+                                                <Text textAlign='center' fontSize='x-small' color='gray.500'>{subject?.studentIds?.length} other student joined</Text>
                                             </Flex>
                                             <Link onClick={() => handleJoinSubject(subject)}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Join</Text></Link>
                                         </Flex>

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCommentData } from '../../../core/store/comments/commentsExpanding';
 import { mappingNotification } from '../../../helper/mappingNotification';
 import { useParams } from 'react-router-dom';
+import { FacebookShareButton } from 'react-share';
 const { HeartIcon, CommentIcon, ShareIcon, EyeIcon, ExpandIcon, HappyIcon, SendIcon, ATIcon } = icons;
 
 /**
