@@ -52,7 +52,6 @@ export const LivestreamViewerJoin = () => {
                                 playsInline
                                 autoPlay
                                 height='calc(100vh - 110px)'
-                                muted
                             />
                         </div>
                         <Text textAlign='center' width='100%' fontSize='x-small'>If you don't see anything, please wait a while before host start the room.</Text>
