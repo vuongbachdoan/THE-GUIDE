@@ -2,11 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Flex, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import { InformationIcon } from '../../../assets/icons/InformationIcon';
-import Subject1 from '../../../assets/images/subject1.png';
 import { getSubjects, joinSubject } from '../../../core/services/subject';
 import { useSelector } from 'react-redux';
 import { updateUser } from '../../../core/services/user';
 import { filterMostJoinedSubject } from '../../../helper/filterMostJoinedSubject';
+import EventPoster from '../../../assets/images/event_poster.png';
 
 import icons from '../../../assets/icons';
 const { PlusIcon, AddPostIcon } = icons;
@@ -96,48 +96,29 @@ export const SubjectsPanel = () => {
                 display={{ base: 'none', lg: 'flex' }}
                 ref={finalRef}
             >
-
-                <Box
-                    width={285}
-                    bg={bg}
-                    borderRadius={20}
-                    paddingTop={15}
-                    paddingX={30}
-                    paddingBottom={30}
-                >
-                    <Flex
-                        flexDirection='row'
-                        alignItems='center'
-                        justifyContent='space-between'
-                        fontSize='xl'
-                        fontWeight='semibold'
-                    >
-                        <Text fontSize='xl' fontWeight='semibold' marginBlock={3}>Trending</Text>
-                        <Box
-                            onClick={() => navigate('/create-post',)}
-                            cursor='pointer'
-                        >
-                            <AddPostIcon width={40} height={40} />
-                        </Box>
-                    </Flex>
-
-                    <Flex
-                        flexDirection='column'
-                        rowGap={3}
-                        marginTop={3}
+                {
+                    true &&
+                    <Box
+                        width={285}
+                        bg={bg}
+                        borderRadius={20}
+                        paddingTop={15}
+                        paddingX={30}
+                        paddingBottom={30}
                     >
                         <Flex
-                            flexDirection='row'
-                            columnGap={3}
+                            flexDirection='column'
+                            justifyContent='center'
+                            alignItems='center'
+                            rowGap={3}
                         >
-                            <Image src={Subject1} width={50} height={50} borderRadius={8} />
-                            <Box>
-                                <Text textAlign='left' fontSize='md' fontWeight='semibold'>PRJ301</Text>
-                                <Text textAlign='left' fontSize='x-small' color='gray.500' noOfLines={1} textOverflow='ellipsis'>Introduction to web based Java application </Text>
-                            </Box>
+                            <Image objectFit='cover' src={EventPoster} width={100} height={100} borderRadius={8} />
+                            <Text fontWeight='semibold' fontSize='md' color='gray.500' marginBlock={3} textAlign='center'>The Guide event : My Architecture</Text>
+                            <Text fontWeight='semibold' fontSize='xl'>{mostJoinedSubject?.subjectCode}</Text>
+                            <Stack cursor='pointer' onClick={() => navigate('/event')}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Register now</Text></Stack>
                         </Flex>
-                    </Flex>
-                </Box>
+                    </Box>
+                }
 
                 <Box
                     width={285}
@@ -189,30 +170,6 @@ export const SubjectsPanel = () => {
                         }
                     </Flex>
                 </Box>
-
-                {
-                    mostJoinedSubject &&
-                    <Box
-                        width={285}
-                        bg={bg}
-                        borderRadius={20}
-                        paddingTop={15}
-                        paddingX={30}
-                        paddingBottom={30}
-                    >
-                        <Flex
-                            flexDirection='column'
-                            justifyContent='center'
-                            alignItems='center'
-                            rowGap={3}
-                        >
-                            <Image objectFit='cover' src={mostJoinedSubject.thumbnail} width={100} height={100} borderRadius={8} />
-                            <Text fontWeight='semibold' fontSize='md' color='gray.500' marginBlock={3}>Recommend for you</Text>
-                            <Text fontWeight='semibold' fontSize='xl'>{mostJoinedSubject?.subjectCode}</Text>
-                            <Stack cursor='pointer' onClick={() => handleJoinSubject(mostJoinedSubject)}><Text fontSize='md' color='#FF8F46' _hover={{ textDecoration: 'underline' }}>Join</Text></Stack>
-                        </Flex>
-                    </Box>
-                }
             </Flex>
         </>
     );
