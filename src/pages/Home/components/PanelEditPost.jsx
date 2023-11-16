@@ -83,12 +83,13 @@ export const PanelEditPost = () => {
         })
     }
 
-    const handleContent = (val) => {
+    React.useEffect(() => {
+        let htmlContentUpdated = convertObjectsToHTML(tempHtmlContent);
         setPostData({
             ...postData,
-            content: val
+            content: `${htmlContentUpdated}`
         })
-    }
+    }, [tempHtmlContent]);
 
     const handleSubjectCode = (val) => {
         setPostData({

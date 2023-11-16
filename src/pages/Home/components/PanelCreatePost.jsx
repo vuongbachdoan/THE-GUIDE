@@ -177,13 +177,13 @@ export const PanelCreatePost = () => {
         })
     }
 
-    const handleContent = () => {
+    React.useEffect(() => {
         let htmlContentUpdated = convertObjectsToHTML(tempHtmlContent);
         setPostData({
             ...postData,
             content: `${htmlContentUpdated}`
         })
-    }
+    }, [tempHtmlContent]);
 
     const handleSubjectCode = (val) => {
         setPostData({
@@ -227,7 +227,6 @@ export const PanelCreatePost = () => {
             setAlertMessage('Please join a subject before create post!');
             onOpen();
         } else {
-            handleContent();
             const timeCreate = new Date();
             const uniqueId = await createUniqueId(postData.title);
 
