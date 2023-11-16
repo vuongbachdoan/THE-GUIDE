@@ -81,6 +81,7 @@ export const EventView = () => {
                     base: 'none',
                     lg: 'block'
                 }}
+                mx={3}
             >
                 <Image
                     alt={'Hero Image'}
