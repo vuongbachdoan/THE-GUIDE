@@ -47,19 +47,21 @@ export const PanelCreatePost = () => {
             textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
         }
     }, [textareaValue]);
+    React.useEffect(() => {
+        if(tempHtmlContent.length > selectedIndex && selectedIndex >= 0) {
+            setTextAreaValue(tempHtmlContent[selectedIndex].content);
+        }
+    }, [selectedIndex])
     const handleUpdateHtmlContent = (index, val) => {
-        // Check if the index is within the range of the array
         if (index >= 0 && index < tempHtmlContent.length) {
-            // Create a copy of the tempHtmlContent array
             let updatedContent = [...tempHtmlContent];
             if (val === '') {
                 updatedContent.splice(index, 1);
             } else {
-                // Update the content attribute of the object at the specified index
                 updatedContent[index].content = val;
             }
-            // Update the state
             setTempHtmlContent([...updatedContent]);
+            setSelectedIndex(-1);
         } else {
             console.error('Index out of range');
         }
@@ -68,10 +70,11 @@ export const PanelCreatePost = () => {
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             if(inputValue !== '') {
+                console.log(converTextToHTML(inputValue.replace(/\n/g, ''), currentVariant))
                 setTempHtmlContent(
                     [
                         ...tempHtmlContent,
-                        convertHtmlToObject(converTextToHTML(inputValue, currentVariant))[0]
+                        convertHtmlToObject(converTextToHTML(inputValue.replace(/\n/g, ''), currentVariant))[0]
                     ]
                 )
                 setInputValue('');
@@ -366,7 +369,7 @@ export const PanelCreatePost = () => {
     return (
         <>
             {
-                (user && user?.id) ?
+                // (user && user?.id) ?
                     <>
                         <Card
                             borderWidth={0}
@@ -469,7 +472,6 @@ export const PanelCreatePost = () => {
                                                         >
                                                             <Button
                                                                 onClick={() => {
-                                                                    setTextAreaValue(item.content)
                                                                     setSelectedIndex(index)
                                                                 }}
                                                                 leftIcon={<Pencil size='14px' />} iconSpacing={0} width='40px' height='40px' borderRadius='10px' />
@@ -702,8 +704,8 @@ export const PanelCreatePost = () => {
                             </ModalContent>
                         </Modal>
                     </>
-                    :
-                    <Spinner />
+                    // :
+                    // <Spinner />
             }
         </>
     );
