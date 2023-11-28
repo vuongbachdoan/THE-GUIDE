@@ -24,6 +24,7 @@
 
 
 # Architecture
-<img width="466" alt="image" src="https://github.com/vuongbachdoan/THE-GUIDE/assets/110236548/7eeef178-c1d2-4e4c-9c2e-66866e4360fd">
+![image](https://github.com/vuongbachdoan/THE-GUIDE/assets/110236548/15284f3b-2638-41c3-ad38-336a6e267a5b)
+
 
 
