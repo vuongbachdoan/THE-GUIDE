@@ -20,7 +20,7 @@ import axios from 'axios';
  * @returns 
  */
 export const createPost = async (data) => {
-    const response = await axios.post('https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/posts', data, {
+    const response = await axios.post('https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/posts', data, {
         headers: {
             'Content-Type': 'application/json'
         },
@@ -30,7 +30,7 @@ export const createPost = async (data) => {
 }
 
 export const getPosts = async () => {
-    const response = await axios.get('https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/posts', {
+    const response = await axios.get('https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/posts', {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -40,7 +40,7 @@ export const getPosts = async () => {
 }
 
 export const getPost = async (postId) => {
-    const response = await axios.get(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/posts/${postId}`, {
+    const response = await axios.get(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/posts/${postId}`, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -50,7 +50,7 @@ export const getPost = async (postId) => {
 }
 
 export const updatePost = async (postData) => {
-    const response = await axios.patch(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/posts/${postData.id}`, postData, {
+    const response = await axios.patch(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/posts/${postData.id}`, postData, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -60,7 +60,7 @@ export const updatePost = async (postData) => {
 }
 
 export const getMyPosts = async (userId) => {
-    const response = await axios.get(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/users/${userId}/posts`, {
+    const response = await axios.get(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/users/${userId}/posts`, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -70,7 +70,7 @@ export const getMyPosts = async (userId) => {
 }
 
 export const getMyFilteredPosts = async (userId, type) => {
-    const response = await axios.get(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/users/${userId}/posts/filter/${type}`, {
+    const response = await axios.get(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/users/${userId}/posts/filter/${type}`, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -80,7 +80,7 @@ export const getMyFilteredPosts = async (userId, type) => {
 }
 
 export const likePost = async (postId, userId) => {
-    const response = await axios.put(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/posts/${postId}/reaction`, {userId: userId}, {
+    const response = await axios.put(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/posts/${postId}/reaction`, {userId: userId}, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -90,7 +90,7 @@ export const likePost = async (postId, userId) => {
 }
 
 export const searchPosts = async (searchVal) => {
-    const response = await axios.get(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/posts/search/${searchVal}`, {
+    const response = await axios.get(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/posts/search/${searchVal}`, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -100,7 +100,7 @@ export const searchPosts = async (searchVal) => {
 }
 
 export const getPostsBelongSubject = async (subjectCode) => {
-    const response = await axios.get(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/posts/of/${subjectCode}`, {
+    const response = await axios.get(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/posts/of/${subjectCode}`, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -110,7 +110,7 @@ export const getPostsBelongSubject = async (subjectCode) => {
 }
 
 export const approvePost = async (postId, data) => {
-    const response = await axios.put(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/posts/${postId}/approve`, data, {
+    const response = await axios.put(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/posts/${postId}/approve`, data, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -120,7 +120,7 @@ export const approvePost = async (postId, data) => {
 }
 
 export const deletePost = async (postId) => {
-    const response = await axios.delete(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/posts/${postId}`, {
+    const response = await axios.delete(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/posts/${postId}`, {
         headers: {
             'Content-Type': 'application/json'
         }

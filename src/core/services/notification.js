@@ -13,7 +13,7 @@ import axios from 'axios';
  * @returns 
  */
 export const postMyNotification = async (data) => {
-    const response = await axios.post('https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/notifications', data, {
+    const response = await axios.post('https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/notifications', data, {
         headers: {
             'Content-Type': 'application/json'
         },
@@ -23,7 +23,7 @@ export const postMyNotification = async (data) => {
 }
 
 export const getMyNotifications = async (userId) => {
-    const response = await axios.get(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/notifications/${userId}`, {
+    const response = await axios.get(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/notifications/${userId}`, {
         headers: {
             'Content-Type': 'application/json'
         },
@@ -33,7 +33,7 @@ export const getMyNotifications = async (userId) => {
 }
 
 export const deleteMyNotification = async (notificationId) => {
-    const response = await axios.delete(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/notifications/${notificationId}`, {
+    const response = await axios.delete(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/notifications/${notificationId}`, {
         headers: {
             'Content-Type': 'application/json'
         }

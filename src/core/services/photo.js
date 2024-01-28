@@ -6,7 +6,7 @@ export const updateUserAvatar = async (userId, image, type) => {
         type: type
     };
 
-    const response = await axios.post(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/users/${userId}/avatar`, data, {
+    const response = await axios.post(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/users/${userId}/avatar`, data, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -21,7 +21,7 @@ export const updatePostCover = async (userId, image, type) => {
         type: type
     };
 
-    const response = await axios.post(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/posts/${userId}/cover`, data, {
+    const response = await axios.post(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/posts/${userId}/cover`, data, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -38,7 +38,7 @@ export const updateSubjectThumbnail = async (subjectCode, image, type) => {
 
     console.log(subjectCode)
 
-    const response = await axios.post(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/subjects/${subjectCode}/thumbnail`, data, {
+    const response = await axios.post(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/subjects/${subjectCode}/thumbnail`, data, {
         headers: {
             'Content-Type': 'application/json'
         }

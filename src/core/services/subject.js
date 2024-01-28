@@ -14,7 +14,7 @@ import axios from 'axios';
  */
 export const createSubject = async (data) => {
     console.log(data)
-    const response = await axios.post('https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/subjects', data, {
+    const response = await axios.post('https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/subjects', data, {
         headers: {
             'Content-Type': 'application/json'
         },
@@ -24,7 +24,7 @@ export const createSubject = async (data) => {
 }
 
 export const getSubjects = async () => {
-    const response = await axios.get('https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/subjects', {
+    const response = await axios.get('https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/subjects', {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -34,7 +34,7 @@ export const getSubjects = async () => {
 }
 
 export const getSubjectsJoined = async (userId) => {
-    const response = await axios.get(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/subjects/joined/${userId}`, {
+    const response = await axios.get(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/subjects/joined/${userId}`, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -44,7 +44,7 @@ export const getSubjectsJoined = async (userId) => {
 }
 
 export const getSubject = async (subjectId) => {
-    const response = await axios.get(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/subjects/${subjectId}`, {
+    const response = await axios.get(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/subjects/${subjectId}`, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -62,7 +62,7 @@ export const getSubject = async (subjectId) => {
  * }
  */
 export const joinSubject = async (subjectId, participantData) => {
-    const response = await axios.put(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/subjects/${subjectId}`, participantData, {
+    const response = await axios.put(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/subjects/${subjectId}`, participantData, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -72,7 +72,7 @@ export const joinSubject = async (subjectId, participantData) => {
 }
 
 export const updateSubject = async (subjectData) => {
-    const response = await axios.patch(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/subjects/${subjectData.subjectCode}`, subjectData, {
+    const response = await axios.patch(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/subjects/${subjectData.subjectCode}`, subjectData, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -82,7 +82,7 @@ export const updateSubject = async (subjectData) => {
 }
 
 export const leaveSubject = async (subjectCode, userId) => {
-    const response = await axios.delete(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/subjects/${subjectCode}/leave/${userId}`, {
+    const response = await axios.delete(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/subjects/${subjectCode}/leave/${userId}`, {
         headers: {
             'Content-Type': 'application/json'
         }

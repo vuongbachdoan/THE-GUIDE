@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const getIVSToken = async (username) => {
-    const response = await axios.post(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/livestream/key`,
+    const response = await axios.post(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/livestream/key`,
     {
         username: username
     },
@@ -15,7 +15,7 @@ export const getIVSToken = async (username) => {
 }
 
 export const registerEvent = async (data) => {
-    const response = await axios.post(`https://idc43jsr1c.execute-api.us-east-1.amazonaws.com/livestream/invite`,
+    const response = await axios.post(`https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/livestream/invite`,
     data,
     {
         headers: {
