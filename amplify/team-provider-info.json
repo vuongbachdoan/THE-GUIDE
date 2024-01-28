@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-theguide-staging-60140-authRole",
+      "UnauthRoleArn": "arn:aws:iam::105374663988:role/amplify-theguide-staging-60140-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::105374663988:role/amplify-theguide-staging-60140-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-theguide-staging-60140-deployment",
+      "UnauthRoleName": "amplify-theguide-staging-60140-unauthRole",
+      "StackName": "amplify-theguide-staging-60140",
+      "StackId": "arn:aws:cloudformation:us-east-1:105374663988:stack/amplify-theguide-staging-60140/b4e9b1f0-bda2-11ee-ab5b-0a5d57d66d5d",
+      "AmplifyAppId": "dzdo4cxew74tl"
+    },
+    "categories": {
+      "auth": {
+        "theguide": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,622 @@
+openapi: "3.0.1"
+info:
+  title: "theguide-http"
+  description: "theguide-http"
+  version: "2024-01-28 05:02:38UTC"
+servers:
+- url: "https://ldq5ny42ob.execute-api.us-east-1.amazonaws.com/prod/{basePath}"
+  variables:
+    basePath:
+      default: ""
+paths:
+  /comments/{id}:
+    get:
+      responses:
+        default:
+          description: "Default response for GET /comments/{id}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-comments/invocations"
+        connectionType: "INTERNET"
+    delete:
+      responses:
+        default:
+          description: "Default response for DELETE /comments/{id}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-comments/invocations"
+        connectionType: "INTERNET"
+    patch:
+      responses:
+        default:
+          description: "Default response for PATCH /comments/{id}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-comments/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "id"
+      in: "path"
+      description: "Generated path parameter for id"
+      required: true
+      schema:
+        type: "string"
+  /notifications/{id}:
+    delete:
+      responses:
+        default:
+          description: "Default response for DELETE /notifications/{id}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-notifications/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "id"
+      in: "path"
+      description: "Generated path parameter for id"
+      required: true
+      schema:
+        type: "string"
+  /posts/{id}:
+    get:
+      responses:
+        default:
+          description: "Default response for GET /posts/{id}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-posts/invocations"
+        connectionType: "INTERNET"
+    delete:
+      responses:
+        default:
+          description: "Default response for DELETE /posts/{id}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-posts/invocations"
+        connectionType: "INTERNET"
+    patch:
+      responses:
+        default:
+          description: "Default response for PATCH /posts/{id}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-posts/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "id"
+      in: "path"
+      description: "Generated path parameter for id"
+      required: true
+      schema:
+        type: "string"
+  /subjects/{id}:
+    get:
+      responses:
+        default:
+          description: "Default response for GET /subjects/{id}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-subjects/invocations"
+        connectionType: "INTERNET"
+    put:
+      responses:
+        default:
+          description: "Default response for PUT /subjects/{id}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-subjects/invocations"
+        connectionType: "INTERNET"
+    delete:
+      responses:
+        default:
+          description: "Default response for DELETE /subjects/{id}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-subjects/invocations"
+        connectionType: "INTERNET"
+    patch:
+      responses:
+        default:
+          description: "Default response for PATCH /subjects/{id}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-subjects/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "id"
+      in: "path"
+      description: "Generated path parameter for id"
+      required: true
+      schema:
+        type: "string"
+  /subjects/{id}/leave/{userId}:
+    delete:
+      responses:
+        default:
+          description: "Default response for DELETE /subjects/{id}/leave/{userId}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-subjects/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "id"
+      in: "path"
+      description: "Generated path parameter for id"
+      required: true
+      schema:
+        type: "string"
+    - name: "userId"
+      in: "path"
+      description: "Generated path parameter for userId"
+      required: true
+      schema:
+        type: "string"
+  /users/{id}:
+    get:
+      responses:
+        default:
+          description: "Default response for GET /users/{id}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-users/invocations"
+        connectionType: "INTERNET"
+    delete:
+      responses:
+        default:
+          description: "Default response for DELETE /users/{id}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-users/invocations"
+        connectionType: "INTERNET"
+    patch:
+      responses:
+        default:
+          description: "Default response for PATCH /users/{id}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-users/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "id"
+      in: "path"
+      description: "Generated path parameter for id"
+      required: true
+      schema:
+        type: "string"
+  /users/{id}/leave/{subjectCode}:
+    delete:
+      responses:
+        default:
+          description: "Default response for DELETE /users/{id}/leave/{subjectCode}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-users/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "id"
+      in: "path"
+      description: "Generated path parameter for id"
+      required: true
+      schema:
+        type: "string"
+    - name: "subjectCode"
+      in: "path"
+      description: "Generated path parameter for subjectCode"
+      required: true
+      schema:
+        type: "string"
+  /comments:
+    get:
+      responses:
+        default:
+          description: "Default response for GET /comments"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-comments/invocations"
+        connectionType: "INTERNET"
+    post:
+      responses:
+        default:
+          description: "Default response for POST /comments"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-comments/invocations"
+        connectionType: "INTERNET"
+  /notifications:
+    get:
+      responses:
+        default:
+          description: "Default response for GET /notifications"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-notifications/invocations"
+        connectionType: "INTERNET"
+    post:
+      responses:
+        default:
+          description: "Default response for POST /notifications"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-notifications/invocations"
+        connectionType: "INTERNET"
+  /notifications/{userId}:
+    get:
+      responses:
+        default:
+          description: "Default response for GET /notifications/{userId}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-notifications/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "userId"
+      in: "path"
+      description: "Generated path parameter for userId"
+      required: true
+      schema:
+        type: "string"
+  /posts:
+    get:
+      responses:
+        default:
+          description: "Default response for GET /posts"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-posts/invocations"
+        connectionType: "INTERNET"
+    post:
+      responses:
+        default:
+          description: "Default response for POST /posts"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-posts/invocations"
+        connectionType: "INTERNET"
+  /posts/of/{subjectCode}:
+    get:
+      responses:
+        default:
+          description: "Default response for GET /posts/of/{subjectCode}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-posts/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "subjectCode"
+      in: "path"
+      description: "Generated path parameter for subjectCode"
+      required: true
+      schema:
+        type: "string"
+  /posts/search/{val}:
+    get:
+      responses:
+        default:
+          description: "Default response for GET /posts/search/{val}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-posts/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "val"
+      in: "path"
+      description: "Generated path parameter for val"
+      required: true
+      schema:
+        type: "string"
+  /subjects:
+    get:
+      responses:
+        default:
+          description: "Default response for GET /subjects"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-subjects/invocations"
+        connectionType: "INTERNET"
+    post:
+      responses:
+        default:
+          description: "Default response for POST /subjects"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-subjects/invocations"
+        connectionType: "INTERNET"
+  /subjects/joined/{userId}:
+    get:
+      responses:
+        default:
+          description: "Default response for GET /subjects/joined/{userId}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-subjects/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "userId"
+      in: "path"
+      description: "Generated path parameter for userId"
+      required: true
+      schema:
+        type: "string"
+  /users:
+    get:
+      responses:
+        default:
+          description: "Default response for GET /users"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-users/invocations"
+        connectionType: "INTERNET"
+    post:
+      responses:
+        default:
+          description: "Default response for POST /users"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-users/invocations"
+        connectionType: "INTERNET"
+  /users/{userId}/posts:
+    get:
+      responses:
+        default:
+          description: "Default response for GET /users/{userId}/posts"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-posts/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "userId"
+      in: "path"
+      description: "Generated path parameter for userId"
+      required: true
+      schema:
+        type: "string"
+  /users/{userId}/posts/filter/{type}:
+    get:
+      responses:
+        default:
+          description: "Default response for GET /users/{userId}/posts/filter/{type}"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-posts/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "userId"
+      in: "path"
+      description: "Generated path parameter for userId"
+      required: true
+      schema:
+        type: "string"
+    - name: "type"
+      in: "path"
+      description: "Generated path parameter for type"
+      required: true
+      schema:
+        type: "string"
+  /ai:
+    post:
+      responses:
+        default:
+          description: "Default response for POST /ai"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-ai/invocations"
+        connectionType: "INTERNET"
+  /livestream/invite:
+    post:
+      responses:
+        default:
+          description: "Default response for POST /livestream/invite"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-invite-event/invocations"
+        connectionType: "INTERNET"
+  /livestream/key:
+    post:
+      responses:
+        default:
+          description: "Default response for POST /livestream/key"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-ivs-chat-key/invocations"
+        connectionType: "INTERNET"
+  /posts/{id}/cover:
+    post:
+      responses:
+        default:
+          description: "Default response for POST /posts/{id}/cover"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-photo/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "id"
+      in: "path"
+      description: "Generated path parameter for id"
+      required: true
+      schema:
+        type: "string"
+  /subjects/{id}/thumbnail:
+    post:
+      responses:
+        default:
+          description: "Default response for POST /subjects/{id}/thumbnail"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-photo/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "id"
+      in: "path"
+      description: "Generated path parameter for id"
+      required: true
+      schema:
+        type: "string"
+  /users/{id}/avatar:
+    post:
+      responses:
+        default:
+          description: "Default response for POST /users/{id}/avatar"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-photo/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "id"
+      in: "path"
+      description: "Generated path parameter for id"
+      required: true
+      schema:
+        type: "string"
+  /posts/{id}/approve:
+    put:
+      responses:
+        default:
+          description: "Default response for PUT /posts/{id}/approve"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-posts/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "id"
+      in: "path"
+      description: "Generated path parameter for id"
+      required: true
+      schema:
+        type: "string"
+  /posts/{id}/reaction:
+    put:
+      responses:
+        default:
+          description: "Default response for PUT /posts/{id}/reaction"
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: "2.0"
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-posts/invocations"
+        connectionType: "INTERNET"
+    parameters:
+    - name: "id"
+      in: "path"
+      description: "Generated path parameter for id"
+      required: true
+      schema:
+        type: "string"
+components:
+  x-amazon-apigateway-integrations:
+    unusedIntegration_z59spfr:
+      payloadFormatVersion: "2.0"
+      type: "aws_proxy"
+      httpMethod: "POST"
+      uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-ivs-chat-key/invocations"
+      connectionType: "INTERNET"
+    unusedIntegration_m7dzlva:
+      payloadFormatVersion: "2.0"
+      type: "aws_proxy"
+      httpMethod: "POST"
+      uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-photo/invocations"
+      connectionType: "INTERNET"
+    unusedIntegration_yf4zl6u:
+      payloadFormatVersion: "2.0"
+      type: "aws_proxy"
+      httpMethod: "POST"
+      uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-ivs-token/invocations"
+      connectionType: "INTERNET"
+    unusedIntegration_439bndm:
+      payloadFormatVersion: "2.0"
+      type: "aws_proxy"
+      httpMethod: "POST"
+      uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:955228589631:function:theguide-livestream-chat/invocations"
+      connectionType: "INTERNET"
+x-amazon-apigateway-cors:
+  allowMethods:
+  - "*"
+  allowHeaders:
+  - "*"
+  exposeHeaders:
+  - "*"
+  maxAge: 0
+  allowCredentials: true
+  allowOrigins:
+  - "http://localhost:3000"
+  - "https://beta-rapify-cloud.com"
+  - "https://www.beta-rapify-cloud.com"
+  - "https://www.docs.rapify-cloud.com"
+x-amazon-apigateway-importexport-version: "1.0"
